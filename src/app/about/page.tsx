@@ -13,13 +13,20 @@ export default function AboutPage() {
       <Card className="mb-8 animate-fade-in">
         <h2 className="text-2xl font-semibold mb-4">Background</h2>
         <p className="text-gray-700 mb-4">
-          I'm a software developer passionate about creating elegant solutions to complex problems.
-          With a background in data science and economics, I bring a unique analytical perspective
-          to software development.
+          I'm a results-driven Senior Data Analyst with 4+ years of experience building GTM reporting
+          infrastructure, investigating data quality issues, and delivering actionable insights to
+          executive leadership at AAA - Mountain West Group.
+        </p>
+        <p className="text-gray-700 mb-4">
+          My expertise includes automating ETL processes, maintaining cross-system data integrity,
+          and leveraging AI tools like Claude to accelerate analytical workflows. I've delivered
+          significant business impact, including $120K in annual cost savings through automation and
+          identifying revenue-generating opportunities worth thousands in monthly revenue.
         </p>
         <p className="text-gray-700">
-          I specialize in building modern web applications using React, Next.js, and TypeScript,
-          with a focus on clean code, performance, and user experience.
+          With a Master's degree in Applied Economics from the University of San Francisco and a
+          Bachelor's in Economics from Santa Clara University, I bring both technical skills and
+          business acumen to translate complex data into clear, strategic recommendations.
         </p>
       </Card>
 
@@ -27,44 +34,52 @@ export default function AboutPage() {
         <h2 className="text-2xl font-semibold mb-4">Skills</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-semibold text-lg mb-3 text-blue-600">Frontend Development</h3>
+            <h3 className="font-semibold text-lg mb-3 text-blue-600">Data & Analytics</h3>
             <ul className="space-y-2 text-gray-700">
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                React & Next.js
+                SQL (CTEs, Window Functions, 10M+ Rows)
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                TypeScript & JavaScript
+                Python (Automation, ETL, scikit-learn)
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Tailwind CSS
+                Tableau (Dashboard Development)
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Responsive Design
+                BigQuery & Data Warehousing
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                Claude AI & Workflow Optimization
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold text-lg mb-3 text-blue-600">Backend & Tools</h3>
+            <h3 className="font-semibold text-lg mb-3 text-blue-600">Business Tools & Systems</h3>
             <ul className="space-y-2 text-gray-700">
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Node.js & APIs
+                Salesforce & ConnectSuite CRM
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Supabase & Databases
+                Data Visualization & Storytelling
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Git & GitHub
+                Revenue Analytics & GTM Metrics
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                Vercel & Deployment
+                Cross-Functional Collaboration
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                Process Automation & Optimization
               </li>
             </ul>
           </div>
@@ -72,27 +87,31 @@ export default function AboutPage() {
       </Card>
 
       <Card className="animate-fade-in">
-        <h2 className="text-2xl font-semibold mb-4">Interests</h2>
+        <h2 className="text-2xl font-semibold mb-4">Interests & Approach</h2>
         <p className="text-gray-700 mb-4">
-          When I'm not coding, I enjoy exploring new technologies and staying up to date with the
-          latest developments in web development and AI. I'm particularly interested in:
+          I'm passionate about continuous learning and exploring new data tools that can improve
+          efficiency and deliver better insights. I particularly enjoy:
         </p>
         <ul className="space-y-2 text-gray-700">
           <li className="flex items-center gap-2">
             <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-            Modern web frameworks and tooling
+            Leveraging AI tools like Claude to accelerate workflows and improve code quality
           </li>
           <li className="flex items-center gap-2">
             <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-            Data visualization and analytics
+            Automating repetitive processes to free up time for strategic analysis
           </li>
           <li className="flex items-center gap-2">
             <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-            AI-assisted development tools
+            Data visualization and storytelling to make insights accessible to all stakeholders
           </li>
           <li className="flex items-center gap-2">
             <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-            Open source contributions
+            Mentoring junior analysts and fostering team growth through knowledge sharing
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+            Solving complex business problems with data-driven recommendations
           </li>
         </ul>
       </Card>

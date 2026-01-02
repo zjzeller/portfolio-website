@@ -16,10 +16,10 @@ export default function HomePage() {
           Hi, I'm <span className="text-blue-600">Zachary Zeller</span>
         </h1>
         <p className="text-xl md:text-2xl text-gray-700 mb-4 max-w-2xl mx-auto">
-          Software Developer & Data Scientist
+          Senior Data Analyst
         </p>
         <p className="text-lg text-gray-600 mb-12 max-w-xl mx-auto">
-          Building modern web applications and solving complex problems with code.
+          Passionate about learning new data tools, automation, and optimization to deliver actionable insights.
         </p>
 
         <div className="flex gap-4 justify-center flex-wrap">
