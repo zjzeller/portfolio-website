@@ -38,11 +38,11 @@ export default function HomePage() {
 
       {/* Quick Links */}
       <section className="py-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-        <Link href="/about" className="group">
-          <div className="p-6 rounded-lg border border-[#A8DADC] hover:border-[#E63946] transition-all hover:shadow-lg bg-white">
+        <Link href="/about" className="group h-full">
+          <div className="h-full p-6 rounded-lg border border-[#A8DADC] hover:border-[#E63946] transition-all hover:shadow-lg bg-white flex flex-col">
             <Code className="mb-4 text-[#457B9D]" size={32} />
             <h3 className="text-xl font-semibold mb-2 text-[#1D3557]">About Me</h3>
-            <p className="text-[#457B9D] mb-4">
+            <p className="text-[#457B9D] mb-4 flex-grow">
               Learn more about my background and skills
             </p>
             <span className="text-[#E63946] flex items-center gap-2 group-hover:gap-3 transition-all">
@@ -51,11 +51,11 @@ export default function HomePage() {
           </div>
         </Link>
 
-        <Link href="/resume" className="group">
-          <div className="p-6 rounded-lg border border-[#A8DADC] hover:border-[#E63946] transition-all hover:shadow-lg bg-white">
+        <Link href="/resume" className="group h-full">
+          <div className="h-full p-6 rounded-lg border border-[#A8DADC] hover:border-[#E63946] transition-all hover:shadow-lg bg-white flex flex-col">
             <FileText className="mb-4 text-[#457B9D]" size={32} />
             <h3 className="text-xl font-semibold mb-2 text-[#1D3557]">Resume</h3>
-            <p className="text-[#457B9D] mb-4">
+            <p className="text-[#457B9D] mb-4 flex-grow">
               View my experience and qualifications
             </p>
             <span className="text-[#E63946] flex items-center gap-2 group-hover:gap-3 transition-all">
@@ -64,11 +64,11 @@ export default function HomePage() {
           </div>
         </Link>
 
-        <Link href="/contact" className="group">
-          <div className="p-6 rounded-lg border border-[#A8DADC] hover:border-[#E63946] transition-all hover:shadow-lg bg-white">
+        <Link href="/contact" className="group h-full">
+          <div className="h-full p-6 rounded-lg border border-[#A8DADC] hover:border-[#E63946] transition-all hover:shadow-lg bg-white flex flex-col">
             <Mail className="mb-4 text-[#457B9D]" size={32} />
             <h3 className="text-xl font-semibold mb-2 text-[#1D3557]">Contact</h3>
-            <p className="text-[#457B9D] mb-4">
+            <p className="text-[#457B9D] mb-4 flex-grow">
               Let's connect and work together
             </p>
             <span className="text-[#E63946] flex items-center gap-2 group-hover:gap-3 transition-all">
