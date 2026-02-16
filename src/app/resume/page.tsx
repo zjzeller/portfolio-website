@@ -22,27 +22,36 @@ export default function ResumePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fade-in">
-        <h1 className="text-4xl md:text-5xl font-bold">Resume</h1>
-        <div className="flex gap-3 flex-wrap">
-          <Button onClick={handleDownload} className="gap-2">
-            <Download size={20} /> Download PDF
+    <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-5xl">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12 animate-reveal">
+        <div>
+          <span className="section-label">Resume</span>
+          <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl mt-4 tracking-tight">
+            Experience &<br />
+            <span className="text-[var(--accent)]">Qualifications</span>
+          </h1>
+        </div>
+        <div className="flex gap-3">
+          <Button onClick={handleDownload} size="sm" className="gap-2">
+            <Download size={14} /> Download
           </Button>
           <a
             href="/assets/resume/zachary-zeller-resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant="outline" className="gap-2">
-              <ExternalLink size={20} /> Open in New Tab
+            <Button variant="outline" size="sm" className="gap-2">
+              <ExternalLink size={14} /> Open
             </Button>
           </a>
         </div>
       </div>
 
+      <div className="editorial-rule w-16 mb-12 animate-reveal-delay-1" />
+
       {/* PDF Viewer */}
-      <div className="border rounded-lg overflow-hidden shadow-lg bg-white animate-fade-in">
+      <div className="border border-[var(--border)] overflow-hidden bg-[var(--bg-surface)] animate-reveal-delay-1">
         <iframe
           src="/assets/resume/zachary-zeller-resume.pdf"
           className="w-full h-[800px] md:h-[1000px]"
@@ -50,57 +59,81 @@ export default function ResumePage() {
         />
       </div>
 
-      {/* Alternative text version for SEO and accessibility */}
-      <div className="mt-12 prose max-w-none">
-        <h2 className="text-2xl font-bold mb-4 text-[#1D3557]">Zachary Zeller</h2>
-        <p className="text-[#457B9D] mb-6">Senior Data Analyst | Berkeley, CA</p>
-
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-3 text-[#457B9D]">Contact</h3>
-          <p className="text-[#1D3557]">Email: zjzeller@gmail.com</p>
-          <p className="text-[#1D3557]">Phone: (707) 815-5241</p>
-          <p className="text-[#1D3557]">GitHub: github.com/zjzeller</p>
-          <p className="text-[#1D3557]">LinkedIn: linkedin.com/in/zzeller</p>
+      {/* Text version for SEO */}
+      <div className="mt-20 animate-reveal-delay-2">
+        <div className="flex items-center gap-4 mb-10">
+          <span className="section-label">Overview</span>
+          <div className="flex-1 h-px bg-[var(--border-subtle)]" />
         </div>
 
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-3 text-[#457B9D]">Professional Summary</h3>
-          <p className="text-[#1D3557]">
-            Results-driven Senior Data Analyst with 4+ years of experience building GTM reporting
-            infrastructure, investigating data quality issues, and delivering actionable insights to
-            executive leadership. Proven expertise in automating ETL processes, maintaining cross-system
-            data integrity, and leveraging AI to accelerate analytical workflows.
-          </p>
+        <div className="grid md:grid-cols-[1fr_1px_1fr] gap-8 md:gap-12">
+          {/* Left column */}
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-[family-name:var(--font-playfair)] text-2xl mb-2">Zachary Zeller</h2>
+              <p className="text-sm text-[var(--text-muted)]">Senior Data Analyst | Berkeley, CA</p>
+            </div>
+
+            <div>
+              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Summary</h3>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                Results-driven Senior Data Analyst with 4+ years of experience building GTM reporting
+                infrastructure, investigating data quality issues, and delivering actionable insights to
+                executive leadership. Proven expertise in automating ETL processes, maintaining cross-system
+                data integrity, and leveraging AI to accelerate analytical workflows.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Current Role</h3>
+              <p className="text-sm text-[var(--text-primary)]">Senior Data Analyst: Strategy</p>
+              <p className="text-sm text-[var(--text-muted)]">AAA - Mountain West Group</p>
+              <p className="metric text-xs text-[var(--text-muted)] mt-1">Nov 2025 &mdash; Present</p>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="hidden md:block bg-[var(--border-subtle)]" />
+
+          {/* Right column */}
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Contact</h3>
+              <div className="space-y-2 text-sm">
+                <p className="text-[var(--text-secondary)]">zjzeller@gmail.com</p>
+                <p className="text-[var(--text-secondary)]">(707) 815-5241</p>
+                <p className="text-[var(--text-muted)]">github.com/zjzeller</p>
+                <p className="text-[var(--text-muted)]">linkedin.com/in/zzeller</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Education</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-[var(--text-primary)]">MS Applied Economics</p>
+                  <p className="text-sm text-[var(--text-muted)]">University of San Francisco</p>
+                  <p className="metric text-xs text-[var(--text-muted)]">Dec 2021</p>
+                </div>
+                <div>
+                  <p className="text-sm text-[var(--text-primary)]">BS Economics</p>
+                  <p className="text-sm text-[var(--text-muted)]">Santa Clara University</p>
+                  <p className="metric text-xs text-[var(--text-muted)]">Jun 2018</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Core Skills</h3>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                SQL, Python, Claude AI, Tableau, BigQuery, Salesforce, Data Visualization, Revenue Analytics, Process Automation
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-3 text-[#457B9D]">Current Role</h3>
-          <p className="text-[#1D3557]">
-            <strong>Senior Data Analyst: Strategy</strong> at AAA - Mountain West Group (November 2025 - Present)
-          </p>
-        </div>
-
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-3 text-[#457B9D]">Core Skills</h3>
-          <p className="text-[#1D3557]">
-            SQL (Complex Joins, CTEs, Window Functions, 10M+ Row Datasets), Claude AI, Python (Automation,
-            ETL, scikit-learn), Tableau (Dashboard Development), BigQuery, Salesforce, ConnectSuite CRM,
-            Data Visualization, Revenue Analytics, Cross-Functional Collaboration
-          </p>
-        </div>
-
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-3 text-[#457B9D]">Education</h3>
-          <p className="text-[#1D3557]">
-            <strong>Master's Degree, Applied Economics</strong> - University of San Francisco (December 2021)
-          </p>
-          <p className="text-[#1D3557]">
-            <strong>Bachelor's Degree, Economics</strong> | Minor, Environmental Studies - Santa Clara University (June 2018)
-          </p>
-        </div>
-
-        <p className="text-sm text-[#457B9D] mt-8">
-          For full resume details including complete work history and achievements, please view the PDF above or download it.
+        <p className="text-xs text-[var(--text-muted)] mt-12">
+          For complete details including full work history and achievements, view the PDF above.
         </p>
       </div>
     </div>

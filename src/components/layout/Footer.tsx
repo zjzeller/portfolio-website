@@ -3,38 +3,44 @@ import { Github, Linkedin, Mail } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[#A8DADC] mt-auto bg-[#F1FAEE]">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-[#457B9D]">
-            © {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
-          </p>
+    <footer className="border-t border-[var(--border-subtle)] mt-auto">
+      <div className="container mx-auto px-6 md:px-8 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-4">
+            <span className="font-[family-name:var(--font-playfair)] text-sm text-[var(--text-muted)]">
+              {SITE_CONFIG.name}
+            </span>
+            <span className="h-3 w-px bg-[var(--border)]" />
+            <span className="text-xs tracking-wider text-[var(--text-muted)]">
+              &copy; {new Date().getFullYear()}
+            </span>
+          </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-5">
             <a
               href={SITE_CONFIG.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#457B9D] hover:text-[#E63946] transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
               aria-label="GitHub"
             >
-              <Github size={20} />
+              <Github size={16} />
             </a>
             <a
               href={SITE_CONFIG.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#457B9D] hover:text-[#E63946] transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
               aria-label="LinkedIn"
             >
-              <Linkedin size={20} />
+              <Linkedin size={16} />
             </a>
             <a
               href={`mailto:${SITE_CONFIG.links.email}`}
-              className="text-[#457B9D] hover:text-[#E63946] transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
               aria-label="Email"
             >
-              <Mail size={20} />
+              <Mail size={16} />
             </a>
           </div>
         </div>

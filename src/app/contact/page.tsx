@@ -1,85 +1,95 @@
 'use client'
 
 import { usePageView } from '@/hooks/useAnalytics'
-import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { SITE_CONFIG } from '@/lib/constants'
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react'
+
+const contactMethods = [
+  {
+    icon: Mail,
+    label: 'Email',
+    value: SITE_CONFIG.links.email,
+    href: `mailto:${SITE_CONFIG.links.email}`,
+    external: false,
+  },
+  {
+    icon: Linkedin,
+    label: 'LinkedIn',
+    value: 'Connect professionally',
+    href: SITE_CONFIG.links.linkedin,
+    external: true,
+  },
+  {
+    icon: Github,
+    label: 'GitHub',
+    value: 'View projects & code',
+    href: SITE_CONFIG.links.github,
+    external: true,
+  },
+]
 
 export default function ContactPage() {
   usePageView('/contact', 'Contact')
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-4xl">
-      <h1 className="text-4xl md:text-5xl font-bold mb-8 animate-fade-in">Get in Touch</h1>
+    <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-4xl">
+      {/* Header */}
+      <div className="mb-16 animate-reveal">
+        <span className="section-label">Contact</span>
+        <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl mt-4 tracking-tight">
+          Let&apos;s <span className="text-[var(--accent)]">Connect</span>
+        </h1>
+        <div className="editorial-rule w-16 mt-6" />
+      </div>
 
-      <Card className="mb-8 animate-fade-in">
-        <h2 className="text-2xl font-semibold mb-4 text-[#1D3557]">Let's Connect</h2>
-        <p className="text-[#1D3557] mb-6">
-          I'm always open to discussing new opportunities, collaborations, or just chatting
-          about technology. Feel free to reach out through any of the following channels:
-        </p>
+      <p className="text-[var(--text-secondary)] text-lg leading-relaxed max-w-lg mb-14 animate-reveal-delay-1">
+        I&apos;m always open to discussing new opportunities, collaborations, or chatting about data and technology.
+      </p>
 
-        <div className="space-y-4">
+      {/* Contact methods */}
+      <div className="space-y-px bg-[var(--border)] mb-20 animate-reveal-delay-2">
+        {contactMethods.map((method) => (
           <a
-            href={`mailto:${SITE_CONFIG.links.email}`}
-            className="flex items-center gap-4 p-4 rounded-lg border border-[#A8DADC] hover:border-[#E63946] hover:bg-[#A8DADC]/10 transition-all group"
+            key={method.label}
+            href={method.href}
+            target={method.external ? '_blank' : undefined}
+            rel={method.external ? 'noopener noreferrer' : undefined}
+            className="group flex items-center justify-between p-6 md:p-8 bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] transition-all duration-300"
           >
-            <div className="p-3 bg-[#A8DADC]/30 rounded-lg group-hover:bg-[#E63946] transition-colors">
-              <Mail className="text-[#457B9D] group-hover:text-white transition-colors" size={24} />
+            <div className="flex items-center gap-5">
+              <method.icon size={20} className="text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors duration-300" />
+              <div>
+                <p className="text-xs tracking-[0.2em] uppercase text-[var(--text-muted)] mb-1">{method.label}</p>
+                <p className="text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-300">
+                  {method.value}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-lg text-[#1D3557]">Email</h3>
-              <p className="text-[#457B9D]">{SITE_CONFIG.links.email}</p>
-            </div>
+            <ArrowUpRight
+              size={18}
+              className="text-[var(--text-muted)] group-hover:text-[var(--accent)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-300"
+            />
           </a>
+        ))}
+      </div>
 
-          <a
-            href={SITE_CONFIG.links.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-4 p-4 rounded-lg border border-[#A8DADC] hover:border-[#E63946] hover:bg-[#A8DADC]/10 transition-all group"
-          >
-            <div className="p-3 bg-[#A8DADC]/30 rounded-lg group-hover:bg-[#E63946] transition-colors">
-              <Linkedin className="text-[#457B9D] group-hover:text-white transition-colors" size={24} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg text-[#1D3557]">LinkedIn</h3>
-              <p className="text-[#457B9D]">Connect with me professionally</p>
-            </div>
-          </a>
-
-          <a
-            href={SITE_CONFIG.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-4 p-4 rounded-lg border border-[#A8DADC] hover:border-[#E63946] hover:bg-[#A8DADC]/10 transition-all group"
-          >
-            <div className="p-3 bg-[#A8DADC]/30 rounded-lg group-hover:bg-[#E63946] transition-colors">
-              <Github className="text-[#457B9D] group-hover:text-white transition-colors" size={24} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg text-[#1D3557]">GitHub</h3>
-              <p className="text-[#457B9D]">Check out my projects and code</p>
-            </div>
-          </a>
+      {/* Quick links */}
+      <div className="animate-reveal-delay-3">
+        <div className="flex items-center gap-4 mb-8">
+          <span className="section-label">Quick Links</span>
+          <div className="flex-1 h-px bg-[var(--border-subtle)]" />
         </div>
-      </Card>
 
-      <Card className="animate-fade-in">
-        <h2 className="text-2xl font-semibold mb-4 text-[#1D3557]">Quick Links</h2>
-        <p className="text-[#1D3557] mb-4">
-          Want to learn more about my work or download my resume?
-        </p>
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-3 flex-wrap">
           <a href="/assets/resume/zachary-zeller-resume.pdf" download>
-            <Button variant="outline">Download Resume</Button>
+            <Button variant="outline" size="sm">Download Resume</Button>
           </a>
           <a href="/about">
-            <Button variant="ghost">Learn More About Me</Button>
+            <Button variant="ghost" size="sm">About Me</Button>
           </a>
         </div>
-      </Card>
+      </div>
     </div>
   )
 }
