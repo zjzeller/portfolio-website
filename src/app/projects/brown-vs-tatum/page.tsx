@@ -21,7 +21,6 @@ const allYears: string[] = Array.from(
 
 type RegularKey = keyof NonNullable<(typeof brown.seasons)[0]['regular']>
 type ClutchKey = keyof NonNullable<(typeof brown.seasons)[0]['clutch']>
-type AdvancedKey = keyof NonNullable<(typeof brown.seasons)[0]['advanced']>
 
 function getSeasonStat(
   stat: RegularKey
@@ -33,20 +32,6 @@ function getSeasonStat(
       year,
       brown: bSeason?.regular?.[stat] ?? null,
       tatum: tSeason?.regular?.[stat] ?? null,
-    }
-  })
-}
-
-function getAdvancedSeasonStat(
-  stat: AdvancedKey
-): { year: string; brown: number | null; tatum: number | null }[] {
-  return allYears.map((year) => {
-    const bSeason = brown.seasons.find((s) => s.year === year)
-    const tSeason = tatum.seasons.find((s) => s.year === year)
-    return {
-      year,
-      brown: bSeason?.advanced?.[stat] ?? null,
-      tatum: tSeason?.advanced?.[stat] ?? null,
     }
   })
 }
@@ -85,8 +70,6 @@ function clutchAvgRecent(
 
 const ppgData = getSeasonStat('ppg')
 const fgPctData = getSeasonStat('fg_pct')
-const tsPctData = getAdvancedSeasonStat('ts_pct')
-
 // Radar data: normalize career averages to 0-10 scale
 const radarCategories: { key: keyof typeof brown.career_averages; label: string }[] = [
   { key: 'ppg', label: 'Scoring' },
@@ -160,7 +143,7 @@ const advancedComparisonData: { label: string; brown: number; tatum: number }[] 
 
 const fmtPct = (v: number) => (v < 1 ? `${(v * 100).toFixed(1)}%` : `${v.toFixed(1)}%`)
 const fmtDec = (v: number) => v.toFixed(1)
-const fmtPlusMinus = (v: number) => (v >= 0 ? `+${v.toFixed(1)}` : v.toFixed(1))
+
 
 // ---------------------------------------------------------------------------
 // Page Component
