@@ -25,14 +25,20 @@ const cards = [
     desc: 'Background, skills, and approach to data analytics',
   },
   {
-    href: '/resume',
+    href: '/projects',
     label: '02',
+    title: 'Projects',
+    desc: 'Data analysis and visualization case studies',
+  },
+  {
+    href: '/resume',
+    label: '03',
     title: 'Resume',
     desc: 'Full professional experience and qualifications',
   },
   {
     href: '/contact',
-    label: '03',
+    label: '04',
     title: 'Contact',
     desc: 'Get in touch for opportunities and collaborations',
   },
@@ -106,7 +112,7 @@ export default function HomePage() {
           <div className="flex-1 h-px bg-[var(--border-subtle)]" />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-px bg-[var(--border)]">
+        <div className="grid md:grid-cols-4 gap-px bg-[var(--border)]">
           {cards.map((card, i) => (
             <Link
               key={card.href}
