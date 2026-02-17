@@ -170,6 +170,12 @@ export default function BrownVsTatumPage() {
           shrinks to a single possession, who do you actually want with the ball?
           The numbers tell a more complicated story than the hierarchy suggests.
         </p>
+        <p className="text-[var(--text-muted)] text-sm leading-relaxed mt-4 max-w-2xl italic">
+          Note: Jayson Tatum suffered a torn right Achilles tendon in May 2025 during Game 4
+          of the Eastern Conference semifinals against the New York Knicks and has not played
+          in the 2025-26 season. A return later this season remains possible. This analysis
+          focuses on their full career body of work through the data available.
+        </p>
 
         {/* Head-to-head snapshot */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 border-t border-[var(--border-subtle)] pt-8">
@@ -437,14 +443,23 @@ export default function BrownVsTatumPage() {
             moments, the data tells us something the conventional wisdom misses: Jaylen Brown
             is shooting nearly <span className="metric text-[var(--accent)]">10 percentage points</span>{' '}
             better than Tatum in the clutch over the last three seasons. His trajectory is still
-            climbing at <span className="metric text-[var(--accent)]">29.3</span> points per game
-            while Tatum&apos;s has plateaued. He shoots more efficiently from the field across
-            his entire career. And when the Celtics won the 2024 championship, the Finals MVP
-            trophy went to Brown, not Tatum.
+            climbing at <span className="metric text-[var(--accent)]">29.3</span> points per game.
+            He shoots more efficiently from the field across his entire career. And when the
+            Celtics won the 2024 championship, the Finals MVP trophy went to Brown, not Tatum.
+          </p>
+          <p className="text-[var(--text-secondary)] leading-relaxed">
+            But here is the deeper truth the numbers reveal: Brown and Tatum don&apos;t diminish
+            each other &mdash; they elevate each other. Tatum&apos;s gravity as a playmaker and
+            rebounder creates the space for Brown to operate as a lethal scorer and closer. Brown&apos;s
+            clutch reliability takes the late-game pressure off Tatum to do everything himself.
+            The data shows two players with genuinely complementary skill sets: Tatum&apos;s
+            all-around versatility paired with Brown&apos;s scoring efficiency and clutch dominance.
+            With Tatum recovering from his Achilles injury, Brown has proven he can carry the
+            franchise. When Tatum returns, the Celtics get both: a complete player and a closer.
           </p>
           <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-            Tatum is the better regular-season player. Brown is the better closer. In the NBA,
-            closers win rings.
+            Most teams are lucky to have one star. Boston has two &mdash; and the data says they
+            need both to win it all.
           </p>
         </div>
 
