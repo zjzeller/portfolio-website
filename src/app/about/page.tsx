@@ -1,6 +1,4 @@
-'use client'
-
-import { usePageView } from '@/hooks/useAnalytics'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
 
 const skills = {
   'Data & Analytics': [
@@ -20,10 +18,10 @@ const skills = {
 }
 
 export default function AboutPage() {
-  usePageView('/about', 'About')
-
   return (
     <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-4xl">
+      <PageViewTracker pagePath="/about" pageTitle="About" />
+
       {/* Header */}
       <div className="mb-16 animate-reveal">
         <span className="section-label">About</span>

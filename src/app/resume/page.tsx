@@ -1,28 +1,14 @@
-'use client'
-
-import { useEffect } from 'react'
 import Button from '@/components/ui/Button'
-import { Download, ExternalLink } from 'lucide-react'
-import { usePageView, useResumeEvent } from '@/hooks/useAnalytics'
+import { ExternalLink } from 'lucide-react'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
+import { ResumeDownloadButton, ResumeViewTracker } from '@/components/analytics/ResumeTracker'
 
 export default function ResumePage() {
-  const { trackView, trackDownload } = useResumeEvent()
-  usePageView('/resume', 'Resume')
-
-  useEffect(() => {
-    trackView()
-  }, [trackView])
-
-  const handleDownload = () => {
-    trackDownload()
-    const link = document.createElement('a')
-    link.href = '/assets/resume/zachary-zeller-resume.pdf'
-    link.download = 'zachary-zeller-resume.pdf'
-    link.click()
-  }
-
   return (
     <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-5xl">
+      <PageViewTracker pagePath="/resume" pageTitle="Resume" />
+      <ResumeViewTracker />
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12 animate-reveal">
         <div>
@@ -33,9 +19,7 @@ export default function ResumePage() {
           </h1>
         </div>
         <div className="flex gap-3">
-          <Button onClick={handleDownload} size="sm" className="gap-2">
-            <Download size={14} /> Download
-          </Button>
+          <ResumeDownloadButton />
           <a
             href="/assets/resume/zachary-zeller-resume.pdf"
             target="_blank"

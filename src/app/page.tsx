@@ -1,15 +1,48 @@
-'use client'
-
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { ArrowRight, FileText, Mail } from 'lucide-react'
-import { usePageView } from '@/hooks/useAnalytics'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
+
+const stats = [
+  { value: '4+', label: 'Years Experience' },
+  { value: 'C-Suite', label: 'Reporting' },
+  { value: '8+', label: 'Tools' },
+  { value: 'MS', label: 'Applied Economics' },
+]
+
+const delayClasses = [
+  'animate-reveal-delay-1',
+  'animate-reveal-delay-2',
+  'animate-reveal-delay-3',
+  'animate-reveal-delay-4',
+]
+
+const cards = [
+  {
+    href: '/about',
+    label: '01',
+    title: 'About',
+    desc: 'Background, skills, and approach to data analytics',
+  },
+  {
+    href: '/resume',
+    label: '02',
+    title: 'Resume',
+    desc: 'Full professional experience and qualifications',
+  },
+  {
+    href: '/contact',
+    label: '03',
+    title: 'Contact',
+    desc: 'Get in touch for opportunities and collaborations',
+  },
+]
 
 export default function HomePage() {
-  usePageView('/', 'Home')
-
   return (
     <>
+      <PageViewTracker pagePath="/" pageTitle="Home" />
+
       {/* Hero */}
       <section className="relative min-h-[85vh] flex items-center overflow-hidden">
         {/* Grid background */}
@@ -56,13 +89,8 @@ export default function HomePage() {
       <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]">
         <div className="container mx-auto px-6 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[var(--border-subtle)]">
-            {[
-              { value: '4+', label: 'Years Experience' },
-              { value: 'C-Suite', label: 'Reporting' },
-              { value: '8+', label: 'Tools' },
-              { value: 'MS', label: 'Applied Economics' },
-            ].map((stat, i) => (
-              <div key={stat.label} className={`py-8 px-6 text-center animate-reveal-delay-${i + 1}`}>
+            {stats.map((stat, i) => (
+              <div key={stat.label} className={`py-8 px-6 text-center ${delayClasses[i]}`}>
                 <p className="metric text-2xl md:text-3xl text-[var(--accent)] mb-1">{stat.value}</p>
                 <p className="text-xs tracking-wider uppercase text-[var(--text-muted)]">{stat.label}</p>
               </div>
@@ -79,30 +107,11 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-px bg-[var(--border)]">
-          {[
-            {
-              href: '/about',
-              label: '01',
-              title: 'About',
-              desc: 'Background, skills, and approach to data analytics',
-            },
-            {
-              href: '/resume',
-              label: '02',
-              title: 'Resume',
-              desc: 'Full professional experience and qualifications',
-            },
-            {
-              href: '/contact',
-              label: '03',
-              title: 'Contact',
-              desc: 'Get in touch for opportunities and collaborations',
-            },
-          ].map((card, i) => (
+          {cards.map((card, i) => (
             <Link
               key={card.href}
               href={card.href}
-              className={`group bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[220px] transition-colors duration-300 hover:bg-[var(--bg-elevated)] animate-reveal-delay-${i + 1}`}
+              className={`group bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[220px] transition-colors duration-300 hover:bg-[var(--bg-elevated)] ${delayClasses[i]}`}
             >
               <div>
                 <span className="metric text-xs text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors duration-300">

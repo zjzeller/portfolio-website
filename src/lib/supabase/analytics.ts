@@ -60,17 +60,24 @@ export async function getPageViewCount(pagePath?: string) {
 export async function getResumeStats() {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('resume_events')
-    .select('event_type')
+  const [viewsResult, downloadsResult] = await Promise.all([
+    supabase
+      .from('resume_events')
+      .select('*', { count: 'exact', head: true })
+      .eq('event_type', 'view'),
+    supabase
+      .from('resume_events')
+      .select('*', { count: 'exact', head: true })
+      .eq('event_type', 'download'),
+  ])
 
-  if (error) {
-    console.error('Error getting resume stats:', error)
+  if (viewsResult.error || downloadsResult.error) {
+    console.error('Error getting resume stats:', viewsResult.error || downloadsResult.error)
     return { views: 0, downloads: 0 }
   }
 
-  const views = data?.filter(e => e.event_type === 'view').length || 0
-  const downloads = data?.filter(e => e.event_type === 'download').length || 0
-
-  return { views, downloads }
+  return {
+    views: viewsResult.count || 0,
+    downloads: downloadsResult.count || 0,
+  }
 }

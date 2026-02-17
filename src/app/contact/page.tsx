@@ -1,6 +1,5 @@
-'use client'
-
-import { usePageView } from '@/hooks/useAnalytics'
+import Link from 'next/link'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
 import Button from '@/components/ui/Button'
 import { SITE_CONFIG } from '@/lib/constants'
 import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react'
@@ -30,10 +29,10 @@ const contactMethods = [
 ]
 
 export default function ContactPage() {
-  usePageView('/contact', 'Contact')
-
   return (
     <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-4xl">
+      <PageViewTracker pagePath="/contact" pageTitle="Contact" />
+
       {/* Header */}
       <div className="mb-16 animate-reveal">
         <span className="section-label">Contact</span>
@@ -85,9 +84,9 @@ export default function ContactPage() {
           <a href="/assets/resume/zachary-zeller-resume.pdf" download>
             <Button variant="outline" size="sm">Download Resume</Button>
           </a>
-          <a href="/about">
+          <Link href="/about">
             <Button variant="ghost" size="sm">About Me</Button>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
