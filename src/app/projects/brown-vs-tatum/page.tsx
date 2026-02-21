@@ -165,10 +165,11 @@ export default function BrownVsTatumPage() {
         </h1>
         <div className="editorial-rule w-16 mt-6" />
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-8 max-w-2xl">
-          Jayson Tatum is the franchise player. The first option. The perennial All-NBA selection.
-          But when the game is on the line and the margin between a championship and a collapse
-          shrinks to a single possession, who do you actually want with the ball?
-          The numbers tell a more complicated story than the hierarchy suggests.
+          The Celtics&apos; dynasty isn&apos;t built on one superstar. It&apos;s built on two.
+          Jaylen Brown and Jayson Tatum bring fundamentally different skill sets to the floor,
+          and the data reveals something the debate culture misses: their complementary greatness
+          is what makes Boston historically dangerous. This is the story of why having both
+          matters more than ranking one above the other.
         </p>
         <p className="text-[var(--text-muted)] text-sm leading-relaxed mt-4 max-w-2xl italic">
           Note: Jayson Tatum suffered a torn right Achilles tendon in May 2025 during Game 4
@@ -229,28 +230,32 @@ export default function BrownVsTatumPage() {
 
         <div className="space-y-6 mb-10">
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            The surface-level career averages favor Tatum:{' '}
-            <span className="metric text-[var(--accent)]">23.6</span> points per game to Brown&apos;s{' '}
-            <span className="metric text-[var(--accent)]">19.7</span>. Case closed, right? Not so fast. That career
-            number is dragged down by Brown&apos;s first two seasons as a raw, developing wing off the bench.
-            The trajectory tells a completely different story.
+            Look at the two elite scoring trajectories Boston has built under one roof. Tatum&apos;s
+            career average of <span className="metric text-[var(--accent)]">23.6</span> points per game
+            and Brown&apos;s <span className="metric text-[var(--accent)]">19.7</span> don&apos;t tell the
+            full story. That career number for Brown is weighed down by his first two seasons as a
+            raw, developing wing off the bench. The arcs these two have traced are what matter.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
             Brown entered the league averaging just{' '}
             <span className="metric text-[var(--accent)]">6.6</span> points as a rookie in 2016-17. This season,
             he is pouring in <span className="metric text-[var(--accent)]">29.3</span> per game, a jump of nearly
             23 points that represents one of the steepest scoring ascents in modern NBA history.
-            Tatum&apos;s arc has been more conventional: a steady rise that peaked at{' '}
-            <span className="metric text-[var(--accent)]">30.1</span> in 2022-23, before settling back to{' '}
-            <span className="metric text-[var(--accent)]">26.8</span> last season. In 2025-26,
-            with Tatum sidelined, Brown has seized the top option role and thrived.
+            Tatum&apos;s arc peaked at{' '}
+            <span className="metric text-[var(--accent)]">30.1</span> in 2022-23, before settling to{' '}
+            <span className="metric text-[var(--accent)]">26.8</span> last season. These are two players
+            who have both reached 30-point-per-game caliber. The fact that Brown has stepped up and
+            thrived with Tatum sidelined in 2025-26 doesn&apos;t diminish their partnership &mdash; it
+            proves the depth of this duo. Boston has a second star who can carry an offense on his own.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            What makes Brown&apos;s scoring especially notable is how efficiently he does it. His career field
-            goal percentage of <span className="metric text-[var(--accent)]">.479</span> comfortably beats
-            Tatum&apos;s <span className="metric text-[var(--accent)]">.459</span>. Brown has shot a higher
-            percentage from the field in nearly every season they&apos;ve played together. He doesn&apos;t need
-            as many shots to get his points, and he converts the ones he takes at a higher rate.
+            What makes their scoring tandem so lethal is that they attack differently. Brown&apos;s career
+            field goal percentage of <span className="metric text-[var(--accent)]">.479</span> comfortably
+            beats Tatum&apos;s <span className="metric text-[var(--accent)]">.459</span>. Brown has shot a
+            higher percentage from the field in nearly every season they&apos;ve played together. He is the
+            hyper-efficient scorer who punishes defenses for every look he gets, while Tatum generates
+            higher volume and creates looks for himself and others. Together, they present an
+            impossible choice for opposing defenses.
           </p>
         </div>
 
@@ -284,24 +289,25 @@ export default function BrownVsTatumPage() {
 
         <div className="space-y-6 mb-10">
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            Let&apos;s be honest about where Tatum has the clear advantage. He is the more versatile
-            all-around player. His career averages of{' '}
+            This is what Tatum brings to the table that perfectly complements Brown. He is the
+            all-around engine: career averages of{' '}
             <span className="metric text-[var(--accent)]">7.3</span> rebounds and{' '}
             <span className="metric text-[var(--accent)]">3.8</span> assists per game meaningfully outpace
             Brown&apos;s <span className="metric text-[var(--accent)]">5.4</span> and{' '}
             <span className="metric text-[var(--accent)]">2.8</span>. Tatum is also the superior shot-blocker
             at <span className="metric text-[var(--accent)]">0.7</span> blocks per game versus{' '}
             <span className="metric text-[var(--accent)]">0.4</span>. The radar chart below makes
-            this gap unmistakable.
+            their different profiles unmistakable.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            But the radar also reveals a key nuance: Brown&apos;s shooting efficiency edge. That FG% advantage
-            gives Brown the one category where his slice of the chart pushes beyond Tatum&apos;s.
-            Steals are essentially a wash ({' '}
+            But the radar also reveals why these two fit together so well: Brown&apos;s shooting efficiency
+            edge. That FG% advantage gives Brown the category where his slice of the chart pushes
+            beyond Tatum&apos;s. Steals are essentially a wash ({' '}
             <span className="metric text-[var(--accent)]">1.0</span> vs{' '}
-            <span className="metric text-[var(--accent)]">1.1</span>). Tatum&apos;s well-roundedness is real.
-            The question is whether well-roundedness is the same thing as being the most important
-            player on the court in decisive moments.
+            <span className="metric text-[var(--accent)]">1.1</span>). Their profiles are genuinely
+            different, and that is exactly the point. Brown&apos;s efficiency paired with Tatum&apos;s
+            all-around versatility creates a duo that is nearly impossible to game-plan against.
+            You cannot build a defensive scheme that takes away both of them.
           </p>
         </div>
 
@@ -328,22 +334,24 @@ export default function BrownVsTatumPage() {
 
         <div className="space-y-6 mb-10">
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            This is where the narrative flips. The NBA defines &quot;clutch time&quot; as the final five
-            minutes of a game with a margin of five points or fewer. It is the crucible that separates
-            stars from closers. And over the past three seasons, Jaylen Brown has been the better
-            closer by a significant margin.
+            The NBA defines &quot;clutch time&quot; as the final five minutes of a game with a margin
+            of five points or fewer. It is the crucible where games are decided. And what the data
+            reveals is that Brown and Tatum have evolved into different but equally valuable
+            late-game weapons. Brown is the closer. Tatum is the facilitator and gravity creator.
+            Together, they give Boston two viable options when the pressure is highest.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
             Tatum entered the league as an electric clutch performer, shooting a scorching{' '}
             <span className="metric text-[var(--accent)]">.588</span> from the field in clutch
-            situations during his rookie year. But that number has cratered. By 2022-23, he was
-            hitting just <span className="metric text-[var(--accent)]">.351</span> in the clutch.
-            He recovered slightly to <span className="metric text-[var(--accent)]">.361</span> in
-            2023-24 and <span className="metric text-[var(--accent)]">.427</span> in 2024-25, but
-            the downward trend line from his early career is unmistakable. Meanwhile, Brown posted
-            clutch shooting marks of <span className="metric text-[var(--accent)]">.500</span> in
-            2023-24 and <span className="metric text-[var(--accent)]">.511</span> in 2024-25,
-            consistently outperforming his co-star when the pressure is highest.
+            situations during his rookie year. Over time, his role has shifted: by 2022-23 he was
+            hitting <span className="metric text-[var(--accent)]">.351</span> in the clutch, recovering
+            to <span className="metric text-[var(--accent)]">.361</span> in 2023-24 and{' '}
+            <span className="metric text-[var(--accent)]">.427</span> in 2024-25. But that evolution
+            coincides with Tatum taking on more of a playmaking and defensive-attention role in
+            late-game situations. Meanwhile, Brown has thrived as the finisher, posting clutch
+            shooting marks of <span className="metric text-[var(--accent)]">.500</span> in 2023-24
+            and <span className="metric text-[var(--accent)]">.511</span> in 2024-25. Having a partner
+            like Tatum who commands double-teams is a major reason Brown gets the looks he does.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
             Over the last three seasons, Brown&apos;s average clutch field goal percentage sits
@@ -352,9 +360,10 @@ export default function BrownVsTatumPage() {
             has been consistently positive, averaging around{' '}
             <span className="metric text-[var(--accent)]">+1.7</span> in that stretch, while Tatum&apos;s
             has hovered closer to <span className="metric text-[var(--accent)]">+1.6</span> despite
-            dipping negative in 2021-22. The trend lines tell the story: Tatum&apos;s clutch
-            performance is declining while Brown&apos;s is rising. In the moments that define
-            legacies, Brown is pulling ahead.
+            dipping negative in 2021-22. The numbers tell the story of a duo that has organically
+            sorted itself into complementary roles: Tatum draws the defense, Brown delivers the
+            dagger. Most teams would kill for one reliable clutch option. Boston has two players who
+            make each other more dangerous when the game is on the line.
           </p>
         </div>
 
@@ -388,23 +397,25 @@ export default function BrownVsTatumPage() {
 
         <div className="space-y-6 mb-10">
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            Here is where the Brown case hits its ceiling, and intellectual honesty demands
-            we acknowledge it. Advanced metrics overwhelmingly favor Tatum. His 2024-25 PER of{' '}
+            Advanced metrics reveal the sheer volume of value these two generate together. Tatum&apos;s
+            2024-25 PER of{' '}
             <span className="metric text-[var(--accent)]">21.7</span> compared to Brown&apos;s
-            current <span className="metric text-[var(--accent)]">22.3</span> is close, but
-            historically Tatum has led comfortably, peaking at{' '}
+            current <span className="metric text-[var(--accent)]">22.3</span> is remarkably close,
+            though historically Tatum has led comfortably, peaking at{' '}
             <span className="metric text-[var(--accent)]">23.7</span> in 2022-23. In Win Shares,
-            Box Plus/Minus, and Value Over Replacement Player, Tatum holds a commanding lead.
-            His <span className="metric text-[var(--accent)]">9.5</span> Win Shares and{' '}
-            <span className="metric text-[var(--accent)]">5.2</span> BPM in 2024-25 dwarf
-            Brown&apos;s typical output in those categories.
+            Box Plus/Minus, and Value Over Replacement Player, Tatum&apos;s all-encompassing impact
+            is staggering: <span className="metric text-[var(--accent)]">9.5</span> Win Shares and{' '}
+            <span className="metric text-[var(--accent)]">5.2</span> BPM in 2024-25 alone. Pair
+            that with Brown&apos;s efficiency-driven production and you have one of the most potent
+            duos in the league by any advanced measure.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
             These metrics capture cumulative value over full 48-minute games, 82-game seasons.
-            They measure everything, including the stretches of a Tuesday night in January when
-            the score is tied at halftime. Tatum generates more total value across a season.
-            But total value and decisive value are not the same thing, and the question of which
-            matters more depends on what you are optimizing for.
+            Tatum dominates the all-encompassing stats because his game touches every part of a
+            possession &mdash; rebounding, playmaking, scoring, defense. Brown&apos;s value shows up
+            differently: elite efficiency, clutch production, and the ability to be the primary
+            option when called upon. A team with Tatum&apos;s broad impact and Brown&apos;s pointed
+            efficiency isn&apos;t choosing between two styles. It has both.
           </p>
         </div>
 
@@ -431,35 +442,34 @@ export default function BrownVsTatumPage() {
 
         <div className="space-y-6">
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            If you are building a roster for an 82-game regular season, Tatum is the pick. His
-            rebounding, playmaking, and cumulative advanced metrics make him the more complete
-            player in the broadest sense. No stat-literate analyst would argue otherwise, and
-            this piece does not try to.
-          </p>
-          <p className="text-[var(--text-secondary)] leading-relaxed">
-            But basketball is not played in spreadsheets. It is played in arenas where the noise
-            swallows your thoughts, where the shot clock is dying, and where the difference
-            between a championship and a conference finals exit is one made jumper. In those
-            moments, the data tells us something the conventional wisdom misses: Jaylen Brown
-            is shooting nearly <span className="metric text-[var(--accent)]">10 percentage points</span>{' '}
+            This season has settled the question that never really needed asking. Jaylen Brown
+            is a superstar. At <span className="metric text-[var(--accent)]">29.3</span> points per
+            game on a career field goal percentage of{' '}
+            <span className="metric text-[var(--accent)]">.479</span>, with a 2024 Finals MVP
+            already on his mantle, Brown has proven beyond debate that he can carry a franchise.
+            He is shooting nearly <span className="metric text-[var(--accent)]">10 percentage points</span>{' '}
             better than Tatum in the clutch over the last three seasons. His trajectory is still
-            climbing at <span className="metric text-[var(--accent)]">29.3</span> points per game.
-            He shoots more efficiently from the field across his entire career. And when the
-            Celtics won the 2024 championship, the Finals MVP trophy went to Brown, not Tatum.
+            climbing. He is not a sidekick. He is a star.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
-            But here is the deeper truth the numbers reveal: Brown and Tatum don&apos;t diminish
-            each other &mdash; they elevate each other. Tatum&apos;s gravity as a playmaker and
-            rebounder creates the space for Brown to operate as a lethal scorer and closer. Brown&apos;s
-            clutch reliability takes the late-game pressure off Tatum to do everything himself.
-            The data shows two players with genuinely complementary skill sets: Tatum&apos;s
-            all-around versatility paired with Brown&apos;s scoring efficiency and clutch dominance.
-            With Tatum recovering from his Achilles injury, Brown has proven he can carry the
-            franchise. When Tatum returns, the Celtics get both: a complete player and a closer.
+            And that is precisely what makes what comes next so exciting. When Tatum returns from
+            his Achilles injury, the Celtics don&apos;t just get a good team back &mdash; they get a
+            historically elite one. The data has shown it throughout this analysis: Tatum&apos;s gravity
+            as a playmaker and rebounder creates the space for Brown to operate as a lethal scorer
+            and closer. Brown&apos;s clutch reliability and efficiency take the late-game pressure off
+            Tatum to do everything himself. Their skill sets are not redundant. They are complementary
+            in the truest sense &mdash; each player&apos;s strengths cover the other&apos;s gaps.
+          </p>
+          <p className="text-[var(--text-secondary)] leading-relaxed">
+            Two stars with complementary skills is the formula for dynasties. The 2024 championship
+            was proof of concept. Brown&apos;s 2025-26 solo run is proof of depth. And when this
+            roster is whole again, the rest of the league will have to contend with a team that
+            has an all-around force in Tatum and a hyper-efficient closer in Brown &mdash; and no
+            defensive scheme that can neutralize both.
           </p>
           <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-            Most teams are lucky to have one star. Boston has two &mdash; and the data says they
-            need both to win it all.
+            Most teams are lucky to have one star. Boston has two &mdash; and the data says that
+            is exactly why their best basketball is still ahead of them.
           </p>
         </div>
 
