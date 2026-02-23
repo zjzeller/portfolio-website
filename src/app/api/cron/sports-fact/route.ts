@@ -1,7 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import type { TextBlock } from '@anthropic-ai/sdk/resources/messages'
 import { TwitterApi } from 'twitter-api-v2'
 
+const REQUIRED_ENV_VARS = [
+  'ANTHROPIC_API_KEY',
+  'X_API_KEY',
+  'X_API_SECRET',
+  'X_ACCESS_TOKEN',
+  'X_ACCESS_TOKEN_SECRET',
+] as const
+
+// Day is resolved in UTC. The cron fires at 12:30–13:30 UTC, well away from
+// any ET day boundary, so UTC day and ET day always agree at trigger time.
 const SPORTS_BY_DAY: Record<number, string> = {
   1: 'NFL',
   2: 'NBA',
@@ -40,6 +51,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // Guard against missing env vars before making any API calls
+  const missing = REQUIRED_ENV_VARS.filter((key) => !process.env[key])
+  if (missing.length > 0) {
+    console.error('Missing required env vars:', missing.join(', '))
+    return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 })
+  }
+
   const sport = getSportForToday()
 
   try {
@@ -48,7 +66,7 @@ export async function GET(request: NextRequest) {
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-6',
-      max_tokens: 300,
+      max_tokens: 1500, // web_search tool calls consume tokens before the final text reply
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
       messages: [
@@ -59,15 +77,20 @@ export async function GET(request: NextRequest) {
       ],
     })
 
-    // Extract the final text response
+    // Extract the final text response using a proper type predicate
     const postText = message.content
-      .filter((block) => block.type === 'text')
-      .map((block) => (block as { type: 'text'; text: string }).text)
+      .filter((block): block is TextBlock => block.type === 'text')
+      .map((block) => block.text)
       .join('')
       .trim()
 
     if (!postText) {
       return NextResponse.json({ error: 'No post text generated' }, { status: 500 })
+    }
+
+    if (postText.length > 280) {
+      console.error(`Generated post too long: ${postText.length} chars`, { post: postText })
+      return NextResponse.json({ error: 'Generated post exceeds character limit' }, { status: 500 })
     }
 
     // Post to X
@@ -87,7 +110,7 @@ export async function GET(request: NextRequest) {
       tweetId: tweet.data.id,
     })
   } catch (error) {
-    console.error('Sports fact cron error:', error instanceof Error ? error.message : 'Unknown error')
+    console.error('Sports fact cron error:', error)
     return NextResponse.json({ error: 'Failed to post sports fact' }, { status: 500 })
   }
 }
