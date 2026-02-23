@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/sports-fact",
+      "schedule": "30 13 * * *"
+    }
+  ]
+}
