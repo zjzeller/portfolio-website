@@ -28,7 +28,7 @@ const SYSTEM_PROMPT = `You are a sports analytics bot that posts witty, shareabl
 Your job:
 1. Search for today's most interesting news in the assigned sport
 2. Pick one fact that is either hilariously useless OR surprisingly insightful
-3. Write a post under 260 characters total (including hashtags)
+3. Write a post STRICTLY under 240 characters total (including hashtags). Count carefully — this is a hard limit.
 4. End every post with "Uselessness Rating: X/10" where X reflects how useless the fact is
 5. Add 1-2 sport-relevant hashtags at the end
 
@@ -88,10 +88,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No post text generated' }, { status: 500 })
     }
 
-    if (postText.length > 280) {
-      console.error(`Generated post too long: ${postText.length} chars`, { post: postText })
-      return NextResponse.json({ error: 'Generated post exceeds character limit' }, { status: 500 })
-    }
+    // Trim to 280 chars at a word boundary if model ignores the instruction
+    const finalPost = postText.length <= 280
+      ? postText
+      : postText.slice(0, 280).replace(/\s+\S*$/, '')
 
     // Post to X
     const twitterClient = new TwitterApi({
@@ -101,12 +101,12 @@ export async function GET(request: NextRequest) {
       accessSecret: process.env.X_ACCESS_TOKEN_SECRET!,
     })
 
-    const tweet = await twitterClient.v2.tweet(postText)
+    const tweet = await twitterClient.v2.tweet(finalPost)
 
     return NextResponse.json({
       success: true,
       sport,
-      post: postText,
+      post: finalPost,
       tweetId: tweet.data.id,
     })
   } catch (error) {
