@@ -52,8 +52,7 @@ function getClutchSeasonStat(
 
 /** Average the last N non-null seasons of a clutch stat for a player. */
 function clutchAvgRecent(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  player: { seasons: any[] },
+  player: { seasons: Array<{ clutch?: Record<string, number> | null }> },
   stat: ClutchKey,
   n: number
 ): number {

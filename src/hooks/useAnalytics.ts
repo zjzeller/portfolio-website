@@ -49,6 +49,7 @@ export function useResumeEvent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'resume_view',
+          referrer: document.referrer,
           session_id: sessionId,
         }),
       })
@@ -66,6 +67,7 @@ export function useResumeEvent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'resume_download',
+          referrer: document.referrer,
           session_id: sessionId,
         }),
       })

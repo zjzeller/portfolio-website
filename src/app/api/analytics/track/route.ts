@@ -4,32 +4,6 @@ import { trackPageView, trackResumeEvent } from '@/lib/supabase/analytics'
 const VALID_TYPES = ['page_view', 'resume_view', 'resume_download'] as const
 const MAX_STRING_LENGTH = 500
 
-// Simple in-memory rate limiter
-const rateLimit = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT_WINDOW = 60_000 // 1 minute
-const RATE_LIMIT_MAX = 30 // requests per window
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const entry = rateLimit.get(ip)
-
-  if (!entry || now > entry.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
-    return false
-  }
-
-  entry.count++
-  return entry.count > RATE_LIMIT_MAX
-}
-
-// Clean up stale entries periodically
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, entry] of rateLimit) {
-    if (now > entry.resetTime) rateLimit.delete(key)
-  }
-}, RATE_LIMIT_WINDOW)
-
 function sanitizeString(value: unknown, maxLength = MAX_STRING_LENGTH): string | undefined {
   if (typeof value !== 'string') return undefined
   return value.slice(0, maxLength)
@@ -42,23 +16,22 @@ function isValidUUID(value: unknown): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
-    if (isRateLimited(ip)) {
-      return NextResponse.json(
-        { error: 'Too many requests' },
-        { status: 429 }
-      )
-    }
-
-    // Origin validation
+    // Origin validation — fail closed if env var is missing or host doesn't match
     const origin = request.headers.get('origin')
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-    if (origin && siteUrl && !origin.startsWith(siteUrl)) {
-      return NextResponse.json(
-        { error: 'Forbidden' },
-        { status: 403 }
-      )
+    if (origin) {
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+      if (!siteUrl) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+      try {
+        const originHost = new URL(origin).host
+        const siteHost = new URL(siteUrl).host
+        if (originHost !== siteHost) {
+          return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+        }
+      } catch {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
     }
 
     const body = await request.json()

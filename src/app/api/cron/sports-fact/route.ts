@@ -113,10 +113,10 @@ export async function GET(request: NextRequest) {
 
     // Post to X
     const twitterClient = new TwitterApi({
-      appKey: process.env.X_API_KEY!,
-      appSecret: process.env.X_API_SECRET!,
-      accessToken: process.env.X_ACCESS_TOKEN!,
-      accessSecret: process.env.X_ACCESS_TOKEN_SECRET!,
+      appKey: process.env.X_API_KEY as string,
+      appSecret: process.env.X_API_SECRET as string,
+      accessToken: process.env.X_ACCESS_TOKEN as string,
+      accessSecret: process.env.X_ACCESS_TOKEN_SECRET as string,
     })
 
     console.log('[cron] posting to X, length:', finalPost.length)

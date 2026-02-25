@@ -51,9 +51,9 @@ function CustomTooltip({
       <p style={{ margin: 0, marginBottom: 4, color: '#7a808c', fontSize: 12 }}>
         {label}
       </p>
-      {payload.map((entry: TooltipPayloadEntry, index: number) => (
+      {payload.map((entry: TooltipPayloadEntry) => (
         <p
-          key={index}
+          key={entry.name}
           style={{
             margin: 0,
             color: entry.color,
@@ -73,7 +73,7 @@ export default function ClutchChart({
   formatValue = (v) => v.toFixed(1),
 }: ClutchChartProps) {
   return (
-    <div className="border-t-2 border-amber-500/50">
+    <div className="border-t-2 border-[var(--border)]">
       <p className="text-xs text-gray-500 mt-2 mb-3 tracking-wide uppercase">
         Clutch Performance: Last 5 Minutes, Within 5 Points
       </p>
