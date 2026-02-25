@@ -63,8 +63,11 @@ export async function GET(request: NextRequest) {
   const sport = getSportForToday()
 
   try {
+    console.log('[cron] starting for sport:', sport)
+
     // Generate fact via Claude with web search
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    console.log('[cron] calling anthropic...')
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-6',
@@ -78,6 +81,8 @@ export async function GET(request: NextRequest) {
         },
       ],
     })
+
+    console.log('[cron] anthropic done, stop_reason:', message.stop_reason)
 
     // Extract the final text response using a proper type predicate
     const postText = message.content
@@ -103,6 +108,7 @@ export async function GET(request: NextRequest) {
       accessSecret: process.env.X_ACCESS_TOKEN_SECRET!,
     })
 
+    console.log('[cron] posting to X, length:', finalPost.length)
     const tweet = await twitterClient.v2.tweet(finalPost)
 
     return NextResponse.json({
