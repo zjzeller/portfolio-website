@@ -103,10 +103,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No post text generated' }, { status: 500 })
     }
 
+    // If the model added preamble before the tweet, take the last paragraph
+    const lastParagraph = postText.split(/\n\n+/).pop()?.trim() ?? postText
+
     // Trim to 280 chars at a word boundary if model ignores the instruction
-    const finalPost = postText.length <= 280
-      ? postText
-      : postText.slice(0, 280).replace(/\s+\S*$/, '')
+    const finalPost = lastParagraph.length <= 280
+      ? lastParagraph
+      : lastParagraph.slice(0, 280).replace(/\s+\S*$/, '')
 
     // Post to X
     const twitterClient = new TwitterApi({
