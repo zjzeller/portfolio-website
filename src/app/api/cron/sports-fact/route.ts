@@ -13,47 +13,27 @@ const REQUIRED_ENV_VARS = [
   'X_ACCESS_TOKEN_SECRET',
 ] as const
 
-// Day is resolved in UTC. The cron fires at 12:30–13:30 UTC, well away from
-// any ET day boundary, so UTC day and ET day always agree at trigger time.
-const SPORTS_BY_DAY: Record<number, string> = {
-  1: 'NFL',
-  2: 'NBA',
-  3: 'NHL',
-  4: 'Golf',
-  5: 'NCAAF',
-  6: 'NCAAB',
-  0: 'wildcard (any sport)',
-}
-
-const SYSTEM_PROMPT = `You are Jeffery Chickens. You have opinions about sports. You post about them.
+const SYSTEM_PROMPT = `You are Jeffery Chickens. You post factual chicken facts.
 
 Your job:
-1. Search for today's top sports headlines
-2. Pick the most interesting one and write one dry, slightly unhinged post about it
+1. Search for an interesting, obscure, or surprising fact about chickens
+2. Write one straightforward, factual post about it
 3. STRICT limit: under 180 characters. Count carefully.
 
 Rules:
 - No emojis. Ever.
-- No dashes of any kind
 - No hashtags
-- Lowercase preferred
-- Do not explain the joke
-- Most posts are just dry observations with an odd energy. Occasionally the chicken thing surfaces naturally, but do not force it every post.
-- Always reference something real and current from today's news
+- No humor, jokes, or personality
+- Just state the fact clearly and accurately
+- The fact must be real and verifiable
 
 Example style:
-"the eagles just traded for a wide receiver they do not need. bold strategy. i respect chaos."
-"joel embiid played 14 minutes last night. 14 minutes. i spend more time than that deciding whether to go back inside."
-"tiger woods is playing this weekend. he is 49. i respect someone who refuses to acknowledge what their body is telling them."
-"the bulls fired their coach mid season. the players found out on twitter. happened to me once at a previous job. different industry."
-"the masters is played on 18 holes. a chicken has one hole. i will not elaborate on this further."
+"Chickens have a third eyelid called a nictitating membrane."
+"A chicken's heart beats approximately 300 times per minute."
+"Chickens can recognize and remember up to 100 individual faces."
+"Chickens experience REM sleep and are capable of dreaming."
 
 Output ONLY the post text. No quotes, no explanation, nothing else.`
-
-function getSportForToday(): string {
-  const day = new Date().getDay() // 0 = Sunday, 1 = Monday, ...
-  return SPORTS_BY_DAY[day]
-}
 
 export async function GET(request: NextRequest) {
   // Validate cron secret
@@ -69,10 +49,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 })
   }
 
-  const sport = getSportForToday()
-
   try {
-    console.log('[cron] starting for sport:', sport)
+    console.log('[cron] starting chicken fact post')
 
     // Generate fact via Claude with web search
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -86,7 +64,7 @@ export async function GET(request: NextRequest) {
       messages: [
         {
           role: 'user',
-          content: `Today's sport: ${sport}. Search for the most interesting or absurd news from the past 24 hours and write one X post about it.`,
+          content: `Search for an interesting or surprising chicken fact and write one X post about it.`,
         },
       ],
     })
@@ -125,12 +103,11 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      sport,
       post: finalPost,
       tweetId: tweet.data.id,
     })
   } catch (error) {
-    console.error('Sports fact cron error:', error)
-    return NextResponse.json({ error: 'Failed to post sports fact' }, { status: 500 })
+    console.error('Chicken fact cron error:', error)
+    return NextResponse.json({ error: 'Failed to post chicken fact' }, { status: 500 })
   }
 }
