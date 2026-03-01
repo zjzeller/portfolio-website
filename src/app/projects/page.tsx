@@ -4,6 +4,13 @@ import PageViewTracker from '@/components/analytics/PageViewTracker'
 
 const projects = [
   {
+    href: '/projects/sf-food-map',
+    title: 'Date Night Map',
+    description:
+      'Five Bay Area restaurants worth the reservation — mapped across Oakland, San Francisco, and Berkeley.',
+    tags: ['Personal', 'Maps', 'React Leaflet'],
+  },
+  {
     href: '/projects/brown-vs-tatum',
     title: 'The Case for Jaylen Brown',
     description:
