@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   headers: async () => [
+    // Security headers for all routes except the resume PDF
     {
-      source: '/(.*)',
+      source: '/((?!assets/resume).*)',
       headers: [
         {
           key: 'X-Content-Type-Options',
@@ -36,17 +37,21 @@ const nextConfig: NextConfig = {
         },
       ],
     },
-    // Allow the resume PDF to be embedded in the same-origin iframe
+    // Resume PDF: no X-Frame-Options so Chrome can embed it in an iframe
     {
       source: '/assets/resume/:file*',
       headers: [
         {
-          key: 'X-Frame-Options',
-          value: 'SAMEORIGIN',
+          key: 'Content-Type',
+          value: 'application/pdf',
         },
         {
           key: 'Content-Disposition',
           value: 'inline',
+        },
+        {
+          key: 'Strict-Transport-Security',
+          value: 'max-age=63072000; includeSubDomains; preload',
         },
       ],
     },
