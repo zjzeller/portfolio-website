@@ -37,7 +37,7 @@ export default function ResumePage() {
       {/* PDF Viewer */}
       <div className="border border-[var(--border)] overflow-hidden bg-[var(--bg-surface)] animate-reveal-delay-1">
         <iframe
-          src="/assets/resume/zachary-zeller-resume.pdf"
+          src="/api/resume"
           className="w-full h-[800px] md:h-[1000px]"
           title="Resume PDF"
         />
