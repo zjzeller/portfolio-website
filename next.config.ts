@@ -36,6 +36,20 @@ const nextConfig: NextConfig = {
         },
       ],
     },
+    // Allow the resume PDF to be embedded in the same-origin iframe
+    {
+      source: '/assets/resume/:file*',
+      headers: [
+        {
+          key: 'X-Frame-Options',
+          value: 'SAMEORIGIN',
+        },
+        {
+          key: 'Content-Disposition',
+          value: 'inline',
+        },
+      ],
+    },
   ],
 };
 

@@ -36,11 +36,23 @@ export default function ResumePage() {
 
       {/* PDF Viewer */}
       <div className="border border-[var(--border)] overflow-hidden bg-[var(--bg-surface)] animate-reveal-delay-1">
-        <iframe
-          src="/assets/resume/zachary-zeller-resume.pdf"
+        <object
+          data="/assets/resume/zachary-zeller-resume.pdf"
+          type="application/pdf"
           className="w-full h-[800px] md:h-[1000px]"
-          title="Resume PDF"
-        />
+        >
+          <div className="flex flex-col items-center justify-center h-full gap-4 text-[var(--text-muted)] p-8">
+            <p className="text-sm">Unable to display PDF in browser.</p>
+            <a
+              href="/assets/resume/zachary-zeller-resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[var(--accent)] underline underline-offset-4"
+            >
+              Open PDF directly
+            </a>
+          </div>
+        </object>
       </div>
 
       {/* Text version for SEO */}
