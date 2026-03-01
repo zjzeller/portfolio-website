@@ -1,13 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/sports-fact",
-      "schedule": "30 13 * * *"
-    }
-  ],
-  "functions": {
-    "src/app/api/cron/sports-fact/route.ts": {
-      "maxDuration": 60
-    }
-  }
-}
+{}
