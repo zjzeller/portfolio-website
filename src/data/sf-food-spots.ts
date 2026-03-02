@@ -10,7 +10,7 @@ export const SF_FOOD_SPOTS: FoodSpot[] = [
     lng: -122.2035,
     cuisine: 'Mexican',
     blurb:
-      'Great vibes, killer cocktails, and genuinely warm service. The room can get loud — packed tables, music, conversation bouncing off the walls — but that energy is exactly what makes it a fun, lively night. Order a couple of mezcal margaritas and lean into it.',
+      'Great vibes, killer cocktails, and genuinely warm service. The room can get loud with packed tables, music, and conversation bouncing off the walls, but that energy is exactly what makes it a fun, lively night. Order a couple of mezcal margaritas and lean into it.',
     favoriteDish: 'Spicy Carrots Toasted Almond Misantla',
     website: 'https://www.bomberaoakland.com',
   },
@@ -23,7 +23,7 @@ export const SF_FOOD_SPOTS: FoodSpot[] = [
     lng: -122.4316,
     cuisine: 'New American',
     blurb:
-      'Tucked into a quiet Noe Valley block, Firefly is the rare place where everything feels considered — the ingredients, the technique, the wine list. Low lighting and a relaxed residential setting make it genuinely romantic. The food is the main event, and it earns it.',
+      'Tucked into a quiet Noe Valley block, Firefly is the rare place where everything feels considered: the ingredients, the technique, the wine list. Low lighting and a relaxed residential setting make it genuinely romantic. The food is the main event, and it earns it.',
     favoriteDish: 'Japanese sweet potato tostones',
     website: 'https://www.fireflysf.com',
   },
@@ -36,7 +36,7 @@ export const SF_FOOD_SPOTS: FoodSpot[] = [
     lng: -122.2967,
     cuisine: 'Japanese',
     blurb:
-      'The cocktail program here is genuinely interesting — worth exploring before you even open the food menu. The kitchen is precise and generous with the roll options, making it easy to build a meal that feels celebratory without being stuffy. Well-executed across the board.',
+      'Start with the cocktail program, it is genuinely interesting and worth exploring before you even open the food menu. The kitchen is precise and generous with the roll options, making it easy to build a meal that feels celebratory without being stuffy. Well-executed across the board.',
     favoriteDish: 'Futomaki roll',
     website: 'https://www.iyasare-berkeley.com',
   },
@@ -49,7 +49,7 @@ export const SF_FOOD_SPOTS: FoodSpot[] = [
     lng: -122.2496,
     cuisine: 'Ramen',
     blurb:
-      'No reservations, so plan around the wait — but it is absolutely worth it. This is a more casual date night, the kind where you stand outside talking while the line moves and arrive at the table already in a good mood. The edamame and corn wings are must-orders before the bowls land.',
+      'No reservations, so plan around the wait. It is absolutely worth it. This is a more casual date night, the kind where you stand outside talking while the line moves and arrive at the table already in a good mood. The edamame and corn wings are must-orders before the bowls land.',
     favoriteDish: 'Garlic knockout',
     website: 'https://www.menshopiedmont.com',
   },
@@ -62,7 +62,7 @@ export const SF_FOOD_SPOTS: FoodSpot[] = [
     lng: -122.2673,
     cuisine: 'Colombian',
     blurb:
-      'The cocktails here are exceptional — creative, detailed, and clearly made by people who care. The food follows the same logic: unique combinations, bold flavors, nothing ordinary. It feels elevated without being stiff, making it perfect for a fancy night out that still has personality and a pulse.',
+      'The cocktails here are exceptional, creative, detailed, and clearly made by people who care. The food follows the same logic with unique combinations, bold flavors, and nothing ordinary on the menu. It feels elevated without being stiff, perfect for a fancier night out that still has personality and a pulse.',
     favoriteDish: 'Costilla negra',
     website: 'https://www.parcheoak.com',
   },

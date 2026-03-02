@@ -31,14 +31,14 @@ export default function SFFoodMapPage() {
 
   return (
     <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-6xl">
-      <PageViewTracker pagePath="/projects/sf-food-map" pageTitle="Date Night Map" />
+      <PageViewTracker pagePath="/projects/sf-food-map" pageTitle="Top 5 Date Night Dinner Spots" />
 
       {/* Header */}
       <div className="mb-10 animate-reveal">
         <span className="section-label">Personal</span>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl mt-4 tracking-tight">
-          Date Night<br />
-          <span className="text-[var(--accent)]">Map</span>
+          Top 5 Date Night<br />
+          <span className="text-[var(--accent)]">Dinner Spots</span>
         </h1>
         <div className="editorial-rule w-16 mt-6" />
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-8 max-w-2xl">
