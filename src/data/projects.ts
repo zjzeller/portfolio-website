@@ -1,11 +1,4 @@
-export type Project = {
-  href: string
-  title: string
-  description: string
-  tags: string[]
-  tools: string[]
-  githubUrl: string
-}
+import type { Project } from '@/types/projects'
 
 export const PROJECTS: Project[] = [
   {
