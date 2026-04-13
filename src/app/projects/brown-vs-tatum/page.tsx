@@ -145,7 +145,8 @@ const advancedComparisonData: { label: string; brown: number; tatum: number }[] 
 const fmtPct = (v: number) => (v < 1 ? `${(v * 100).toFixed(1)}%` : `${v.toFixed(1)}%`)
 const fmtDec = (v: number) => v.toFixed(1)
 
-const project = PROJECTS.find((p) => p.href === '/projects/brown-vs-tatum')!
+const project = PROJECTS.find((p) => p.href === '/projects/brown-vs-tatum')
+if (!project) throw new Error('brown-vs-tatum project entry missing from PROJECTS')
 
 // ---------------------------------------------------------------------------
 // Page Component
@@ -494,7 +495,7 @@ export default function BrownVsTatumPage() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
           >
-            <Github size={14} />
+            <Github size={14} aria-hidden="true" />
             View on GitHub
           </a>
         </div>
