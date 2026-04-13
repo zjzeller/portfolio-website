@@ -20,3 +20,9 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/zjzeller/portfolio-website',
   },
 ]
+
+export function requireProject(href: string): Project {
+  const project = PROJECTS.find((p) => p.href === href)
+  if (!project) throw new Error(`${href} project entry missing from PROJECTS`)
+  return project
+}

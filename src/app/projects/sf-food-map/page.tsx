@@ -7,7 +7,7 @@ import PageViewTracker from '@/components/analytics/PageViewTracker'
 import SpotDetailPanel from '@/components/map/SpotDetailPanel'
 import SpotListItem from '@/components/map/SpotListItem'
 import { SF_FOOD_SPOTS } from '@/data/sf-food-spots'
-import { PROJECTS } from '@/data/projects'
+import { requireProject } from '@/data/projects'
 
 const SFMapClient = dynamic(() => import('@/components/map/SFMapClient'), {
   ssr: false,
@@ -18,8 +18,7 @@ const SFMapClient = dynamic(() => import('@/components/map/SFMapClient'), {
   ),
 })
 
-const project = PROJECTS.find((p) => p.href === '/projects/sf-food-map')
-if (!project) throw new Error('sf-food-map project entry missing from PROJECTS')
+const project = requireProject('/projects/sf-food-map')
 
 export default function SFFoodMapPage() {
   const [activeSpotId, setActiveSpotId] = useState<number | null>(null)

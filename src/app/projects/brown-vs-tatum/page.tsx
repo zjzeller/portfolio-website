@@ -7,7 +7,7 @@ import ComparisonBarChart from '@/components/charts/ComparisonBarChart'
 import PlayerRadarChart from '@/components/charts/PlayerRadarChart'
 import ClutchChart from '@/components/charts/ClutchChart'
 import playerData from '@/data/brown-vs-tatum.json'
-import { PROJECTS } from '@/data/projects'
+import { requireProject } from '@/data/projects'
 
 // ---------------------------------------------------------------------------
 // Data helpers
@@ -145,8 +145,7 @@ const advancedComparisonData: { label: string; brown: number; tatum: number }[] 
 const fmtPct = (v: number) => (v < 1 ? `${(v * 100).toFixed(1)}%` : `${v.toFixed(1)}%`)
 const fmtDec = (v: number) => v.toFixed(1)
 
-const project = PROJECTS.find((p) => p.href === '/projects/brown-vs-tatum')
-if (!project) throw new Error('brown-vs-tatum project entry missing from PROJECTS')
+const project = requireProject('/projects/brown-vs-tatum')
 
 // ---------------------------------------------------------------------------
 // Page Component
