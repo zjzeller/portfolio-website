@@ -1,11 +1,13 @@
 'use client'
 
+import { Github } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import SeasonLineChart from '@/components/charts/SeasonLineChart'
 import ComparisonBarChart from '@/components/charts/ComparisonBarChart'
 import PlayerRadarChart from '@/components/charts/PlayerRadarChart'
 import ClutchChart from '@/components/charts/ClutchChart'
 import playerData from '@/data/brown-vs-tatum.json'
+import { PROJECTS } from '@/data/projects'
 
 // ---------------------------------------------------------------------------
 // Data helpers
@@ -143,6 +145,7 @@ const advancedComparisonData: { label: string; brown: number; tatum: number }[] 
 const fmtPct = (v: number) => (v < 1 ? `${(v * 100).toFixed(1)}%` : `${v.toFixed(1)}%`)
 const fmtDec = (v: number) => v.toFixed(1)
 
+const project = PROJECTS.find((p) => p.href === '/projects/brown-vs-tatum')!
 
 // ---------------------------------------------------------------------------
 // Page Component
@@ -470,6 +473,30 @@ export default function BrownVsTatumPage() {
             Most teams are lucky to have one star. Boston has two &mdash; and the data says that
             is exactly why their best basketball is still ahead of them.
           </p>
+        </div>
+
+        {/* Tools + GitHub */}
+        <div className="border-t border-[var(--border-subtle)] mt-16 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="section-label">Tools Used</span>
+            {project.tools.map((tool) => (
+              <span
+                key={tool}
+                className="font-[family-name:var(--font-dm-mono)] text-xs px-3 py-1 rounded border border-[var(--accent)]/20 bg-[var(--accent)]/10 text-[var(--accent)]"
+              >
+                {tool}
+              </span>
+            ))}
+          </div>
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
+          >
+            <Github size={14} />
+            View on GitHub
+          </a>
         </div>
 
         {/* Source note */}
