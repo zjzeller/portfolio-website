@@ -11,6 +11,15 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/zjzeller/portfolio-website',
   },
   {
+    href: '/projects/baby-names',
+    title: 'What Your Name Says About When You Were Born',
+    description:
+      'Predicting birth year from first name using 100+ years of US Social Security Administration data — with an interactive name explorer.',
+    tags: ['Python', 'Data Analysis', 'Interactive'],
+    tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
+    githubUrl: 'https://github.com/zjzeller/portfolio-website',
+  },
+  {
     href: '/projects/brown-vs-tatum',
     title: 'The Case for Jaylen Brown',
     description:
