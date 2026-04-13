@@ -2,10 +2,12 @@
 
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
+import { Github } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import SpotDetailPanel from '@/components/map/SpotDetailPanel'
 import SpotListItem from '@/components/map/SpotListItem'
 import { SF_FOOD_SPOTS } from '@/data/sf-food-spots'
+import { PROJECTS } from '@/data/projects'
 
 const SFMapClient = dynamic(() => import('@/components/map/SFMapClient'), {
   ssr: false,
@@ -15,6 +17,9 @@ const SFMapClient = dynamic(() => import('@/components/map/SFMapClient'), {
     </div>
   ),
 })
+
+const project = PROJECTS.find((p) => p.href === '/projects/sf-food-map')
+if (!project) throw new Error('sf-food-map project entry missing from PROJECTS')
 
 export default function SFFoodMapPage() {
   const [activeSpotId, setActiveSpotId] = useState<number | null>(null)
@@ -77,6 +82,30 @@ export default function SFFoodMapPage() {
             />
           ))}
         </div>
+      </div>
+
+      {/* Tools + GitHub */}
+      <div className="border-t border-[var(--border-subtle)] mt-16 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="section-label">Tools Used</span>
+          {project.tools.map((tool) => (
+            <span
+              key={tool}
+              className="font-[family-name:var(--font-dm-mono)] text-xs px-3 py-1 rounded border border-[var(--accent)]/20 bg-[var(--accent)]/10 text-[var(--accent)]"
+            >
+              {tool}
+            </span>
+          ))}
+        </div>
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
+        >
+          <Github size={14} aria-hidden="true" />
+          View on GitHub
+        </a>
       </div>
     </div>
   )
