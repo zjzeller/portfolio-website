@@ -1,23 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
-
-const projects = [
-  {
-    href: '/projects/sf-food-map',
-    title: 'Top 5 Date Night Dinner Spots',
-    description:
-      'Five Bay Area restaurants worth the reservation — mapped across Oakland, San Francisco, and Berkeley.',
-    tags: ['Personal', 'Maps', 'React Leaflet'],
-  },
-  {
-    href: '/projects/brown-vs-tatum',
-    title: 'The Case for Jaylen Brown',
-    description:
-      'A statistical deep-dive comparing Jaylen Brown and Jayson Tatum across scoring, clutch performance, and advanced metrics.',
-    tags: ['NBA', 'Python', 'Data Visualization'],
-  },
-]
+import { PROJECTS } from '@/data/projects'
 
 export default function ProjectsPage() {
   return (
@@ -51,7 +35,7 @@ export default function ProjectsPage() {
         </div>
 
         <div className="grid gap-px bg-[var(--border)]">
-          {projects.map((project) => (
+          {PROJECTS.map((project) => (
             <Link
               key={project.href}
               href={project.href}
