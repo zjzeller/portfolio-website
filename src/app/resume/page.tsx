@@ -61,10 +61,11 @@ export default function ResumePage() {
             <div>
               <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Summary</h3>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                Results-driven Senior Data Analyst with 4+ years of experience building GTM reporting
-                infrastructure, investigating data quality issues, and delivering actionable insights to
-                executive leadership. Proven expertise in automating ETL processes, maintaining cross-system
-                data integrity, and leveraging AI to accelerate analytical workflows.
+                Senior Data Analyst on a Strategy and FP&amp;A team with 4+ years turning messy, multi-system
+                data into decisions for the CEO, CFO, and business leaders. Built the reporting and data
+                foundation for a relaunched travel business, launched a cross-functional data quality project,
+                and helped redesign sales compensation. Strongest where analytics meets strategy, operations,
+                and product, with AI tools built into daily work.
               </p>
             </div>
 
@@ -72,7 +73,7 @@ export default function ResumePage() {
               <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Current Role</h3>
               <p className="text-sm text-[var(--text-primary)]">Senior Data Analyst: Strategy</p>
               <p className="text-sm text-[var(--text-muted)]">AAA - Mountain West Group</p>
-              <p className="metric text-xs text-[var(--text-muted)] mt-1">Nov 2025 &mdash; Present</p>
+              <p className="metric text-xs text-[var(--text-muted)] mt-1">May 2025 &ndash; Present</p>
             </div>
           </div>
 
@@ -110,7 +111,7 @@ export default function ResumePage() {
             <div>
               <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Core Skills</h3>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                SQL, Python, Claude AI, Tableau, BigQuery, Salesforce, Data Visualization, Revenue Analytics, Process Automation
+                SQL, Python, BigQuery, dbt, Tableau, Data Modeling, Data Governance, Excel Financial Modeling, Claude and Claude Code
               </p>
             </div>
           </div>
