@@ -10,7 +10,6 @@ Personal portfolio for Zachary Zeller — Senior Data Analyst.
 - **Fonts**: Playfair Display, DM Sans, DM Mono (Google Fonts)
 - **Charts**: Recharts
 - **Icons**: Lucide React
-- **Maps**: React Leaflet (loaded via `dynamic()` — SSR disabled)
 - **Deployment**: Vercel
 
 ## Project Structure
@@ -24,16 +23,16 @@ src/
     about/
     contact/
     projects/
+      baby-names/
       brown-vs-tatum/
-      sf-food-map/
+      customer-retention/
     resume/
   components/
     analytics/    # PageViewTracker, ResumeTracker
     charts/       # Recharts wrappers (SeasonLineChart, ComparisonBarChart, PlayerRadarChart, ClutchChart, RetentionCharts incl. CohortHeatmap, CohortHeatmapMini for the homepage)
     layout/       # Header, Footer
-    map/          # SFMapClient (leaflet), SpotDetailPanel, SpotListItem
     ui/           # Button (only reusable UI component so far)
-  data/           # Static data + helper functions (sf-food-spots.ts, projects.ts)
+  data/           # Static data + helper functions (projects.ts, project JSON data)
   hooks/          # Custom React hooks
   lib/
     supabase/     # Supabase client helpers
@@ -110,7 +109,7 @@ className="font-[family-name:var(--font-dm-mono)] text-xs px-3 py-1 rounded bord
 
 ## Data & Types Conventions
 
-- **Types** live in `src/types/` (e.g. `src/types/projects.ts`, `src/types/food-spots.ts`)
+- **Types** live in `src/types/` (e.g. `src/types/projects.ts`, `src/types/baby-names.ts`)
 - **Data** lives in `src/data/` and imports types from `src/types/`
 - Helper functions that operate on data arrays live in the data file (e.g. `requireProject()` in `src/data/projects.ts`)
 - `requireProject(href)` — finds a project by href and throws a descriptive error if not found (use this instead of `.find()!` on project detail pages)

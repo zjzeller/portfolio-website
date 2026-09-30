@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   poweredByHeader: false,
+  // The date night map project was removed; send any old links to the projects list
+  redirects: async () => [
+    { source: '/projects/sf-food-map', destination: '/projects', permanent: true },
+  ],
   headers: async () => [
     {
       source: '/(.*)',

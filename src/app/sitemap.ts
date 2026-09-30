@@ -22,6 +22,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${SITE_CONFIG.url}/projects/customer-retention`,
+      lastModified: new Date('2026-09-30'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_CONFIG.url}/projects/baby-names`,
+      lastModified: new Date('2026-09-30'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       url: `${SITE_CONFIG.url}/projects/brown-vs-tatum`,
       lastModified: new Date('2026-02-24'),
       changeFrequency: 'monthly',
