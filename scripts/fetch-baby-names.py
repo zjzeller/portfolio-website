@@ -168,6 +168,31 @@ def compute_top_names(df: pd.DataFrame, n: int) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Step 4b: yearlyTop — top 10 girls' and boys' names for every year
+# Drives the animated "name time machine". Ranked by count within each
+# year and gender, straight from the full national data (not just topNames).
+# ---------------------------------------------------------------------------
+
+def compute_yearly_top(df: pd.DataFrame, n: int = 10) -> list[dict]:
+    print(f"Computing top {n} names per year...")
+    # rank within each (year, gender) group; method="first" breaks ties by order
+    ranked = df.sort_values("count", ascending=False).copy()
+    ranked["rank"] = ranked.groupby(["year", "gender"]).cumcount() + 1
+    top = ranked[ranked["rank"] <= n]
+
+    results = []
+    for year, group in top.groupby("year"):
+        entry = {"year": int(year)}
+        for gender in ("F", "M"):
+            rows = group[group["gender"] == gender].sort_values("rank")
+            # [name, count] pairs in rank order
+            entry[gender] = [[r["name"], int(r["count"])] for _, r in rows.iterrows()]
+        results.append(entry)
+    print(f"  Built {len(results)} years")
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Step 5: comebackNames — peaked pre-1950, faded, recovered post-2000
 # ---------------------------------------------------------------------------
 
@@ -223,6 +248,8 @@ def compute_comeback_names(df: pd.DataFrame) -> list[dict]:
         results.append({
             "name": name,
             "gender": gender,
+            # [year, share] pairs, compact to keep the JSON small; drives the comeback curve charts
+            "yearlyData": [[int(y), round(float(v), 6)] for y, v in zip(group["year"], group["share"])],
             "originalPeakYear": peak_year,
             "troughYear": trough_year,
             "comebackYear": comeback_year,
@@ -358,6 +385,7 @@ def main() -> None:
 
     top_names = compute_top_names(national_df, TOP_N)
     comeback_names = compute_comeback_names(national_df)
+    yearly_top = compute_yearly_top(national_df)
     unisex_names = compute_unisex_names(national_df)
     regional_highlights = compute_regional_highlights(state_df)
 
@@ -369,6 +397,7 @@ def main() -> None:
             "totalBirths": int(national_df["count"].sum()),
         },
         "topNames": top_names,
+        "yearlyTop": yearly_top,
         "comebackNames": comeback_names,
         "unisexNames": unisex_names,
         "regionalHighlights": regional_highlights,
@@ -383,6 +412,7 @@ def main() -> None:
     print(f"  Size: {size_mb:.2f} MB")
     print(f"  topNames: {len(top_names)}")
     print(f"  comebackNames: {len(comeback_names)}")
+    print(f"  yearlyTop: {len(yearly_top)} years")
     print(f"  unisexNames: {len(unisex_names)}")
     print(f"  regionalHighlights: {len(regional_highlights)}")
 
