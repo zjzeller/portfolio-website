@@ -10,12 +10,12 @@ import retention from '@/data/customer-retention.json'
 const featured = requireProject('/projects/customer-retention')
 const supporting = ['/projects/brown-vs-tatum', '/projects/baby-names'].map(requireProject)
 
-// Headline results from the resume
-const stats = [
-  { value: '$120K', label: 'Saved Annually' },
-  { value: '40 hrs', label: 'Automated Weekly' },
-  { value: '106', label: 'Branches Served' },
-  { value: '4+ yrs', label: 'In Analytics' },
+// What I do day to day. Tells a recruiter which roles I fit at a glance.
+const focusAreas = [
+  { title: 'Executive Reporting', desc: 'Monthly business review reporting for the CEO, CFO and Chief Strategy Officer' },
+  { title: 'Data Modeling', desc: 'Governed BigQuery sources and tested dbt models that serve as the source of truth' },
+  { title: 'Automation', desc: 'Python and SQL pipelines that replace recurring manual work' },
+  { title: 'Strategy & FP&A', desc: 'Forecasting, plan vs. actual, and sales compensation analysis' },
 ]
 
 const delayClasses = [
@@ -102,14 +102,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Metrics strip */}
-      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]">
-        <div className="container mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[var(--border-subtle)]">
-            {stats.map((stat, i) => (
-              <div key={stat.label} className={`py-8 px-6 text-center ${delayClasses[i]}`}>
-                <p className="metric text-2xl md:text-3xl text-[var(--accent)] mb-1">{stat.value}</p>
-                <p className="text-xs tracking-wider uppercase text-[var(--text-muted)]">{stat.label}</p>
+      {/* Focus areas strip: same surface band as before, one cell per area.
+          Cells sit on a 1px border-colored background, so the gaps between them
+          draw the dividers at every breakpoint (1, 2 or 4 columns). */}
+      <section className="border-y border-[var(--border-subtle)] bg-[var(--border-subtle)]">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px">
+            {focusAreas.map((area, i) => (
+              <div key={area.title} className={`bg-[var(--bg-surface)] py-8 px-6 md:px-8 ${delayClasses[i]}`}>
+                <h2 className="font-[family-name:var(--font-playfair)] text-xl text-[var(--accent)] mb-2">
+                  {area.title}
+                </h2>
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed">{area.desc}</p>
               </div>
             ))}
           </div>
