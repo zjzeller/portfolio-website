@@ -3,6 +3,8 @@ import Button from '@/components/ui/Button'
 import { ArrowRight, FileText, Mail } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import { requireProject } from '@/data/projects'
+import CohortHeatmapMini from '@/components/charts/CohortHeatmapMini'
+import retention from '@/data/customer-retention.json'
 
 // Lead project gets the wide card; the others sit beside it
 const featured = requireProject('/projects/customer-retention')
@@ -142,6 +144,14 @@ export default function HomePage() {
                   </span>
                 ))}
               </div>
+            </div>
+            {/* Mini heatmap fills the card and previews the case study's lead chart */}
+            <div className="mt-10">
+              <CohortHeatmapMini rows={retention.cohortHeatmap.rows} />
+              <p className="mt-3 text-xs text-[var(--text-muted)]">
+                <span className="metric text-[var(--accent)]">{retention.metadata.repeat90d}%</span> of customers
+                reorder within 90 days. Each row is a quarterly cohort; brighter means more came back.
+              </p>
             </div>
             <div className="flex items-center gap-2 mt-8 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
               <span className="text-xs tracking-wider uppercase">Read the case study</span>
