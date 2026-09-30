@@ -2,6 +2,15 @@ import type { Project } from '@/types/projects'
 
 export const PROJECTS: Project[] = [
   {
+    href: '/projects/customer-retention',
+    title: 'Who Comes Back? Customer Retention in dbt',
+    description:
+      'A tested dbt pipeline on BigQuery that measures cohort retention for an e-commerce store and asks whether acquisition channel or first purchase predicts repeat buyers.',
+    tags: ['dbt', 'BigQuery', 'Analytics Engineering'],
+    tools: ['dbt', 'BigQuery', 'SQL', 'Python', 'Recharts', 'Next.js'],
+    githubUrl: 'https://github.com/zjzeller/thelook-analytics-dbt',
+  },
+  {
     href: '/projects/sf-food-map',
     title: 'Top 5 Date Night Dinner Spots',
     description:

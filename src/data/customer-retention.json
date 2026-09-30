@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "customers": 61438,
+    "cohorts": 92,
+    "firstCohort": "2019-01",
+    "lastCohort": "2026-08",
+    "eligible90d": 55153,
+    "repeat90d": 6.0,
+    "firstOrderShareOf12MoRevenue": 84.7,
+    "chiSquareChannel": 1.9,
+    "chiSquareChannelDf": 4,
+    "chiSquareCategory": 23.6,
+    "chiSquareCategoryDf": 25,
+    "categoryRange": [
+      2.7,
+      7.3
+    ]
+  },
+  "retentionCurve": [
+    {
+      "month": 1,
+      "retention": 2.5,
+      "customers": 58983
+    },
+    {
+      "month": 2,
+      "retention": 2.36,
+      "customers": 56871
+    },
+    {
+      "month": 3,
+      "retention": 2.03,
+      "customers": 54958
+    },
+    {
+      "month": 4,
+      "retention": 2.08,
+      "customers": 53011
+    },
+    {
+      "month": 5,
+      "retention": 1.88,
+      "customers": 51366
+    },
+    {
+      "month": 6,
+      "retention": 1.78,
+      "customers": 49660
+    },
+    {
+      "month": 7,
+      "retention": 1.74,
+      "customers": 48250
+    },
+    {
+      "month": 8,
+      "retention": 1.62,
+      "customers": 46728
+    },
+    {
+      "month": 9,
+      "retention": 1.65,
+      "customers": 45300
+    },
+    {
+      "month": 10,
+      "retention": 1.57,
+      "customers": 43896
+    },
+    {
+      "month": 11,
+      "retention": 1.53,
+      "customers": 42460
+    },
+    {
+      "month": 12,
+      "retention": 1.5,
+      "customers": 41192
+    },
+    {
+      "month": 13,
+      "retention": 1.45,
+      "customers": 39859
+    },
+    {
+      "month": 14,
+      "retention": 1.41,
+      "customers": 38606
+    },
+    {
+      "month": 15,
+      "retention": 1.45,
+      "customers": 37423
+    },
+    {
+      "month": 16,
+      "retention": 1.48,
+      "customers": 36192
+    },
+    {
+      "month": 17,
+      "retention": 1.34,
+      "customers": 35082
+    },
+    {
+      "month": 18,
+      "retention": 1.31,
+      "customers": 33967
+    },
+    {
+      "month": 19,
+      "retention": 1.35,
+      "customers": 32969
+    },
+    {
+      "month": 20,
+      "retention": 1.29,
+      "customers": 31897
+    },
+    {
+      "month": 21,
+      "retention": 1.38,
+      "customers": 30905
+    },
+    {
+      "month": 22,
+      "retention": 1.28,
+      "customers": 29928
+    },
+    {
+      "month": 23,
+      "retention": 1.22,
+      "customers": 28916
+    },
+    {
+      "month": 24,
+      "retention": 1.21,
+      "customers": 27952
+    }
+  ],
+  "channels": [
+    {
+      "channel": "Search",
+      "customers": 38698,
+      "rate": 6.05,
+      "low": 5.81,
+      "high": 6.29
+    },
+    {
+      "channel": "Display",
+      "customers": 2182,
+      "rate": 6.05,
+      "low": 5.05,
+      "high": 7.05
+    },
+    {
+      "channel": "Organic",
+      "customers": 8171,
+      "rate": 5.86,
+      "low": 5.35,
+      "high": 6.37
+    },
+    {
+      "channel": "Email",
+      "customers": 2789,
+      "rate": 5.74,
+      "low": 4.87,
+      "high": 6.6
+    },
+    {
+      "channel": "Facebook",
+      "customers": 3313,
+      "rate": 5.55,
+      "low": 4.77,
+      "high": 6.33
+    }
+  ],
+  "month1ByYear": [
+    {
+      "year": "2019",
+      "retention": 0.68,
+      "customers": 737
+    },
+    {
+      "year": "2020",
+      "retention": 0.9,
+      "customers": 2341
+    },
+    {
+      "year": "2021",
+      "retention": 0.98,
+      "customers": 4070
+    },
+    {
+      "year": "2022",
+      "retention": 0.93,
+      "customers": 5998
+    },
+    {
+      "year": "2023",
+      "retention": 1.21,
+      "customers": 8026
+    },
+    {
+      "year": "2024",
+      "retention": 1.86,
+      "customers": 10725
+    },
+    {
+      "year": "2025",
+      "retention": 2.6,
+      "customers": 14831
+    },
+    {
+      "year": "2026 (Jan-Jul)",
+      "retention": 5.48,
+      "customers": 12255
+    }
+  ]
+}
