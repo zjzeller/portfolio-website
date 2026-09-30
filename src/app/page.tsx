@@ -102,12 +102,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Focus areas strip: same surface band as before, one cell per area.
-          Cells sit on a 1px border-colored background, so the gaps between them
-          draw the dividers at every breakpoint (1, 2 or 4 columns). */}
-      <section className="border-y border-[var(--border-subtle)] bg-[var(--border-subtle)]">
+      {/* Focus areas strip: full-width surface band, same as the old stats strip.
+          Only the inner grid gets the divider color; its 1px gaps draw the lines
+          between cells at every breakpoint (1, 2 or 4 columns), while the band
+          outside the container stays the surface color on wide screens. */}
+      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-subtle)]">
             {focusAreas.map((area, i) => (
               <div key={area.title} className={`bg-[var(--bg-surface)] py-8 px-6 md:px-8 ${delayClasses[i]}`}>
                 <h2 className="font-[family-name:var(--font-playfair)] text-xl text-[var(--accent)] mb-2">
