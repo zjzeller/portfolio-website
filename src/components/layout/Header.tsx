@@ -28,13 +28,14 @@ export default function Header() {
           </span>
         </Link>
 
-        <ul className="flex gap-1">
+        <ul className="flex gap-0 sm:gap-1">
           {navLinks.map((link) => (
-            <li key={link.href}>
+            // On phones the ZZ logo already links home, so the Home link is hidden to save space
+            <li key={link.href} className={link.href === '/' ? 'hidden sm:block' : undefined}>
               <Link
                 href={link.href}
                 className={cn(
-                  'relative px-3 py-1.5 text-xs tracking-[0.15em] uppercase transition-colors duration-300',
+                  'relative px-2 sm:px-3 py-1.5 text-xs tracking-[0.08em] sm:tracking-[0.15em] uppercase transition-colors duration-300',
                   pathname === link.href
                     ? 'text-[var(--accent)] font-medium'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
@@ -42,7 +43,7 @@ export default function Header() {
               >
                 {link.label}
                 {pathname === link.href && (
-                  <span className="absolute bottom-0 left-3 right-3 h-px bg-[var(--accent)]" />
+                  <span className="absolute bottom-0 left-2 right-2 sm:left-3 sm:right-3 h-px bg-[var(--accent)]" />
                 )}
               </Link>
             </li>

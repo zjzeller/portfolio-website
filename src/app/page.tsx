@@ -2,6 +2,11 @@ import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { ArrowRight, FileText, Mail } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
+import { requireProject } from '@/data/projects'
+
+// Lead project gets the wide card; the others sit beside it
+const featured = requireProject('/projects/customer-retention')
+const supporting = ['/projects/brown-vs-tatum', '/projects/baby-names'].map(requireProject)
 
 const stats = [
   { value: '4+', label: 'Years Experience' },
@@ -102,6 +107,63 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Featured work */}
+      <section className="container mx-auto px-6 md:px-8 pt-20 md:pt-28">
+        <div className="flex items-center gap-4 mb-12 animate-reveal">
+          <span className="section-label">Featured Work</span>
+          <div className="flex-1 h-px bg-[var(--border-subtle)]" />
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-px bg-[var(--border)] animate-reveal-delay-1">
+          <Link
+            href={featured.href}
+            className="group md:col-span-2 md:row-span-2 bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[260px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
+          >
+            <div>
+              <span className="metric text-xs text-[var(--accent)]">Case Study</span>
+              <h3 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl mt-3 mb-4 group-hover:text-[var(--accent)] transition-colors duration-300">
+                {featured.title}
+              </h3>
+              <p className="text-[var(--text-secondary)] leading-relaxed max-w-xl">{featured.description}</p>
+              <div className="flex flex-wrap gap-2 mt-6">
+                {featured.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="font-[family-name:var(--font-dm-mono)] text-xs px-3 py-1 rounded border border-[var(--accent)]/20 bg-[var(--accent)]/10 text-[var(--accent)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-2 mt-8 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
+              <span className="text-xs tracking-wider uppercase">Read the case study</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
+          </Link>
+
+          {supporting.map((project) => (
+            <Link
+              key={project.href}
+              href={project.href}
+              className="group bg-[var(--bg-surface)] p-8 flex flex-col justify-between min-h-[200px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
+            >
+              <div>
+                <span className="metric text-xs text-[var(--text-muted)]">{project.tags[0]}</span>
+                <h3 className="font-[family-name:var(--font-playfair)] text-xl mt-3 mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
+                  {project.title}
+                </h3>
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed">{project.description}</p>
+              </div>
+              <div className="flex items-center gap-2 mt-6 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
+                <span className="text-xs tracking-wider uppercase">View</span>
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
