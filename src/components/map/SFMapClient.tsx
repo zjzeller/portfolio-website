@@ -97,7 +97,7 @@ export default function SFMapClient({ spots, activeSpotId, onSpotClick }: SFMapC
       */}
       <TileLayer
         url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-        attribution="Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors"
+        attribution="Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors"
         maxZoom={16}
       />
       <TileLayer

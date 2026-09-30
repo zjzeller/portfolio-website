@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/metadata'
 import { Github } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import {
@@ -8,6 +9,13 @@ import {
 } from '@/components/charts/RetentionCharts'
 import { requireProject } from '@/data/projects'
 import data from '@/data/customer-retention.json'
+
+export const metadata = pageMetadata(
+  'Customer Retention in dbt',
+  'A tested dbt pipeline on BigQuery that measures cohort retention and asks whether acquisition channel predicts repeat buyers. Only 6% reorder within 90 days.',
+  '/projects/customer-retention/opengraph-image.png'
+)
+
 
 const project = requireProject('/projects/customer-retention')
 const m = data.metadata

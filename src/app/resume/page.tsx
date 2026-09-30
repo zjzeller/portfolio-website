@@ -1,7 +1,14 @@
+import { pageMetadata } from '@/lib/metadata'
 import Button from '@/components/ui/Button'
 import { ExternalLink } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import { ResumeDownloadButton, ResumeViewTracker } from '@/components/analytics/ResumeTracker'
+
+export const metadata = pageMetadata(
+  'Resume',
+  'Experience, education and skills of Zachary Zeller, Senior Data Analyst.',
+)
+
 
 export default function ResumePage() {
   return (

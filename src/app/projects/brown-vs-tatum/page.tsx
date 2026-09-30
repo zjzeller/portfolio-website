@@ -247,7 +247,7 @@ export default function BrownVsTatumPage() {
             <span className="metric text-[var(--accent)]">30.1</span> in 2022-23, before settling to{' '}
             <span className="metric text-[var(--accent)]">26.8</span> last season. These are two players
             who have both reached 30-point-per-game caliber. The fact that Brown has stepped up and
-            thrived with Tatum sidelined in 2025-26 doesn&apos;t diminish their partnership &mdash; it
+            thrived with Tatum sidelined in 2025-26 doesn&apos;t diminish their partnership. It
             proves the depth of this duo. Boston has a second star who can carry an offense on his own.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
@@ -414,7 +414,7 @@ export default function BrownVsTatumPage() {
           <p className="text-[var(--text-secondary)] leading-relaxed">
             These metrics capture cumulative value over full 48-minute games, 82-game seasons.
             Tatum dominates the all-encompassing stats because his game touches every part of a
-            possession &mdash; rebounding, playmaking, scoring, defense. Brown&apos;s value shows up
+            possession: rebounding, playmaking, scoring, defense. Brown&apos;s value shows up
             differently: elite efficiency, clutch production, and the ability to be the primary
             option when called upon. A team with Tatum&apos;s broad impact and Brown&apos;s pointed
             efficiency isn&apos;t choosing between two styles. It has both.
@@ -455,22 +455,22 @@ export default function BrownVsTatumPage() {
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
             And that is precisely what makes what comes next so exciting. When Tatum returns from
-            his Achilles injury, the Celtics don&apos;t just get a good team back &mdash; they get a
+            his Achilles injury, the Celtics don&apos;t just get a good team back. They get a
             historically elite one. The data has shown it throughout this analysis: Tatum&apos;s gravity
             as a playmaker and rebounder creates the space for Brown to operate as a lethal scorer
             and closer. Brown&apos;s clutch reliability and efficiency take the late-game pressure off
             Tatum to do everything himself. Their skill sets are not redundant. They are complementary
-            in the truest sense &mdash; each player&apos;s strengths cover the other&apos;s gaps.
+            in the truest sense: each player&apos;s strengths cover the other&apos;s gaps.
           </p>
           <p className="text-[var(--text-secondary)] leading-relaxed">
             Two stars with complementary skills is the formula for dynasties. The 2024 championship
             was proof of concept. Brown&apos;s 2025-26 solo run is proof of depth. And when this
             roster is whole again, the rest of the league will have to contend with a team that
-            has an all-around force in Tatum and a hyper-efficient closer in Brown &mdash; and no
+            has an all-around force in Tatum and a hyper-efficient closer in Brown, and no
             defensive scheme that can neutralize both.
           </p>
           <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-            Most teams are lucky to have one star. Boston has two &mdash; and the data says that
+            Most teams are lucky to have one star. Boston has two, and the data says that
             is exactly why their best basketball is still ahead of them.
           </p>
         </div>

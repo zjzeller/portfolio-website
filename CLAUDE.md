@@ -98,9 +98,9 @@ className="font-[family-name:var(--font-dm-mono)]"
 
 ### Tag / Badge Patterns
 
-**Index card tags** (ghost pills — used on `/projects` index):
+**Index card tags** (ghost pills, used on `/projects` and homepage cards). No `uppercase`: tags like "dbt" must keep their real casing.
 ```tsx
-className="text-xs tracking-wider uppercase px-3 py-1 rounded-full border border-[var(--border)] text-[var(--text-muted)]"
+className="text-xs px-3 py-1 rounded-full border border-[var(--border)] text-[var(--text-muted)]"
 ```
 
 **Tool badges** (filled tinted chips — used on project detail pages):
@@ -118,6 +118,13 @@ className="font-[family-name:var(--font-dm-mono)] text-xs px-3 py-1 rounded bord
 ## Analytics
 
 Every page must include `<PageViewTracker pagePath="..." pageTitle="..." />` from `@/components/analytics/PageViewTracker`. This tracks page views via the `/api/analytics/track` route to Supabase.
+
+## Page Titles & Link Previews
+
+- Set a page's title and description with `pageMetadata(title, description)` from `src/lib/metadata.ts`. It keeps the site name and preview image that Next.js would otherwise drop.
+- Server pages: `export const metadata = pageMetadata(...)`. Client pages (`'use client'`) can't export metadata, so put it in a `layout.tsx` next to the page.
+- Default preview image: `src/app/opengraph-image.png` (1200x630). A route can pass its own image as the third argument (see the customer-retention page).
+- Copy: no em dashes in visible text.
 
 ## Page Conventions
 

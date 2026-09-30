@@ -1,21 +1,37 @@
+import { pageMetadata } from '@/lib/metadata'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
+
+export const metadata = pageMetadata(
+  'About',
+  'Background, skills and approach: strategy and FP&A analytics, BigQuery data modeling, dbt and Tableau.',
+)
+
 
 const skills = {
   'Data & Analytics': [
-    'SQL (CTEs, Window Functions, 10M+ Rows)',
-    'Python (Automation, ETL, scikit-learn)',
-    'Tableau (Dashboard Development)',
-    'BigQuery & Data Warehousing',
-    'Claude AI & Workflow Optimization',
+    'SQL (CTEs, window functions, 10M+ row datasets)',
+    'BigQuery data sources and data modeling',
+    'dbt (Analytics Engineering certification in progress)',
+    'Python (ETL automation, scikit-learn)',
+    'Tableau (executive dashboards)',
   ],
-  'Business & Systems': [
-    'Salesforce & ConnectSuite CRM',
-    'Data Visualization & Storytelling',
-    'Revenue Analytics & GTM Metrics',
-    'Cross-Functional Collaboration',
-    'Process Automation & Optimization',
+  'Strategy & Business': [
+    'Executive and monthly business review reporting',
+    'Forecasting and plan-vs-actual analysis',
+    'Excel financial modeling',
+    'Data quality and governance',
+    'Salesforce, Claude and Claude Code',
   ],
 }
+
+// How I work, stated as practices rather than adjectives
+const approach = [
+  'Start from the decision, then find the data that informs it',
+  'Build the data foundation once, as governed and tested tables, instead of rebuilding it in every report',
+  'Automate recurring work so the time goes to analysis',
+  'Explain results in plain language, with the caveats included',
+  'Train and mentor analysts: I have onboarded 4 new analysts and mentor 8 more',
+]
 
 export default function AboutPage() {
   return (
@@ -35,20 +51,21 @@ export default function AboutPage() {
       {/* Bio */}
       <div className="space-y-6 mb-20 animate-reveal-delay-1">
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-          I&apos;m a results-driven Senior Data Analyst with 4+ years of experience building GTM reporting
-          infrastructure, investigating data quality issues, and delivering actionable insights to
-          executive leadership at AAA - Mountain West Group.
+          I&apos;m a Senior Data Analyst on a Strategy and FP&amp;A team with 4+ years of turning messy,
+          multi-system data into decisions. I own the reporting behind the monthly business review for
+          the CEO, CFO and Chief Strategy Officer.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed">
-          My expertise includes automating ETL processes, maintaining cross-system data integrity,
-          and leveraging AI tools like Claude to accelerate analytical workflows. I&apos;ve delivered
-          significant business impact, including $120K in annual cost savings through automation and
-          identifying revenue-generating opportunities worth thousands in monthly revenue.
+          Most of my work sits between the warehouse and the decision. I&apos;ve built about ten governed
+          BigQuery data sources that serve as the source of truth for travel, credit card and headcount
+          reporting, traced data quality problems to their root causes, and automated 8 key reports to
+          save <span className="metric text-[var(--accent)]">$120K</span> a year. I&apos;m now modeling
+          with dbt and working toward the dbt Analytics Engineering certification.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed">
-          With a Master&apos;s degree in Applied Economics from the University of San Francisco and a
-          Bachelor&apos;s in Economics from Santa Clara University, I bring both technical skills and
-          business acumen to translate complex data into clear, strategic recommendations.
+          I hold a Master&apos;s in Applied Economics from the University of San Francisco and a
+          Bachelor&apos;s in Economics from Santa Clara University. The economics shows up in how I
+          frame analysis: start with the decision, then measure what informs it.
         </p>
       </div>
 
@@ -84,13 +101,7 @@ export default function AboutPage() {
         </div>
 
         <div className="border-l border-[var(--accent)]/30 pl-6 space-y-4">
-          {[
-            'Leveraging AI tools like Claude to accelerate workflows and improve code quality',
-            'Automating repetitive processes to free up time for strategic analysis',
-            'Data visualization and storytelling to make insights accessible to all stakeholders',
-            'Mentoring junior analysts and fostering team growth through knowledge sharing',
-            'Solving complex business problems with data-driven recommendations',
-          ].map((item) => (
+          {approach.map((item) => (
             <p key={item} className="text-[var(--text-secondary)] text-sm leading-relaxed">
               {item}
             </p>

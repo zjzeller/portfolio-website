@@ -1,8 +1,15 @@
+import { pageMetadata } from '@/lib/metadata'
 import Link from 'next/link'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import Button from '@/components/ui/Button'
 import { SITE_CONFIG } from '@/lib/constants'
 import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react'
+
+export const metadata = pageMetadata(
+  'Contact',
+  'Get in touch about analytics, strategy and analytics engineering roles.',
+)
+
 
 const contactMethods = [
   {
@@ -15,14 +22,14 @@ const contactMethods = [
   {
     icon: Linkedin,
     label: 'LinkedIn',
-    value: 'Connect professionally',
+    value: 'linkedin.com/in/zzeller',
     href: SITE_CONFIG.links.linkedin,
     external: true,
   },
   {
     icon: Github,
     label: 'GitHub',
-    value: 'View projects & code',
+    value: 'github.com/zjzeller',
     href: SITE_CONFIG.links.github,
     external: true,
   },
@@ -42,8 +49,8 @@ export default function ContactPage() {
         <div className="editorial-rule w-16 mt-6" />
       </div>
 
-      <p className="text-[var(--text-secondary)] text-lg leading-relaxed max-w-lg mb-14 animate-reveal-delay-1">
-        I&apos;m always open to discussing new opportunities, collaborations, or chatting about data and technology.
+      <p className="text-[var(--text-secondary)] text-lg leading-relaxed max-w-xl mb-14 animate-reveal-delay-1">
+        Open to conversations about analytics, strategy and analytics engineering roles. Email is the fastest way to reach me.
       </p>
 
       {/* Contact methods */}

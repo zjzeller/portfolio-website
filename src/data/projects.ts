@@ -1,6 +1,7 @@
 import type { Project } from '@/types/projects'
 
 export const PROJECTS: Project[] = [
+  // Display order used on the homepage and /projects: strongest work first
   {
     href: '/projects/customer-retention',
     title: 'Who Comes Back? Customer Retention in dbt',
@@ -11,30 +12,30 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/zjzeller/thelook-analytics-dbt',
   },
   {
-    href: '/projects/sf-food-map',
-    title: 'Top 5 Date Night Dinner Spots',
-    description:
-      'Five Bay Area restaurants worth the reservation — mapped across Oakland, San Francisco, and Berkeley.',
-    tags: ['Personal', 'Maps', 'React Leaflet'],
-    tools: ['React Leaflet', 'Next.js', 'TypeScript'],
-    githubUrl: 'https://github.com/zjzeller/portfolio-website',
-  },
-  {
-    href: '/projects/baby-names',
-    title: 'What Your Name Says About When You Were Born',
-    description:
-      'Predicting birth year from first name using 100+ years of US Social Security Administration data — with an interactive name explorer.',
-    tags: ['Python', 'Data Analysis', 'Interactive'],
-    tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
-    githubUrl: 'https://github.com/zjzeller/portfolio-website',
-  },
-  {
     href: '/projects/brown-vs-tatum',
     title: 'The Case for Jaylen Brown',
     description:
       'A statistical deep-dive comparing Jaylen Brown and Jayson Tatum across scoring, clutch performance, and advanced metrics.',
     tags: ['NBA', 'Python', 'Data Visualization'],
     tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
+    githubUrl: 'https://github.com/zjzeller/portfolio-website',
+  },
+  {
+    href: '/projects/baby-names',
+    title: 'What Your Name Says About When You Were Born',
+    description:
+      'Predicting birth year from first name using 100+ years of US Social Security Administration data, with an interactive name explorer.',
+    tags: ['Python', 'Data Analysis', 'Interactive'],
+    tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
+    githubUrl: 'https://github.com/zjzeller/portfolio-website',
+  },
+  {
+    href: '/projects/sf-food-map',
+    title: 'Top 5 Date Night Dinner Spots',
+    description:
+      'Five Bay Area restaurants worth the reservation, mapped across Oakland, San Francisco, and Berkeley.',
+    tags: ['Personal', 'Maps', 'React Leaflet'],
+    tools: ['React Leaflet', 'Next.js', 'TypeScript'],
     githubUrl: 'https://github.com/zjzeller/portfolio-website',
   },
 ]

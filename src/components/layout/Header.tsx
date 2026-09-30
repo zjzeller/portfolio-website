@@ -19,7 +19,8 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-[var(--border-subtle)] bg-[var(--bg)]/90 backdrop-blur-md">
       <nav className="container mx-auto flex h-14 items-center justify-between px-6 md:px-8">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="font-[family-name:var(--font-playfair)] text-lg text-[var(--text-primary)] tracking-tight">
+          {/* Monogram tile: same design as the favicon so the tab and page match */}
+          <span className="flex h-8 w-8 items-center justify-center rounded-[7px] border border-[var(--border)] bg-[var(--bg)] font-[family-name:var(--font-playfair)] text-[15px] font-bold leading-none text-[var(--accent)] transition-colors duration-300 group-hover:border-[var(--accent)]/60">
             ZZ
           </span>
           <span className="hidden sm:block h-4 w-px bg-[var(--border)]" />

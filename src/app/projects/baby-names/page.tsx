@@ -103,7 +103,7 @@ function NamePredictor() {
 
       {notFound && (
         <p className="text-sm text-[var(--text-muted)] italic mb-6">
-          &ldquo;{query}&rdquo; isn&apos;t in the top 300 names — either it&apos;s rare or spelled differently in SSA records.
+          &ldquo;{query}&rdquo; isn&apos;t in the top 300 names. Either it&apos;s rare or spelled differently in SSA records.
         </p>
       )}
 
@@ -140,7 +140,7 @@ function NamePredictor() {
           {/* Popularity chart */}
           <div>
             <p className="text-xs tracking-[0.2em] uppercase text-[var(--text-secondary)] mb-4">
-              {entry.name} ({entry.gender === 'F' ? 'Female' : 'Male'}) — share of all US births
+              {entry.name} ({entry.gender === 'F' ? 'Female' : 'Male'}): share of all US births
             </p>
             <ResponsiveContainer width="100%" height={260}>
               <AreaChart data={entry.yearlyData} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
@@ -206,7 +206,7 @@ export default function BabyNamesPage() {
         <div className="editorial-rule w-16 mt-6" />
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-8 max-w-2xl">
           Your first name carries a timestamp. The US Social Security Administration
-          has published baby name counts every year since 1910 — over{' '}
+          has published baby name counts every year since 1910, over{' '}
           <span className="metric text-[var(--accent)]">
             {(data.metadata.totalBirths / 1_000_000).toFixed(0)}M
           </span>{' '}
@@ -338,8 +338,8 @@ export default function BabyNamesPage() {
           <p className="text-[var(--text-secondary)] leading-relaxed">
             Many names that feel firmly gendered today were once used for both. The charts
             below show the male/female split over time for names that have seen meaningful
-            usage by both genders — at least{' '}
-            <span className="metric text-[var(--accent)]">10%</span> each. Some crossed
+            usage by both genders (at least{' '}
+            <span className="metric text-[var(--accent)]">10%</span> each). Some crossed
             from predominantly male to predominantly female (or vice versa) within a single generation.
           </p>
         </div>
@@ -434,7 +434,7 @@ export default function BabyNamesPage() {
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           Some names are disproportionately concentrated in specific states. The ratio
           below compares a name&apos;s share of births in one state against its national
-          average — a ratio of <span className="metric text-[var(--accent)]">10×</span>{' '}
+          average. A ratio of <span className="metric text-[var(--accent)]">10×</span>{' '}
           means the name is ten times more common there than anywhere else.
         </p>
         <div className="grid gap-px bg-[var(--border)]">
@@ -481,8 +481,8 @@ export default function BabyNamesPage() {
           <p className="text-[var(--text-secondary)] leading-relaxed">
             The predictor uses the SSA&apos;s historical name counts as a probability
             distribution over birth years. For a given name, the share of births
-            in each year — normalized against total US births that year to remove
-            population growth bias — forms the prior. The{' '}
+            in each year, normalized against total US births that year to remove
+            population growth bias, forms the prior. The{' '}
             <span className="metric text-[var(--accent)]">p10</span>,{' '}
             <span className="metric text-[var(--accent)]">p50</span>, and{' '}
             <span className="metric text-[var(--accent)]">p90</span>{' '}
@@ -491,7 +491,7 @@ export default function BabyNamesPage() {
           <p className="text-[var(--text-secondary)] leading-relaxed">
             Common names that are concentrated in a single era (Jennifer, Brittany, Liam)
             produce tight, confident ranges. Names used continuously across decades
-            (James, Mary, Elizabeth) produce wider ranges, which is honest — there
+            (James, Mary, Elizabeth) produce wider ranges, which is honest: there
             genuinely is less information in those names.
           </p>
         </div>
@@ -500,7 +500,7 @@ export default function BabyNamesPage() {
           <p className="section-label mb-4">Data limitations</p>
           <ul className="space-y-2 text-sm text-[var(--text-secondary)] leading-relaxed">
             <li>
-              The SSA dataset only includes names with at least 5 occurrences per state per year —
+              The SSA dataset only includes names with at least 5 occurrences per state per year, so
               rare names are systematically underrepresented or missing entirely.
             </li>
             <li>

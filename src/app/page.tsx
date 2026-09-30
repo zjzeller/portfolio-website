@@ -8,11 +8,12 @@ import { requireProject } from '@/data/projects'
 const featured = requireProject('/projects/customer-retention')
 const supporting = ['/projects/brown-vs-tatum', '/projects/baby-names'].map(requireProject)
 
+// Headline results from the resume
 const stats = [
-  { value: '4+', label: 'Years Experience' },
-  { value: 'C-Suite', label: 'Reporting' },
-  { value: '8+', label: 'Tools' },
-  { value: 'MS', label: 'Applied Economics' },
+  { value: '$120K', label: 'Saved Annually' },
+  { value: '40 hrs', label: 'Automated Weekly' },
+  { value: '106', label: 'Branches Served' },
+  { value: '4+ yrs', label: 'In Analytics' },
 ]
 
 const delayClasses = [
@@ -66,7 +67,9 @@ export default function HomePage() {
 
         <div className="relative container mx-auto px-6 md:px-8">
           <div className="max-w-3xl">
-            <p className="section-label animate-reveal mb-6">Senior Data Analyst &mdash; Berkeley, CA</p>
+            <p className="section-label animate-reveal mb-6">Senior Data Analyst &middot; <span className="whitespace-nowrap">Strategy &amp; FP&amp;A</span>
+              {/* Location drops on phones so the label fits on one line */}
+              <span className="hidden sm:inline"> &middot; Berkeley, CA</span></p>
 
             <h1 className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[0.95] tracking-tight animate-reveal-delay-1">
               Zachary
@@ -77,7 +80,8 @@ export default function HomePage() {
             <div className="editorial-rule w-24 my-8 animate-reveal-delay-2" />
 
             <p className="text-[var(--text-secondary)] text-lg md:text-xl max-w-lg leading-relaxed animate-reveal-delay-2">
-              Turning complex data into clear, strategic insights. Specializing in automation, analytics infrastructure, and AI-accelerated workflows.
+              I turn messy, multi-system data into decisions executives act on. SQL, BigQuery and dbt
+              underneath, strategy on top.
             </p>
 
             <div className="flex gap-4 mt-10 animate-reveal-delay-3">
@@ -123,7 +127,7 @@ export default function HomePage() {
             className="group md:col-span-2 md:row-span-2 bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[260px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
           >
             <div>
-              <span className="metric text-xs text-[var(--accent)]">Case Study</span>
+              <span className="metric text-xs text-[var(--accent)]">Case study</span>
               <h3 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl mt-3 mb-4 group-hover:text-[var(--accent)] transition-colors duration-300">
                 {featured.title}
               </h3>
@@ -132,7 +136,7 @@ export default function HomePage() {
                 {featured.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-[family-name:var(--font-dm-mono)] text-xs px-3 py-1 rounded border border-[var(--accent)]/20 bg-[var(--accent)]/10 text-[var(--accent)]"
+                    className="text-xs px-3 py-1 rounded-full border border-[var(--border)] text-[var(--text-muted)] group-hover:border-[var(--accent)]/30 group-hover:text-[var(--accent)] transition-colors duration-300"
                   >
                     {tag}
                   </span>
@@ -152,7 +156,7 @@ export default function HomePage() {
               className="group bg-[var(--bg-surface)] p-8 flex flex-col justify-between min-h-[200px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
             >
               <div>
-                <span className="metric text-xs text-[var(--text-muted)]">{project.tags[0]}</span>
+                <span className="metric text-xs text-[var(--text-muted)]">{project.tags.slice(0, 2).join(' · ')}</span>
                 <h3 className="font-[family-name:var(--font-playfair)] text-xl mt-3 mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
                   {project.title}
                 </h3>

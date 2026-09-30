@@ -1,7 +1,14 @@
+import { pageMetadata } from '@/lib/metadata'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import { PROJECTS } from '@/data/projects'
+
+export const metadata = pageMetadata(
+  'Projects',
+  'Case studies in retention analysis, analytics engineering, sports analytics and data visualization.',
+)
+
 
 export default function ProjectsPage() {
   return (
@@ -21,9 +28,9 @@ export default function ProjectsPage() {
       {/* Intro */}
       <div className="mb-20 animate-reveal-delay-1">
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-          Showcasing analytical skills through hands-on data projects. Each case study
-          walks through the full process&mdash;from data collection and cleaning to
-          analysis and visualization&mdash;to uncover meaningful insights.
+          Each project walks through the full process: the question, the data, the
+          modeling, and what the results mean for a decision. The lead case study is
+          an end-to-end dbt pipeline on BigQuery.
         </p>
       </div>
 
@@ -52,7 +59,7 @@ export default function ProjectsPage() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs tracking-wider uppercase px-3 py-1 rounded-full border border-[var(--border)] text-[var(--text-muted)] group-hover:border-[var(--accent)]/30 group-hover:text-[var(--accent)] transition-colors duration-300"
+                      className="text-xs px-3 py-1 rounded-full border border-[var(--border)] text-[var(--text-muted)] group-hover:border-[var(--accent)]/30 group-hover:text-[var(--accent)] transition-colors duration-300"
                     >
                       {tag}
                     </span>
