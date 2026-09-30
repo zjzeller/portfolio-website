@@ -16,6 +16,8 @@ export type TopName = {
 export type ComebackName = {
   name: string
   gender: 'M' | 'F'
+  /** [year, share of all births] pairs, 1910 to latest year */
+  yearlyData: [number, number][]
   originalPeakYear: number
   troughYear: number
   comebackYear: number
@@ -44,6 +46,13 @@ export type RegionalHighlight = {
   ratio: number
 }
 
+/** Top 10 names for one year: [name, count] pairs in rank order */
+export type YearlyTop = {
+  year: number
+  F: [string, number][]
+  M: [string, number][]
+}
+
 export type BabyNamesData = {
   metadata: {
     totalNames: number
@@ -52,6 +61,7 @@ export type BabyNamesData = {
     totalBirths: number
   }
   topNames: TopName[]
+  yearlyTop: YearlyTop[]
   comebackNames: ComebackName[]
   unisexNames: UnisexName[]
   regionalHighlights: RegionalHighlight[]

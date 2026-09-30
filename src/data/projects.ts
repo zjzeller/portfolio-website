@@ -24,7 +24,7 @@ export const PROJECTS: Project[] = [
     href: '/projects/baby-names',
     title: 'What Your Name Says About When You Were Born',
     description:
-      'Predicting birth year from first name using 100+ years of US Social Security Administration data, with an interactive name explorer.',
+      'Predicting birth year from first name with 100+ years of US Social Security data, plus a guess-the-decade game and an animated name time machine.',
     tags: ['Python', 'Data Analysis', 'Interactive'],
     tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
     githubUrl: 'https://github.com/zjzeller/portfolio-website',

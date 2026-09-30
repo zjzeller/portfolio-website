@@ -12,8 +12,14 @@ Data sources (both free, no credentials required):
 Run from the repo root:
   pip install -r scripts/requirements.txt
   python scripts/fetch-baby-names.py
+
+The SSA site blocks many non-US and automated requests. If the download
+fails, point the script at a folder of the same yobYYYY.txt files and reuse
+the regional section already in the JSON:
+  python scripts/fetch-baby-names.py --national-dir path/to/yob_files --keep-regional
 """
 
+import argparse
 import io
 import json
 import zipfile
@@ -377,9 +383,28 @@ def compute_regional_highlights(state_df: pd.DataFrame) -> list[dict]:
 # Main
 # ---------------------------------------------------------------------------
 
+def load_national_dir(folder: Path) -> pd.DataFrame:
+    """Same parsing as download_national, but from local yobYYYY.txt files."""
+    print(f"Reading national data from {folder}...")
+    frames = []
+    for f in sorted(folder.glob("yob*.txt")):
+        year = int(f.stem[3:7])
+        if year < MIN_YEAR:
+            continue
+        df = pd.read_csv(f, header=None, names=["name", "gender", "count"])
+        df["year"] = year
+        frames.append(df)
+    return pd.concat(frames, ignore_index=True)
+
+
 def main() -> None:
-    national_df = download_national(NATIONAL_URL)
-    state_df = download_state(STATE_URL)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--national-dir", type=Path, help="folder of yobYYYY.txt files (skips the SSA download)")
+    parser.add_argument("--keep-regional", action="store_true", help="reuse regionalHighlights from the existing JSON")
+    args = parser.parse_args()
+
+    national_df = load_national_dir(args.national_dir) if args.national_dir else download_national(NATIONAL_URL)
+    state_df = None if args.keep_regional else download_state(STATE_URL)
 
     national_df = add_share(national_df)
 
@@ -387,7 +412,10 @@ def main() -> None:
     comeback_names = compute_comeback_names(national_df)
     yearly_top = compute_yearly_top(national_df)
     unisex_names = compute_unisex_names(national_df)
-    regional_highlights = compute_regional_highlights(state_df)
+    if state_df is None:
+        regional_highlights = json.loads(OUT_PATH.read_text())["regionalHighlights"]
+    else:
+        regional_highlights = compute_regional_highlights(state_df)
 
     output = {
         "metadata": {

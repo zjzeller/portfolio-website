@@ -15,8 +15,11 @@ import PageViewTracker from '@/components/analytics/PageViewTracker'
 import { requireProject } from '@/data/projects'
 import rawData from '@/data/baby-names.json'
 import type { BabyNamesData, TopName } from '@/types/baby-names'
+import NameTimeMachine from '@/components/baby-names/NameTimeMachine'
+import ComebackCurves from '@/components/baby-names/ComebackCurves'
+import GuessTheDecade from '@/components/baby-names/GuessTheDecade'
 
-const data = rawData as BabyNamesData
+const data = rawData as unknown as BabyNamesData
 const project = requireProject('/projects/baby-names')
 
 // ---------------------------------------------------------------------------
@@ -274,6 +277,44 @@ export default function BabyNamesPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
+      {/* GUESS THE DECADE                                                   */}
+      {/* ----------------------------------------------------------------- */}
+      <section className="mb-20 animate-reveal">
+        <div className="flex items-center gap-4 mb-10">
+          <span className="section-label">Play</span>
+          <div className="flex-1 h-px bg-[var(--border-subtle)]" />
+        </div>
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-4 tracking-tight">
+          Guess the Decade
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          Most names belong to an era. Pick the decade when most people with each name were born, then
+          see the real curve. Only names concentrated in a single era are included, so every round has a
+          fair answer.
+        </p>
+        <GuessTheDecade names={data.topNames} />
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* TIME MACHINE                                                       */}
+      {/* ----------------------------------------------------------------- */}
+      <section className="mb-20 animate-reveal">
+        <div className="flex items-center gap-4 mb-10">
+          <span className="section-label">Over Time</span>
+          <div className="flex-1 h-px bg-[var(--border-subtle)]" />
+        </div>
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-4 tracking-tight">
+          Name Time Machine
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          The top 10 names for every year since 1910. Press play and watch Mary give way to Linda,
+          Jennifer and Emily, or switch to boys and see how long Michael held on. Bars show the number
+          of babies given each name that year.
+        </p>
+        <NameTimeMachine years={data.yearlyTop} />
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
       {/* COMEBACK NAMES                                                     */}
       {/* ----------------------------------------------------------------- */}
       <section className="mb-20 animate-reveal">
@@ -294,33 +335,8 @@ export default function BabyNamesPage() {
             These are the vintage names that parents rediscovered.
           </p>
         </div>
-        <div className="grid gap-px bg-[var(--border)]">
-          {data.comebackNames.map((n) => (
-            <div
-              key={`${n.name}-${n.gender}`}
-              className="bg-[var(--bg-surface)] px-6 py-4 flex flex-wrap items-center justify-between gap-4"
-            >
-              <div className="flex items-center gap-4">
-                <span className="font-[family-name:var(--font-playfair)] text-xl text-[var(--text-primary)]">
-                  {n.name}
-                </span>
-                <span className="text-xs text-[var(--text-muted)]">
-                  {n.gender === 'F' ? 'Female' : 'Male'}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-[family-name:var(--font-dm-mono)]">
-                <span className="text-[var(--accent)]">{n.originalPeakYear}</span>
-                <span className="text-[var(--border)]">→</span>
-                <span className="text-[var(--text-muted)]">{n.troughYear}</span>
-                <span className="text-[var(--border)]">→</span>
-                <span className="text-[var(--accent)]">{n.comebackYear}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs text-[var(--text-muted)] mt-4">
-          Format: original peak → trough (near-extinction) → comeback
-        </p>
+        {/* 18 names = even rows at 3 and 2 columns; the list is sorted by original peak, so the smallest is dropped */}
+        <ComebackCurves names={data.comebackNames.slice(0, 18)} />
       </section>
 
       {/* ----------------------------------------------------------------- */}
