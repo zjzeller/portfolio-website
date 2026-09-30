@@ -1,0 +1,243 @@
+'use client'
+
+import { useState } from 'react'
+import {
+  ComposedChart,
+  Line,
+  Scatter,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
+import { CHART } from '@/lib/chartTheme'
+
+// ---------------------------------------------------------------------------
+// Shared types (match src/data/cal-pipeline.json)
+// ---------------------------------------------------------------------------
+
+export type CurvePoint = { pick: number; expected: number }
+export type CalPlayer = { player: string; year: number; pick: number; value: number; expected: number; surplus: number }
+export type SchoolRow = { school: string; rank: number; n: number; mean: number; lo: number; hi: number; beat: number }
+
+const CAL = 'California'
+
+// ---------------------------------------------------------------------------
+// 1. Draft curve: what a pick "should" produce, with Cal players on top.
+// Line = typical career value at each pick (all classes pooled, for
+// illustration). Dots = Cal players; anything above the line beat its slot.
+// ---------------------------------------------------------------------------
+
+function DotLabel(props: { cx?: number; cy?: number; payload?: CalPlayer & { label?: boolean } }) {
+  const { cx = 0, cy = 0, payload } = props
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={5} fill={CHART.accent} stroke={CHART.surface} strokeWidth={2} />
+      {payload?.label && (
+        <text x={cx + 9} y={cy + 4} fontSize={11} fill={CHART.text}>
+          {payload.player.split(' ').slice(-1)[0]}
+        </text>
+      )}
+    </g>
+  )
+}
+
+function CurveTooltip({ active, payload }: { active?: boolean; payload?: { payload: Partial<CalPlayer> & CurvePoint }[] }) {
+  if (!active || !payload?.length) return null
+  const p = payload.find((x) => x.payload.player)?.payload ?? payload[0].payload
+  return (
+    <div className="bg-[var(--bg-surface)] border border-[var(--border)] px-3 py-2 text-xs">
+      {p.player ? (
+        <>
+          <p className="text-[var(--text-primary)] mb-1">{p.player}, pick {p.pick} ({p.year})</p>
+          <p className="font-[family-name:var(--font-dm-mono)] text-[var(--text-secondary)]">
+            Actual {p.value} · expected {p.expected}
+          </p>
+        </>
+      ) : (
+        <p className="font-[family-name:var(--font-dm-mono)] text-[var(--text-secondary)]">Pick {p.pick}: typical value {p.expected}</p>
+      )}
+    </div>
+  )
+}
+
+export function DraftCurveChart({
+  curve,
+  players,
+  unit,
+  labelTop = 4,
+}: {
+  curve: CurvePoint[]
+  players: CalPlayer[]
+  unit: string
+  labelTop?: number
+}) {
+  // Label only the biggest outperformers so the chart doesn't turn into text
+  const dots = players.map((p, i) => ({ ...p, label: i < labelTop }))
+  return (
+    <div className="h-64">
+      <ResponsiveContainer width="100%" height="100%">
+        <ComposedChart margin={{ top: 10, right: 16, bottom: 8, left: 0 }}>
+          <CartesianGrid stroke={CHART.grid} vertical={false} />
+          <XAxis
+            dataKey="pick"
+            type="number"
+            domain={[0, 'dataMax']}
+            tick={{ fontSize: 11, fill: CHART.muted }}
+            tickLine={false}
+            axisLine={{ stroke: CHART.axis }}
+            label={{ value: 'Draft pick', position: 'insideBottom', offset: -4, fontSize: 11, fill: CHART.muted }}
+          />
+          <YAxis
+            tick={{ fontSize: 11, fill: CHART.muted }}
+            tickLine={false}
+            axisLine={false}
+            width={36}
+            label={{ value: unit, angle: -90, position: 'insideLeft', fontSize: 11, fill: CHART.muted, dy: 40 }}
+          />
+          <Tooltip content={<CurveTooltip />} cursor={{ stroke: CHART.axis }} />
+          <Line data={curve} dataKey="expected" type="monotone" stroke={CHART.muted} strokeWidth={2} dot={false} isAnimationActive={false} />
+          <Scatter data={dots} dataKey="value" shape={<DotLabel />} isAnimationActive={false} />
+        </ComposedChart>
+      </ResponsiveContainer>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// 2. School leaderboard: average surplus per pick with a 95% interval.
+// Dot = average, bar = the range the true average plausibly falls in.
+// A bar that crosses zero means "can't rule out average".
+// Built with positioned divs, so it stays sharp and responsive.
+// ---------------------------------------------------------------------------
+
+export function SchoolLeaderboard({
+  views,
+}: {
+  views: { key: string; label: string; unit: string; rows: SchoolRow[]; total: number }[]
+}) {
+  const [active, setActive] = useState(views[0].key)
+  const view = views.find((v) => v.key === active) ?? views[0]
+  const lo = Math.min(0, ...view.rows.map((r) => r.lo))
+  const hi = Math.max(0, ...view.rows.map((r) => r.hi))
+  const pos = (v: number) => ((v - lo) / (hi - lo)) * 100
+  const fmt = (v: number) => (view.key === 'two' ? v.toFixed(2) : v.toFixed(1))
+
+  return (
+    <div>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {views.map((v) => (
+          <button
+            key={v.key}
+            type="button"
+            onClick={() => setActive(v.key)}
+            aria-pressed={active === v.key}
+            className={`text-xs tracking-wider uppercase px-3 py-1.5 border transition-colors ${
+              active === v.key
+                ? 'border-[var(--accent)] text-[var(--accent)]'
+                : 'border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            {v.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="text-xs">
+        {view.rows.map((r, i) => {
+          const isCal = r.school === CAL
+          // One visual break where the list jumps from the top 10 to the comparison schools
+          const gap = i > 0 && view.rows[i - 1].rank <= 10 && r.rank > 11
+          return (
+            <div key={r.school}>
+              {gap && <div className="py-1 pl-8 text-[var(--text-muted)]">&middot;&middot;&middot;</div>}
+              <div
+                className={`grid grid-cols-[28px_minmax(0,120px)_1fr_44px] sm:grid-cols-[28px_150px_1fr_52px] items-center gap-2 py-1.5 ${
+                  isCal ? 'bg-[var(--accent)]/10' : ''
+                }`}
+              >
+                <span className="font-[family-name:var(--font-dm-mono)] text-right text-[var(--text-muted)]">{r.rank}</span>
+                <span className={`truncate ${isCal ? 'text-[var(--accent)] font-medium' : 'text-[var(--text-secondary)]'}`}>
+                  {r.school === CAL ? 'Cal' : r.school}
+                </span>
+                <div className="relative h-4" title={`${r.school}: ${fmt(r.mean)} (95% interval ${fmt(r.lo)} to ${fmt(r.hi)}), ${r.n} picks`}>
+                  {/* zero line */}
+                  <span className="absolute inset-y-0 w-px bg-[var(--border)]" style={{ left: `${pos(0)}%` }} />
+                  {/* 95% interval */}
+                  <span
+                    className={`absolute top-1/2 h-[2px] -translate-y-1/2 ${isCal ? 'bg-[var(--accent)]' : 'bg-[var(--text-muted)]/60'}`}
+                    style={{ left: `${pos(r.lo)}%`, width: `${pos(r.hi) - pos(r.lo)}%` }}
+                  />
+                  {/* average */}
+                  <span
+                    className={`absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-[var(--bg)] ${
+                      isCal ? 'bg-[var(--accent)]' : 'bg-[var(--text-secondary)]'
+                    }`}
+                    style={{ left: `${pos(r.mean)}%` }}
+                  />
+                </div>
+                <span className={`font-[family-name:var(--font-dm-mono)] text-right ${isCal ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
+                  {r.mean > 0 ? '+' : ''}
+                  {fmt(r.mean)}
+                </span>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      <p className="text-xs text-[var(--text-muted)] mt-4">
+        {view.unit} Dot: average per pick. Line: 95% interval. Left of the vertical line means below draft
+        slot. Ranked among {view.total} schools.
+      </p>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// 3. Cal's outperformers: expected value (hollow) vs actual value (filled)
+// for each player, sorted by how far he beat his slot.
+// ---------------------------------------------------------------------------
+
+export function OutperformersChart({ players, unit }: { players: CalPlayer[]; unit: string }) {
+  const max = Math.max(...players.map((p) => Math.max(p.value, p.expected)))
+  const pos = (v: number) => (Math.max(v, 0) / max) * 100
+  return (
+    <div>
+      <div className="space-y-3">
+        {players.map((p) => (
+          <div key={`${p.player}-${p.year}`} className="grid grid-cols-[110px_1fr_52px] sm:grid-cols-[170px_1fr_60px] items-center gap-3 text-xs">
+            <div className="min-w-0">
+              <p className="truncate text-[var(--text-primary)] text-sm">{p.player}</p>
+              <p className="font-[family-name:var(--font-dm-mono)] text-[var(--text-muted)]">
+                {p.year} &middot; pick {p.pick}
+              </p>
+            </div>
+            <div className="relative h-4" title={`${p.player}: actual ${p.value}, expected ${p.expected}`}>
+              <span className="absolute top-1/2 h-px w-full -translate-y-1/2 bg-[var(--border-subtle)]" />
+              <span
+                className="absolute top-1/2 h-[2px] -translate-y-1/2 bg-[var(--accent)]/50"
+                style={{ left: `${pos(Math.min(p.expected, p.value))}%`, width: `${Math.abs(pos(p.value) - pos(p.expected))}%` }}
+              />
+              <span
+                className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--text-muted)] bg-[var(--bg)]"
+                style={{ left: `${pos(p.expected)}%` }}
+              />
+              <span
+                className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--accent)] ring-2 ring-[var(--bg)]"
+                style={{ left: `${pos(p.value)}%` }}
+              />
+            </div>
+            <span className="font-[family-name:var(--font-dm-mono)] text-right text-[var(--accent)]">
+              {p.surplus > 0 ? '+' : ''}
+              {p.surplus}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-[var(--text-muted)] mt-4">
+        Hollow dot: {unit} expected at that pick. Filled dot: actual. Number: the difference.
+      </p>
+    </div>
+  )
+}

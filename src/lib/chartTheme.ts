@@ -2,8 +2,8 @@
 // (CSS variables are not reliable inside SVG attributes), so these mirror
 // the tokens in globals.css. Change the palette here and every chart follows.
 export const CHART = {
-  accent: '#8fb3e0', // primary series (steel blue); also Jaylen Brown
-  second: '#4fbf7f', // comparison series (lighter Celtics green); Jayson Tatum
+  accent: '#8fb3e0', // primary series (steel blue)
+  second: '#4fbf7f', // comparison series (green)
   grid: '#222b36', // gridlines
   axis: '#2e3947', // tooltip borders
   muted: '#7f8a99', // tick labels

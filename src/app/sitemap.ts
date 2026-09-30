@@ -34,8 +34,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${SITE_CONFIG.url}/projects/brown-vs-tatum`,
-      lastModified: new Date('2026-02-24'),
+      url: `${SITE_CONFIG.url}/projects/cal-pro-pipeline`,
+      lastModified: new Date('2026-09-30'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },

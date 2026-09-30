@@ -1,0 +1,693 @@
+{
+  "metadata": {
+    "classes": [
+      1980,
+      2020
+    ],
+    "eraWindow": 3,
+    "nflPicks": 11376,
+    "nbaPicks": 2402,
+    "twoSportSchools": 57,
+    "nflSchools": 61,
+    "minNfl": 40,
+    "minNba": 10,
+    "minNflOnly": 60,
+    "generatedAt": "2026-09-30T08:10:52.685381+00:00"
+  },
+  "cal": {
+    "twoSportRank": 4,
+    "twoSportMean": 0.174,
+    "twoSportLo": -0.016,
+    "twoSportHi": 0.372,
+    "nflRank": 4,
+    "nflPicks": 128,
+    "nflMean": 3.19,
+    "nflLo": -0.68,
+    "nflHi": 7.43,
+    "nbaPicks": 18,
+    "nbaMean": 4.66,
+    "nflBeatShare": 0.398,
+    "allBeatShare": 0.319
+  },
+  "twoSport": [
+    {
+      "school": "Boston Col.",
+      "rank": 1,
+      "n": 107,
+      "mean": 0.249,
+      "lo": 0.029,
+      "hi": 0.49,
+      "beat": 0.411
+    },
+    {
+      "school": "Purdue",
+      "rank": 2,
+      "n": 107,
+      "mean": 0.245,
+      "lo": 0.012,
+      "hi": 0.491,
+      "beat": 0.449
+    },
+    {
+      "school": "Pittsburgh",
+      "rank": 3,
+      "n": 143,
+      "mean": 0.245,
+      "lo": 0.056,
+      "hi": 0.446,
+      "beat": 0.413
+    },
+    {
+      "school": "California",
+      "rank": 4,
+      "n": 146,
+      "mean": 0.174,
+      "lo": -0.016,
+      "hi": 0.372,
+      "beat": 0.404
+    },
+    {
+      "school": "Wake Forest",
+      "rank": 5,
+      "n": 73,
+      "mean": 0.12,
+      "lo": -0.156,
+      "hi": 0.428,
+      "beat": 0.356
+    },
+    {
+      "school": "Georgia Tech",
+      "rank": 6,
+      "n": 110,
+      "mean": 0.099,
+      "lo": -0.072,
+      "hi": 0.275,
+      "beat": 0.327
+    },
+    {
+      "school": "Georgia",
+      "rank": 7,
+      "n": 200,
+      "mean": 0.09,
+      "lo": -0.064,
+      "hi": 0.247,
+      "beat": 0.35
+    },
+    {
+      "school": "Utah",
+      "rank": 8,
+      "n": 97,
+      "mean": 0.065,
+      "lo": -0.114,
+      "hi": 0.253,
+      "beat": 0.381
+    },
+    {
+      "school": "UCLA",
+      "rank": 9,
+      "n": 212,
+      "mean": 0.04,
+      "lo": -0.087,
+      "hi": 0.174,
+      "beat": 0.354
+    },
+    {
+      "school": "Kentucky",
+      "rank": 10,
+      "n": 139,
+      "mean": 0.038,
+      "lo": -0.113,
+      "hi": 0.195,
+      "beat": 0.331
+    },
+    {
+      "school": "Michigan",
+      "rank": 23,
+      "n": 215,
+      "mean": -0.006,
+      "lo": -0.153,
+      "hi": 0.157,
+      "beat": 0.316
+    },
+    {
+      "school": "North Carolina",
+      "rank": 25,
+      "n": 189,
+      "mean": -0.013,
+      "lo": -0.146,
+      "hi": 0.135,
+      "beat": 0.36
+    },
+    {
+      "school": "Notre Dame",
+      "rank": 26,
+      "n": 227,
+      "mean": -0.016,
+      "lo": -0.132,
+      "hi": 0.106,
+      "beat": 0.374
+    },
+    {
+      "school": "Arizona",
+      "rank": 27,
+      "n": 155,
+      "mean": -0.019,
+      "lo": -0.153,
+      "hi": 0.116,
+      "beat": 0.329
+    },
+    {
+      "school": "Stanford",
+      "rank": 30,
+      "n": 154,
+      "mean": -0.024,
+      "lo": -0.167,
+      "hi": 0.131,
+      "beat": 0.312
+    },
+    {
+      "school": "USC",
+      "rank": 31,
+      "n": 246,
+      "mean": -0.027,
+      "lo": -0.155,
+      "hi": 0.111,
+      "beat": 0.305
+    },
+    {
+      "school": "Florida",
+      "rank": 32,
+      "n": 235,
+      "mean": -0.03,
+      "lo": -0.158,
+      "hi": 0.106,
+      "beat": 0.353
+    },
+    {
+      "school": "Texas",
+      "rank": 35,
+      "n": 194,
+      "mean": -0.055,
+      "lo": -0.194,
+      "hi": 0.089,
+      "beat": 0.33
+    },
+    {
+      "school": "Alabama",
+      "rank": 42,
+      "n": 233,
+      "mean": -0.08,
+      "lo": -0.193,
+      "hi": 0.039,
+      "beat": 0.352
+    },
+    {
+      "school": "Washington",
+      "rank": 43,
+      "n": 189,
+      "mean": -0.091,
+      "lo": -0.224,
+      "hi": 0.052,
+      "beat": 0.286
+    },
+    {
+      "school": "Ohio St.",
+      "rank": 45,
+      "n": 257,
+      "mean": -0.093,
+      "lo": -0.209,
+      "hi": 0.026,
+      "beat": 0.342
+    },
+    {
+      "school": "Oregon",
+      "rank": 51,
+      "n": 136,
+      "mean": -0.132,
+      "lo": -0.265,
+      "hi": 0.001,
+      "beat": 0.316
+    },
+    {
+      "school": "Kansas",
+      "rank": 53,
+      "n": 99,
+      "mean": -0.148,
+      "lo": -0.309,
+      "hi": 0.029,
+      "beat": 0.263
+    }
+  ],
+  "nflOnly": [
+    {
+      "school": "Purdue",
+      "rank": 1,
+      "n": 87,
+      "mean": 7.648,
+      "lo": 2.838,
+      "hi": 12.785,
+      "beat": 0.506
+    },
+    {
+      "school": "Boston Col.",
+      "rank": 2,
+      "n": 94,
+      "mean": 5.757,
+      "lo": 1.126,
+      "hi": 10.673,
+      "beat": 0.415
+    },
+    {
+      "school": "Pittsburgh",
+      "rank": 3,
+      "n": 130,
+      "mean": 5.115,
+      "lo": 1.133,
+      "hi": 9.228,
+      "beat": 0.423
+    },
+    {
+      "school": "California",
+      "rank": 4,
+      "n": 128,
+      "mean": 3.191,
+      "lo": -0.675,
+      "hi": 7.428,
+      "beat": 0.398
+    },
+    {
+      "school": "Louisville",
+      "rank": 5,
+      "n": 82,
+      "mean": 2.983,
+      "lo": -1.487,
+      "hi": 7.906,
+      "beat": 0.39
+    },
+    {
+      "school": "Mississippi",
+      "rank": 6,
+      "n": 91,
+      "mean": 2.912,
+      "lo": -0.666,
+      "hi": 6.644,
+      "beat": 0.418
+    },
+    {
+      "school": "Maryland",
+      "rank": 7,
+      "n": 96,
+      "mean": 2.308,
+      "lo": -1.265,
+      "hi": 5.976,
+      "beat": 0.385
+    },
+    {
+      "school": "Georgia Tech",
+      "rank": 8,
+      "n": 81,
+      "mean": 2.239,
+      "lo": -1.476,
+      "hi": 6.383,
+      "beat": 0.309
+    },
+    {
+      "school": "Georgia",
+      "rank": 9,
+      "n": 179,
+      "mean": 1.823,
+      "lo": -1.322,
+      "hi": 4.904,
+      "beat": 0.346
+    },
+    {
+      "school": "Utah",
+      "rank": 10,
+      "n": 84,
+      "mean": 1.46,
+      "lo": -1.969,
+      "hi": 5.179,
+      "beat": 0.381
+    },
+    {
+      "school": "Michigan",
+      "rank": 18,
+      "n": 183,
+      "mean": 0.549,
+      "lo": -2.582,
+      "hi": 4.033,
+      "beat": 0.317
+    },
+    {
+      "school": "Kentucky",
+      "rank": 19,
+      "n": 76,
+      "mean": 0.441,
+      "lo": -3.325,
+      "hi": 4.662,
+      "beat": 0.289
+    },
+    {
+      "school": "Notre Dame",
+      "rank": 24,
+      "n": 208,
+      "mean": -0.157,
+      "lo": -2.568,
+      "hi": 2.199,
+      "beat": 0.375
+    },
+    {
+      "school": "UCLA",
+      "rank": 25,
+      "n": 161,
+      "mean": -0.499,
+      "lo": -3.233,
+      "hi": 2.324,
+      "beat": 0.329
+    },
+    {
+      "school": "Stanford",
+      "rank": 27,
+      "n": 134,
+      "mean": -0.559,
+      "lo": -3.575,
+      "hi": 2.619,
+      "beat": 0.313
+    },
+    {
+      "school": "USC",
+      "rank": 31,
+      "n": 227,
+      "mean": -0.685,
+      "lo": -3.239,
+      "hi": 2.017,
+      "beat": 0.304
+    },
+    {
+      "school": "North Carolina",
+      "rank": 32,
+      "n": 137,
+      "mean": -0.832,
+      "lo": -3.64,
+      "hi": 2.092,
+      "beat": 0.358
+    },
+    {
+      "school": "Florida",
+      "rank": 35,
+      "n": 214,
+      "mean": -1.131,
+      "lo": -3.542,
+      "hi": 1.448,
+      "beat": 0.341
+    },
+    {
+      "school": "Ohio St.",
+      "rank": 36,
+      "n": 233,
+      "mean": -1.176,
+      "lo": -3.415,
+      "hi": 1.126,
+      "beat": 0.356
+    },
+    {
+      "school": "Arizona",
+      "rank": 37,
+      "n": 110,
+      "mean": -1.178,
+      "lo": -3.907,
+      "hi": 1.809,
+      "beat": 0.3
+    },
+    {
+      "school": "Alabama",
+      "rank": 46,
+      "n": 209,
+      "mean": -1.614,
+      "lo": -3.749,
+      "hi": 0.582,
+      "beat": 0.364
+    },
+    {
+      "school": "Texas",
+      "rank": 47,
+      "n": 167,
+      "mean": -1.623,
+      "lo": -4.278,
+      "hi": 1.121,
+      "beat": 0.323
+    },
+    {
+      "school": "Washington",
+      "rank": 49,
+      "n": 165,
+      "mean": -1.727,
+      "lo": -4.488,
+      "hi": 1.165,
+      "beat": 0.279
+    },
+    {
+      "school": "Oregon",
+      "rank": 56,
+      "n": 116,
+      "mean": -2.723,
+      "lo": -5.578,
+      "hi": 0.213,
+      "beat": 0.328
+    }
+  ],
+  "calNfl": [
+    {
+      "player": "Aaron Rodgers",
+      "year": 2005,
+      "pick": 24,
+      "value": 169.0,
+      "expected": 41.2,
+      "surplus": 127.8
+    },
+    {
+      "player": "Hardy Nickerson",
+      "year": 1987,
+      "pick": 122,
+      "value": 97.0,
+      "expected": 11.0,
+      "surplus": 86.0
+    },
+    {
+      "player": "Cameron Jordan",
+      "year": 2011,
+      "pick": 24,
+      "value": 109.0,
+      "expected": 39.9,
+      "surplus": 69.1
+    },
+    {
+      "player": "Keenan Allen",
+      "year": 2013,
+      "pick": 76,
+      "value": 80.0,
+      "expected": 23.7,
+      "surplus": 56.3
+    },
+    {
+      "player": "DeSean Jackson",
+      "year": 2008,
+      "pick": 49,
+      "value": 75.0,
+      "expected": 27.7,
+      "surplus": 47.3
+    },
+    {
+      "player": "Doug Riesenberg",
+      "year": 1987,
+      "pick": 168,
+      "value": 56.0,
+      "expected": 8.8,
+      "surplus": 47.2
+    },
+    {
+      "player": "Brandon Mebane",
+      "year": 2007,
+      "pick": 85,
+      "value": 63.0,
+      "expected": 17.4,
+      "surplus": 45.6
+    },
+    {
+      "player": "Mitchell Schwartz",
+      "year": 2012,
+      "pick": 37,
+      "value": 75.0,
+      "expected": 30.1,
+      "surplus": 44.9
+    },
+    {
+      "player": "Marvin Jones",
+      "year": 2012,
+      "pick": 166,
+      "value": 53.0,
+      "expected": 8.8,
+      "surplus": 44.2
+    },
+    {
+      "player": "Chidi Ahanotu",
+      "year": 1993,
+      "pick": 145,
+      "value": 55.0,
+      "expected": 11.8,
+      "surplus": 43.2
+    }
+  ],
+  "calNba": [
+    {
+      "player": "Jason Kidd",
+      "year": 1994,
+      "pick": 2,
+      "value": 138.6,
+      "expected": 74.9,
+      "surplus": 63.7
+    },
+    {
+      "player": "Kevin Johnson",
+      "year": 1987,
+      "pick": 7,
+      "value": 92.8,
+      "expected": 42.4,
+      "surplus": 50.4
+    },
+    {
+      "player": "Ryan Anderson",
+      "year": 2008,
+      "pick": 21,
+      "value": 46.7,
+      "expected": 22.7,
+      "surplus": 24.0
+    },
+    {
+      "player": "Jaylen Brown",
+      "year": 2016,
+      "pick": 3,
+      "value": 47.5,
+      "expected": 33.1,
+      "surplus": 14.4
+    },
+    {
+      "player": "Francisco Elson",
+      "year": 1999,
+      "pick": 41,
+      "value": 11.7,
+      "expected": 7.7,
+      "surplus": 4.0
+    },
+    {
+      "player": "Leon Powe",
+      "year": 2006,
+      "pick": 49,
+      "value": 12.0,
+      "expected": 8.9,
+      "surplus": 3.1
+    }
+  ],
+  "curves": {
+    "nfl": [
+      {
+        "pick": 1,
+        "expected": 74.5
+      },
+      {
+        "pick": 5,
+        "expected": 52.6
+      },
+      {
+        "pick": 10,
+        "expected": 48.3
+      },
+      {
+        "pick": 16,
+        "expected": 40.7
+      },
+      {
+        "pick": 24,
+        "expected": 37.7
+      },
+      {
+        "pick": 32,
+        "expected": 34.5
+      },
+      {
+        "pick": 48,
+        "expected": 27.3
+      },
+      {
+        "pick": 64,
+        "expected": 23.8
+      },
+      {
+        "pick": 96,
+        "expected": 16.4
+      },
+      {
+        "pick": 128,
+        "expected": 11.6
+      },
+      {
+        "pick": 160,
+        "expected": 9.3
+      },
+      {
+        "pick": 192,
+        "expected": 7.8
+      },
+      {
+        "pick": 224,
+        "expected": 6.4
+      },
+      {
+        "pick": 256,
+        "expected": 4.9
+      }
+    ],
+    "nba": [
+      {
+        "pick": 1,
+        "expected": 73.8
+      },
+      {
+        "pick": 3,
+        "expected": 56.8
+      },
+      {
+        "pick": 5,
+        "expected": 51.3
+      },
+      {
+        "pick": 10,
+        "expected": 35.6
+      },
+      {
+        "pick": 15,
+        "expected": 22.9
+      },
+      {
+        "pick": 21,
+        "expected": 18.8
+      },
+      {
+        "pick": 30,
+        "expected": 14.6
+      },
+      {
+        "pick": 40,
+        "expected": 7.6
+      },
+      {
+        "pick": 50,
+        "expected": 3.6
+      },
+      {
+        "pick": 60,
+        "expected": 1.6
+      }
+    ]
+  }
+}

@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   // The date night map project was removed; send any old links to the projects list
   redirects: async () => [
     { source: '/projects/sf-food-map', destination: '/projects', permanent: true },
+    // Brown vs. Tatum was retired once they were no longer teammates; the Cal study replaces it
+    { source: '/projects/brown-vs-tatum', destination: '/projects/cal-pro-pipeline', permanent: true },
   ],
   headers: async () => [
     {

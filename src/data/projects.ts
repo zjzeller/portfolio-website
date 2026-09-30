@@ -12,13 +12,13 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/zjzeller/thelook-analytics-dbt',
   },
   {
-    href: '/projects/brown-vs-tatum',
-    title: 'The Case for Jaylen Brown',
+    href: '/projects/cal-pro-pipeline',
+    title: "Cal's Pro Pipeline: Beating the Draft Board",
     description:
-      'A statistical deep-dive comparing Jaylen Brown and Jayson Tatum across scoring, clutch performance, and advanced metrics.',
-    tags: ['NBA', 'Python', 'Data Visualization'],
-    tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
-    githubUrl: 'https://github.com/zjzeller/portfolio-website',
+      'Do Cal players outperform their draft slot? A model of expected career value for every NFL and NBA pick since 1980 ranks Cal 4th of 57 schools.',
+    tags: ['Python', 'scikit-learn', 'Sports Analytics'],
+    tools: ['Python', 'Pandas', 'scikit-learn', 'Recharts', 'Next.js'],
+    githubUrl: 'https://github.com/zjzeller/portfolio-website/blob/main/scripts/cal-pipeline.py',
   },
   {
     href: '/projects/baby-names',
