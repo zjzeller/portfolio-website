@@ -29,7 +29,7 @@ src/
     resume/
   components/
     analytics/    # PageViewTracker, ResumeTracker
-    charts/       # Recharts wrappers (SeasonLineChart, ComparisonBarChart, PlayerRadarChart, ClutchChart)
+    charts/       # Recharts wrappers (SeasonLineChart, ComparisonBarChart, PlayerRadarChart, ClutchChart, RetentionCharts incl. CohortHeatmap)
     layout/       # Header, Footer
     map/          # SFMapClient (leaflet), SpotDetailPanel, SpotListItem
     ui/           # Button (only reusable UI component so far)

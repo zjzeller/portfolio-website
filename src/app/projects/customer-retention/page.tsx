@@ -2,6 +2,7 @@ import { pageMetadata } from '@/lib/metadata'
 import { Github } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import {
+  CohortHeatmap,
   RetentionCurveChart,
   ChannelRepeatChart,
   Month1ByYearChart,
@@ -79,6 +80,29 @@ export default function CustomerRetentionPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* AT A GLANCE: the lead visual. Every cohort from the fct_cohort_retention mart. */}
+      <section className="mb-20 animate-reveal">
+        <SectionHeader label="At a Glance" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
+          Every cohort, month by month
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          Each row is the group of customers whose first order fell in that quarter. Each column is a
+          month after that first order, and a brighter cell means more of them ordered again. Two
+          things stand out: most cells are dark (few customers ever return), and the rows brighten
+          toward the bottom (recent customers return more often). The findings below dig into both.
+        </p>
+        <CohortHeatmap rows={data.cohortHeatmap.rows} />
+        <DataTable
+          columns={['First order quarter', 'Customers', ...Array.from({ length: 12 }, (_, i) => `M${i + 1}`)]}
+          rows={data.cohortHeatmap.rows.map((r) => [
+            r.quarter,
+            r.customers.toLocaleString(),
+            ...r.rates.map((v) => (v === null ? '' : `${v}%`)),
+          ])}
+        />
       </section>
 
       {/* THE MODEL */}
