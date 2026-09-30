@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f4f5f7;
-  --bg-surface: #ffffff;
-  --bg-elevated: #eceef1;
-  --border: #d4d7dd;
-  --border-subtle: #e4e6ea;
-  --text-primary: #101820;
-  --text-secondary: #3d4551;
-  --text-muted: #7a808c;
-  --accent: #1e3a5f;
-  --accent-dim: #2c4f7c;
-  --highlight: #5b8ba0;
-  --highlight-dim: #4a7a90;
+  /* Dark slate theme. The navy accent from the light theme is lifted to a
+     lighter steel blue so it stays readable on a dark background. */
+  --bg: #0f1419;
+  --bg-surface: #161c24;
+  --bg-elevated: #1d2530;
+  --border: #2e3947;
+  --border-subtle: #222b36;
+  --text-primary: #e6e9ee;
+  --text-secondary: #b4bcc8;
+  --text-muted: #7f8a99;
+  --accent: #8fb3e0;
+  --accent-dim: #a9c5ea;       /* hover: a touch lighter on dark */
+  --accent-contrast: #0f1419;  /* text that sits on the accent color */
+  --highlight: #6fa3b8;
+  --highlight-dim: #5b8ba0;
+  color-scheme: dark;          /* dark scrollbars and form controls */
 }
 
 @theme inline {
@@ -48,7 +52,7 @@ body {
 /* Selection */
 ::selection {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--accent-contrast);
 }
 
 /* Scrollbar */

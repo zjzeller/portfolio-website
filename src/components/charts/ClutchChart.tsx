@@ -10,14 +10,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { CHART } from '@/lib/chartTheme'
 
 interface ClutchChartProps {
   data: { label: string; brown: number; tatum: number }[]
   formatValue?: (value: number) => string
 }
 
-const BROWN_COLOR = '#1e3a5f'
-const TATUM_COLOR = '#007A33'
+const BROWN_COLOR = CHART.accent
+const TATUM_COLOR = CHART.second
 
 interface TooltipPayloadEntry {
   name: string
@@ -41,14 +42,15 @@ function CustomTooltip({
   return (
     <div
       style={{
-        backgroundColor: '#ffffff',
-        border: '1px solid #d4d7dd',
+        backgroundColor: CHART.surface,
+        color: CHART.text,
+        border: `1px solid ${CHART.axis}`,
         borderRadius: 8,
         padding: '8px 12px',
         fontSize: 13,
       }}
     >
-      <p style={{ margin: 0, marginBottom: 4, color: '#7a808c', fontSize: 12 }}>
+      <p style={{ margin: 0, marginBottom: 4, color: CHART.muted, fontSize: 12 }}>
         {label}
       </p>
       {payload.map((entry: TooltipPayloadEntry) => (
@@ -74,18 +76,18 @@ export default function ClutchChart({
 }: ClutchChartProps) {
   return (
     <div className="border-t-2 border-[var(--border)]">
-      <p className="text-xs text-gray-500 mt-2 mb-3 tracking-wide uppercase">
+      <p className="text-xs text-[var(--text-muted)] mt-2 mb-3 tracking-wide uppercase">
         Clutch Performance: Last 5 Minutes, Within 5 Points
       </p>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e4e6ea" />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 12, fill: '#7a808c' }}
+            tick={{ fontSize: 12, fill: CHART.muted }}
             tickLine={false}
           />
-          <YAxis tick={{ fontSize: 12, fill: '#7a808c' }} tickLine={false} />
+          <YAxis tick={{ fontSize: 12, fill: CHART.muted }} tickLine={false} />
           <Tooltip
             content={<CustomTooltip formatValue={formatValue} />}
           />

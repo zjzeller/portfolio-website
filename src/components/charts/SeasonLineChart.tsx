@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { CHART } from '@/lib/chartTheme'
 
 interface SeasonLineChartProps {
   data: { year: string; brown: number | null; tatum: number | null }[]
@@ -17,8 +18,8 @@ interface SeasonLineChartProps {
   formatValue?: (value: number) => string
 }
 
-const BROWN_COLOR = '#1e3a5f'
-const TATUM_COLOR = '#007A33'
+const BROWN_COLOR = CHART.accent
+const TATUM_COLOR = CHART.second
 
 interface TooltipPayloadEntry {
   name: string
@@ -44,14 +45,15 @@ function CustomTooltip({
   return (
     <div
       style={{
-        backgroundColor: '#ffffff',
-        border: '1px solid #d4d7dd',
+        backgroundColor: CHART.surface,
+        color: CHART.text,
+        border: `1px solid ${CHART.axis}`,
         borderRadius: 8,
         padding: '8px 12px',
         fontSize: 13,
       }}
     >
-      <p style={{ margin: 0, marginBottom: 4, color: '#7a808c', fontSize: 12 }}>
+      <p style={{ margin: 0, marginBottom: 4, color: CHART.muted, fontSize: 12 }}>
         {label}
       </p>
       {payload.map((entry: TooltipPayloadEntry, index: number) => (
@@ -79,13 +81,13 @@ export default function SeasonLineChart({
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e4e6ea" />
+        <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
         <XAxis
           dataKey="year"
-          tick={{ fontSize: 12, fill: '#7a808c' }}
+          tick={{ fontSize: 12, fill: CHART.muted }}
           tickLine={false}
         />
-        <YAxis tick={{ fontSize: 12, fill: '#7a808c' }} tickLine={false} />
+        <YAxis tick={{ fontSize: 12, fill: CHART.muted }} tickLine={false} />
         <Tooltip
           content={
             <CustomTooltip statLabel={statLabel} formatValue={formatValue} />

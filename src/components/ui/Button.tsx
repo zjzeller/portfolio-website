@@ -13,7 +13,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           'inline-flex items-center justify-center font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
           {
-            'bg-[var(--accent)] text-white hover:bg-[var(--accent-dim)] active:bg-[var(--accent-dim)]': variant === 'default',
+            'bg-[var(--accent)] text-[var(--accent-contrast)] hover:bg-[var(--accent-dim)] active:bg-[var(--accent-dim)]': variant === 'default',
             'border border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent)] hover:text-[var(--accent)]': variant === 'outline',
             'text-[var(--text-secondary)] hover:text-[var(--accent)]': variant === 'ghost',
             'h-8 px-3 text-xs tracking-wide uppercase': size === 'sm',

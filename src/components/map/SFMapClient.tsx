@@ -12,7 +12,7 @@ import { MAP_CENTER, MAP_ZOOM } from '@/data/sf-food-spots'
 // ---------------------------------------------------------------------------
 
 function makeMarkerIcon(num: number, active: boolean): L.DivIcon {
-  const bg = active ? '#5b8ba0' : '#1e3a5f'
+  const bg = active ? '#a9c5ea' : '#8fb3e0'
   const size = active ? 36 : 32
 
   return L.divIcon({
@@ -32,7 +32,7 @@ function makeMarkerIcon(num: number, active: boolean): L.DivIcon {
       ">
         <span style="
           transform:rotate(45deg);
-          color:#fff;
+          color:#0f1419;
           font-family:'DM Mono',monospace;
           font-size:${active ? 14 : 12}px;
           font-weight:500;
@@ -89,11 +89,20 @@ export default function SFMapClient({ spots, activeSpotId, onSpotClick }: SFMapC
       style={{ width: '100%', height: '100%' }}
       className="z-0"
     >
+      {/*
+        Esri Dark Gray Canvas: free, no API key, matches the dark theme.
+        CARTO basemaps now return an "API KEY REQUIRED" placeholder without a key.
+        Two layers: the base map, then place labels on top.
+        Esri's URL order is {z}/{y}/{x} (row before column), unlike most tile services.
+      */}
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        subdomains="abcd"
-        maxZoom={20}
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        attribution="Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors"
+        maxZoom={16}
+      />
+      <TileLayer
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+        maxZoom={16}
       />
 
       {spots.map((spot) => (

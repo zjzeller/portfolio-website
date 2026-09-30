@@ -15,11 +15,12 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from 'recharts'
+import { CHART } from '@/lib/chartTheme'
 
 // Single-series charts use the site accent; grid, axes and text stay neutral.
-const ACCENT = '#1e3a5f'
-const GRID = '#e4e6ea'
-const MUTED = '#7a808c'
+const ACCENT = CHART.accent
+const GRID = CHART.grid
+const MUTED = CHART.muted
 
 const axisTick = { fontSize: 12, fill: MUTED }
 
@@ -113,7 +114,7 @@ export function RetentionCurveChart({ data }: { data: CurvePoint[] }) {
           stroke={ACCENT}
           strokeWidth={2}
           dot={false}
-          activeDot={{ r: 5, stroke: '#ffffff', strokeWidth: 2 }}
+          activeDot={{ r: 5, stroke: CHART.surface, strokeWidth: 2 }}
         />
       </LineChart>
     </ResponsiveContainer>
@@ -148,7 +149,7 @@ export function ChannelRepeatChart({ data, overall }: { data: ChannelPoint[]; ov
         <YAxis type="category" dataKey="channel" tick={axisTick} tickLine={false} axisLine={false} width={80} />
         <ReferenceLine x={overall} stroke={MUTED} strokeDasharray="4 4" />
         <Tooltip
-          cursor={{ fill: 'rgba(30, 58, 95, 0.06)' }}
+          cursor={{ fill: CHART.cursorFill }}
           content={({ active, payload }) => {
             if (!active || !payload?.length) return null
             const p = payload[0].payload as ChannelPoint
@@ -196,7 +197,7 @@ export function Month1ByYearChart({ data }: { data: YearPoint[] }) {
           width={48}
         />
         <Tooltip
-          cursor={{ fill: 'rgba(30, 58, 95, 0.06)' }}
+          cursor={{ fill: CHART.cursorFill }}
           content={({ active, payload }) => {
             if (!active || !payload?.length) return null
             const p = payload[0].payload as YearPoint

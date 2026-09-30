@@ -56,19 +56,22 @@ src/
 ### CSS Variables (defined in `src/app/globals.css`)
 
 ```
---bg              #f4f5f7   page background
---bg-surface      #ffffff   card/surface background
---bg-elevated     #eceef1   hover state, elevated surface
---border          #d4d7dd   primary border
---border-subtle   #e4e6ea   light dividers
---text-primary    #101820   headings, body
---text-secondary  #3d4551   supporting text
---text-muted      #7a808c   captions, labels
---accent          #1e3a5f   primary accent (navy)
---accent-dim      #2c4f7c   hover accent
---highlight       #5b8ba0   secondary accent (steel blue)
---highlight-dim   #4a7a90   hover highlight
+--bg              #0f1419   page background (dark slate)
+--bg-surface      #161c24   card/surface background
+--bg-elevated     #1d2530   hover state, elevated surface
+--border          #2e3947   primary border
+--border-subtle   #222b36   light dividers
+--text-primary    #e6e9ee   headings, body
+--text-secondary  #b4bcc8   supporting text
+--text-muted      #7f8a99   captions, labels
+--accent          #8fb3e0   primary accent (steel blue)
+--accent-dim      #a9c5ea   hover accent
+--accent-contrast #0f1419   text on top of the accent (e.g. primary button)
+--highlight       #6fa3b8   secondary accent
+--highlight-dim   #5b8ba0   hover highlight
 ```
+
+Chart colors live in `src/lib/chartTheme.ts` (Recharts needs literal hex values). Keep them in sync with the tokens above.
 
 Always use CSS variables for color, never raw hex values (e.g., `text-[var(--accent)]` not `text-[#1e3a5f]`).
 

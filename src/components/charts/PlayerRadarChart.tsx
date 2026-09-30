@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts'
+import { CHART } from '@/lib/chartTheme'
 
 interface PlayerRadarChartProps {
   data: { category: string; brown: number; tatum: number; fullMark: number }[]
@@ -21,8 +22,8 @@ interface TooltipPayloadEntry {
   payload: { category: string }
 }
 
-const BROWN_COLOR = '#1e3a5f'
-const TATUM_COLOR = '#007A33'
+const BROWN_COLOR = CHART.accent
+const TATUM_COLOR = CHART.second
 
 const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: TooltipPayloadEntry[] }) => {
   if (!active || !payload || payload.length < 2) return null
@@ -30,8 +31,9 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Toolti
   return (
     <div
       style={{
-        backgroundColor: '#ffffff',
-        border: '1px solid #d4d7dd',
+        backgroundColor: CHART.surface,
+        color: CHART.text,
+        border: `1px solid ${CHART.axis}`,
         padding: '8px 12px',
         borderRadius: '4px',
       }}
@@ -67,10 +69,10 @@ export default function PlayerRadarChart({ data }: PlayerRadarChartProps) {
   return (
     <ResponsiveContainer width="100%" height={400}>
       <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data}>
-        <PolarGrid stroke="#e4e6ea" />
+        <PolarGrid stroke={CHART.grid} />
         <PolarAngleAxis
           dataKey="category"
-          tick={{ fontSize: 12, fill: '#7a808c' }}
+          tick={{ fontSize: 12, fill: CHART.muted }}
         />
         <PolarRadiusAxis tick={false} axisLine={false} />
         <Radar

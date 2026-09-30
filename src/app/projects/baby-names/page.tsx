@@ -3,8 +3,6 @@
 import { useState, useMemo } from 'react'
 import { Github } from 'lucide-react'
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
@@ -105,7 +103,7 @@ function NamePredictor() {
 
       {notFound && (
         <p className="text-sm text-[var(--text-muted)] italic mb-6">
-          "{query}" isn&apos;t in the top 300 names — either it&apos;s rare or spelled differently in SSA records.
+          &ldquo;{query}&rdquo; isn&apos;t in the top 300 names — either it&apos;s rare or spelled differently in SSA records.
         </p>
       )}
 
@@ -440,16 +438,18 @@ export default function BabyNamesPage() {
           means the name is ten times more common there than anywhere else.
         </p>
         <div className="grid gap-px bg-[var(--border)]">
-          <div className="bg-[var(--bg-elevated)] px-6 py-3 grid grid-cols-4 text-xs tracking-wider uppercase text-[var(--text-muted)]">
+          <div className="bg-[var(--bg-elevated)] px-4 sm:px-6 py-3 grid grid-cols-4 gap-2 text-xs sm:tracking-wider uppercase text-[var(--text-muted)]">
             <span>Name</span>
             <span>State</span>
             <span className="text-right">State share</span>
-            <span className="text-right">Overrepresentation</span>
+            {/* Full word is too wide for a phone column, so phones get the short form */}
+            <span className="text-right"><span className="sm:hidden">Overrep.</span><span className="hidden sm:inline">Overrepresentation</span></span>
           </div>
-          {data.regionalHighlights.map((r) => (
+          {data.regionalHighlights.map((r, i) => (
             <div
-              key={`${r.name}-${r.state}`}
-              className="bg-[var(--bg-surface)] px-6 py-4 grid grid-cols-4 items-center"
+              // Willie appears twice for Mississippi (once per gender), so name + state isn't unique
+              key={`${r.name}-${r.state}-${i}`}
+              className="bg-[var(--bg-surface)] px-4 sm:px-6 py-4 grid grid-cols-4 gap-2 items-center"
             >
               <span className="font-[family-name:var(--font-playfair)] text-base">{r.name}</span>
               <span className="text-sm text-[var(--text-secondary)]">
