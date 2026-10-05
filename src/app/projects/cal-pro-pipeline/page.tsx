@@ -102,24 +102,26 @@ export default function CalProPipelinePage() {
         {/* The answer first: a reader who stops here still gets the point */}
         <p className="section-label mt-10">The Takeaway</p>
         <p className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl leading-snug mt-3 max-w-3xl">
-          The Cal teams I grew up watching really were special. For one decade under one coaching staff, Cal
-          turned out pros who outplayed their draft position more than any other school in the country. It was
-          real, it was not permanent, and the way college sports works now makes it hard to repeat.
+          The Cal teams I grew up watching were every bit as good as I remembered. For one decade, under one
+          coaching staff, Cal sent out pros who beat their draft position more than any school in the country.
+          Then it stopped. And college sports has changed so much since that it may never happen again.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          The tailgates outside Memorial Stadium were already wild by the time the gates opened on September 27,
-          2003. Inside, every seat was filled and the crowd roared as third-ranked USC came to Berkeley. Three
-          overtimes later, Cal had won and the stands emptied onto the field. I was seven, swept along with my
-          parents and siblings, and I have been chasing that feeling ever since.
+          Memorial Stadium on September 27, 2003 started loud and only got louder. The tailgates outside were a
+          happy mess by the time the gates opened. Inside, every seat was taken, and when third-ranked USC came to
+          Berkeley the crowd barely sat down. Three overtimes later Cal had won, and thousands of us poured onto
+          the field. I was seven. My parents and siblings held on to me, and I held on to the moment. I never
+          really let go.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
-          We drove down from Napa for games all through my childhood. By 2006 I was going with a mohawk dyed
-          blue on one side and gold on the other.
+          We drove down from Napa for games all through my childhood, usually as a family, sometimes just my dad
+          and me. By 2006 I was showing up with a mohawk dyed blue on one side and gold on the other.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
-          Cal doesn&apos;t feel like that anymore, and I wanted to know: were those years as special as they
-          felt, or am I remembering a few famous names? So I built a model of every NFL and NBA draft pick since{' '}
-          {m.classes[0]}. As a fan I wanted the answer to be yes, which is why I then tried to prove it wrong.
+          Cal doesn&apos;t feel like that anymore. So I wanted to know whether those years were as special as I
+          remember, or whether I was just remembering a few famous names. I built a model of every NFL and NBA
+          draft pick since {m.classes[0]}. I wanted the answer to be yes. That is exactly why I then tried to
+          prove myself wrong.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
@@ -159,9 +161,10 @@ export default function CalProPipelinePage() {
           Judge players against their draft slot, not each other
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          A #1 pick is supposed to be great, so raw career totals mostly measure where a school&apos;s players
-          got drafted. The fairer question is whether they did better than a typical player taken at the same
-          spot. That&apos;s the same logic as judging a sales rep against quota instead of total revenue.
+          A #1 pick is supposed to be great, so raw career totals mostly tell you where a school&apos;s players
+          were drafted, not how well they played once they got there. The fairer question is whether they beat a
+          typical player taken at the same spot. Think of judging a sales rep against quota instead of total
+          revenue.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           For football, career value is Pro Football Reference&apos;s <Metric>Approximate Value</Metric>, one number
@@ -236,11 +239,12 @@ export default function CalProPipelinePage() {
           At first glance, yes: #{cal.twoSportRank} of {m.twoSportSchools} over 40 years
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          With both sports on one scale, Cal players beat their draft slot by more than players from all but
-          three schools, ahead of UCLA, Kentucky, Stanford, USC and Alabama. Football alone says the same (#
-          {cal.nflRank} of {m.nflSchools}). Basketball alone puts Cal #{cal.nbaRank} of {m.nbaSchools}, though{' '}
-          {cal.nbaPicks} picks is too few to say more. The two I watched most at Haas Pavilion, Leon Powe dunking
-          on people and Ryan Anderson hitting threes, both beat their slot. Use the buttons to switch sports.
+          Put both sports on one scale and Cal&apos;s players beat their draft slots by more than players from all
+          but three schools, ahead of UCLA, Kentucky, Stanford, USC and Alabama. Football alone says the same (#
+          {cal.nflRank} of {m.nflSchools}). Basketball alone has Cal #{cal.nbaRank} of {m.nbaSchools}, though{' '}
+          {cal.nbaPicks} picks is too few to say much. It still fits what I saw at Haas Pavilion, where Leon Powe
+          dunked on people and Ryan Anderson drained threes. Both beat their slot. Use the buttons to switch
+          sports.
         </p>
         <SchoolLeaderboard
           both={{
@@ -263,9 +267,9 @@ export default function CalProPipelinePage() {
           }}
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          A good result, but a soft one. Cal&apos;s line crosses zero, and shuffling players randomly between
-          schools puts some school this far ahead <Metric>{pct(stress.luckAllTime.anySchool)}</Metric> of the
-          time. A 40-year ranking can&apos;t separate a real edge from a lucky one.
+          A good result, but a soft one. Cal&apos;s line crosses zero, and if you shuffle players between schools
+          at random, some school lands this far ahead <Metric>{pct(stress.luckAllTime.anySchool)}</Metric> of the
+          time. Forty years of data can&apos;t tell a real edge from a lucky one.
         </p>
       </section>
 
@@ -276,20 +280,20 @@ export default function CalProPipelinePage() {
           It wasn&apos;t the school. It was a decade.
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          A 40-year ranking assumes a school is the same thing for 40 years. It isn&apos;t. If beating the draft
-          board were a lasting trait of a school, schools that did it in one decade would do it in the next. They
-          don&apos;t: how a school&apos;s picks did in the {stress.decades[0].from} tells you nothing about the{' '}
+          A 40-year ranking quietly assumes a school stays the same for 40 years. It doesn&apos;t. If beating the
+          draft board were a lasting trait, schools that did it in one decade would do it again in the next. They
+          don&apos;t. How a school&apos;s picks did in the {stress.decades[0].from} says nothing about the{' '}
           {stress.decades[0].to} (correlation <Metric>{stress.decades[0].correlation.toFixed(2)}</Metric>, where 1
-          is a perfect match and 0 is none), and the {stress.decades[1].from} tell you nothing about the{' '}
-          {stress.decades[1].to} (<Metric>{Math.abs(stress.decades[1].correlation).toFixed(2)}</Metric>). Players,
-          coaches and systems all turn over.
+          is a perfect match and 0 is none), and the {stress.decades[1].from} say nothing about the{' '}
+          {stress.decades[1].to} (<Metric>{Math.abs(stress.decades[1].correlation).toFixed(2)}</Metric>). Players
+          leave. Coaches leave. Systems change.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Cal shows it clearly. From {stress.early.years[0]} to {stress.early.years[1]} it ranked{' '}
+          Cal is a clean example. From {stress.early.years[0]} to {stress.early.years[1]} it ranked{' '}
           <Metric>{ordinal(stress.early.rank)}</Metric> of {stress.early.schools} schools. From{' '}
-          {stress.late.years[0]} on it ranked <Metric>{ordinal(stress.late.rank)}</Metric>. Most of the 40-year
-          result comes from one sustained stretch, and that stretch lines up with one head coach: {m.eraCoach}, who ran the
-          program from the {eraFirst - 1} season through {eraLast - 1}. The players he coached were drafted from{' '}
+          {stress.late.years[0]} on, it ranked <Metric>{ordinal(stress.late.rank)}</Metric>. Most of the 40-year
+          result comes from one long stretch, and that stretch lines up with one head coach: {m.eraCoach}, who ran
+          the program from the {eraFirst - 1} season through {eraLast - 1}. His players were drafted from{' '}
           {eraFirst} to {eraLast}, almost exactly the years I was growing up.
         </p>
         <h3 className="text-sm text-[var(--text-primary)] mb-2">
@@ -315,14 +319,14 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="The Payoff" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          The teams I grew up on were the best in the country
+          For one decade, nobody did it better
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           So I wasn&apos;t imagining it. Rank every school on just those {eraLast - eraFirst + 1} draft classes
-          ({eraFirst} to {eraLast}) and Cal is{' '}
-          <Metric>#{era.rank} of {m.eraSchools}</Metric> schools with at least {m.minEra} picks. Its {era.picks}{' '}
-          picks beat their draft slot by <Metric>+{era.mean}</Metric> career Approximate Value each, about one
-          extra season as a solid starter per player. This time the line does not cross zero.
+          ({eraFirst} to {eraLast}) and Cal comes out <Metric>#{era.rank} of {m.eraSchools}</Metric> among schools
+          with at least {m.minEra} picks. Its {era.picks} picks beat their draft slot by <Metric>+{era.mean}</Metric>{' '}
+          career Approximate Value each, about one extra season as a solid starter per player. This time the line
+          does not cross zero.
         </p>
         <RankingList
           view={{
@@ -333,19 +337,19 @@ export default function CalProPipelinePage() {
           }}
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-10 mb-8 max-w-2xl">
-          It isn&apos;t just Aaron Rodgers. He produced <Metric>{rodgers.value}</Metric> career AV against{' '}
+          Start with the obvious name. Aaron Rodgers produced <Metric>{rodgers.value}</Metric> career AV against{' '}
           <Metric>{rodgers.expected}</Metric> for a typical #{rodgers.pick} pick, the biggest gap of anyone. But
-          remove every school&apos;s best player and Cal still ranks <Metric>{ordinal(era.withoutBestRank)}</Metric>,
-          at +{era.withoutBestMean} per pick. Much of the list comes from the middle rounds, where teams pay the
-          least for talent.
+          take every school&apos;s best player out and Cal still ranks{' '}
+          <Metric>{ordinal(era.withoutBestRank)}</Metric>, at +{era.withoutBestMean} per pick. Much of the list
+          comes from the middle rounds, where teams pay the least for talent.
         </p>
         {lynch && (
           <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-            I remember waiting for DeSean Jackson to field punts, because anything could happen. I was in the
-            stadium on October 21, 2006, when Marshawn Lynch celebrated an overtime win over
-            Washington by driving an injury cart around the field, close enough to the crowd that I thought he
-            might hit someone. He was drafted #{lynch.pick} the next spring and still beat his slot by{' '}
-            <Metric>+{lynch.surplus}</Metric>.
+            There was a buzz every time DeSean Jackson stood back to field a punt, because anything could happen. And
+            then there was October 21, 2006. I was in the stadium when Marshawn Lynch celebrated an overtime win over
+            Washington by driving an injury cart across the field, so close to the crowd that I figured someone was
+            about to get hit. The scene afterward was chaos. He went #{lynch.pick} the next spring and still beat his
+            slot by <Metric>+{lynch.surplus}</Metric>.
           </p>
         )}
         <h3 className="text-sm text-[var(--text-primary)] mb-4">
@@ -362,12 +366,11 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="The Doubt" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          A fan&apos;s answer needs checking
+          Then I tried to break it
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          I wanted this to be true, which is the best reason to distrust it. A ranking like this can be an
-          accident of small samples, one superstar, or a lucky draw. Each of those can be tested, so I tested
-          them.
+          I wanted this to be true, which is the best reason to distrust it. A ranking like this can come from
+          small samples, one superstar or plain luck. Each of those can be tested, so I tested them.
         </p>
         <ChecksTable
           rows={[
@@ -405,10 +408,10 @@ export default function CalProPipelinePage() {
           {m.nflSchools}. The last two test the {eraFirst} to {eraLast} ranking.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          The luck test matters most. Over 40 years, chance puts some school as far ahead as Cal{' '}
+          The luck test matters most. Over 40 years, chance alone puts some school as far ahead as Cal{' '}
           {pct(stress.luckAllTime.anySchool)} of the time. For {eraFirst} to {eraLast} that drops to{' '}
-          {pct(era.luckAnySchool)}. Across every {eraLast - eraFirst + 1}-year stretch at every school since{' '}
-          {m.classes[0]}, only {era.schoolsWithAsGoodAStretch.length} other schools ever had one as good.
+          {pct(era.luckAnySchool)}. And across every {eraLast - eraFirst + 1}-year stretch at every school since{' '}
+          {m.classes[0]}, only {era.schoolsWithAsGoodAStretch.length} other schools ever had one this good.
         </p>
       </section>
 
@@ -419,11 +422,10 @@ export default function CalProPipelinePage() {
           Why it&apos;s hard to bring back
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          The run ended when the staff did. Getting it back is harder now than it was then. That run depended
-          on players staying in one program long enough to be developed there. Since{' '}
-          {NIL_YEAR}, players can be paid for their name, image and likeness (NIL) and can transfer without
-          sitting out a season. A program that develops a player can now lose him to a bigger budget before he
-          is drafted.
+          The run ended when the staff did, and getting it back is harder now than it was then. That run depended
+          on players staying put long enough to be developed. Since {NIL_YEAR}, players can be paid for their
+          name, image and likeness (NIL), and they can transfer without sitting out a year. A program can now
+          spend three years developing a player and lose him to a bigger budget before the draft.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           The draft already shows talent pooling in fewer places. From {preNil[0].year} to {NIL_YEAR - 1}, about{' '}
@@ -442,15 +444,16 @@ export default function CalProPipelinePage() {
           tooltip="schools"
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 mb-4 max-w-2xl">
-          I felt the old days come back once. On October 5, 2024, ESPN&apos;s College GameDay was in Berkeley,
-          the stadium was full and loud the way I remember it from growing up, and Cal led eighth-ranked Miami by
-          25 points. Cal lost 39-38 in the final minute. The quarterback that night was Fernando Mendoza. He
-          spent three seasons at Cal, transferred to Indiana, won the Heisman Trophy and went first overall in
-          the {latest.year} draft. Draft records credit the last school a player attended, so he counts for
-          Indiana.
+          Every so often the old feeling came back. On October 5, 2024, ESPN&apos;s College GameDay set up on
+          campus, the stadium filled and shook the way I remembered from childhood, and for one afternoon the Bay
+          Area&apos;s famously apathetic fans showed up and cheered like they meant it. Cal led eighth-ranked Miami
+          by 25 points. Then Miami drove the field in the final minutes and won 39-38. Cal&apos;s quarterback that
+          night was Fernando Mendoza. He spent three seasons in Berkeley, transferred to Indiana, won the Heisman
+          Trophy and went first overall in the {latest.year} draft. Draft records credit the last school a player
+          attended, so he counts for Indiana.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-          I can&apos;t yet measure this era the way I measured {eraFirst} to {eraLast}: players drafted since{' '}
+          I can&apos;t yet measure this era the way I measured {eraFirst} to {eraLast}. Players drafted since{' '}
           {NIL_YEAR} are only a few seasons in, and the pandemic&apos;s extra year of eligibility may explain part
           of the drop. The fair test comes around 2030.
         </p>
@@ -491,13 +494,14 @@ export default function CalProPipelinePage() {
           So was I right?
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          Half right. The Cal teams I grew up watching were as good at producing pros as I remembered, and better
-          than any other school&apos;s in those years. But what I was watching was a coaching staff, not a
-          permanent feature of the school. It wasn&apos;t there before them and it didn&apos;t outlast them.
+          Half right. The Cal teams I grew up watching were every bit as good at producing pros as I remembered,
+          and better than any other school&apos;s in those years. But I was watching a coaching staff, not a
+          permanent feature of the school. The pattern wasn&apos;t there before them, and it didn&apos;t outlast
+          them.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
-          That is a harder answer for a fan and a more useful one for anyone making decisions. The same three
-          lessons apply well outside football:
+          That is a tougher answer for a fan and a more useful one for anyone making decisions. Three lessons
+          travel well beyond football:
         </p>
         <ol className="space-y-4 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-decimal pl-5">
           <li>
@@ -516,11 +520,11 @@ export default function CalProPipelinePage() {
           </li>
         </ol>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          I&apos;m still a fan, which is why I wrote this. As I write it in October 2026, Cal has just
-          lost to UNLV, and every new round of conference realignment makes me wonder whether the program will
-          have a seat when the music stops. At least now I know what to hope for: not the old Cal back, but the
-          next staff that can do what that one did, in a sport where keeping the players you develop is harder
-          than ever.
+          I&apos;m still a fan. That is why I wrote this. As I write it in October 2026, Cal has just lost to
+          UNLV, and every new round of conference realignment makes me wonder whether the program will have a
+          seat when the music stops. At least now I know what to hope for. Not the old Cal back, but the next
+          staff that can do what that one did, in a sport where keeping the players you develop has never been
+          harder.
         </p>
       </section>
 
