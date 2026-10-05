@@ -78,6 +78,8 @@ export default function CalProPipelinePage() {
   const brown = data.calNba.find((p) => p.player === 'Jaylen Brown')
   const pct = (x: number) => `${Math.round(x * 100)}%`
   const th = stress.thresholds
+  // Hero card: era picks who beat their draft slot by 40+ career AV (roughly four extra seasons as a starter)
+  const bigHits = data.eraPlayers.filter((p) => p.surplus >= 40)
   // 1 -> 1st, 2 -> 2nd, 11 -> 11th, 21 -> 21st
   const ordinal = (n: number) => {
     const tens = n % 100
@@ -119,8 +121,11 @@ export default function CalProPipelinePage() {
               text: `Cal's rank among schools for draft picks who outplayed where they were taken, ${eraFirst} to ${eraLast}.`,
             },
             {
-              value: `Still #${era.withoutBestRank}`,
-              text: `Without Aaron Rodgers. Take away every school's best player and Cal stays on top.`,
+              value: `${bigHits.length} players`,
+              text: `Cal picks from those years who far outplayed their draft position, including ${bigHits
+                .slice(0, 4)
+                .map((p) => p.player)
+                .join(', ')}.`,
             },
             {
               value: `${preNilSchools} to ${latest.schools}`,
