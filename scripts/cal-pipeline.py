@@ -61,15 +61,24 @@ CAL = "California"
 # Basketball Reference spells some schools differently from the NFL data
 NBA_TO_NFL = {
     "UNC": "North Carolina", "UConn": "Connecticut", "Pitt": "Pittsburgh",
-    "NC State": "North Carolina St.", "Boston College": "Boston Col.",
-    "St. John's": "St. John's (NY)", "Ole Miss": "Mississippi",
-    "Miami University": "Miami (OH)", "Southern California": "USC",
+    "NC State": "North Carolina State", "St. John's": "St. John's (NY)",
+    "Ole Miss": "Mississippi", "Miami University": "Miami (OH)", "Southern California": "USC",
 }
+# The NFL data abbreviates some names; spell them out on the page
+NFL_DISPLAY = {"Boston Col.": "Boston College"}
 
 # Big programs to always show next to the leaders, for context
 PEERS = ["Stanford", "USC", "UCLA", "Oregon", "Washington", "Arizona", "Duke",
-         "North Carolina", "Kentucky", "Kansas", "Michigan", "Ohio St.", "Texas",
+         "North Carolina", "Kentucky", "Kansas", "Michigan", "Ohio State", "Texas",
          "Florida", "Alabama", "Notre Dame"]
+
+
+def display_school(name):
+    """One spelling for every school: 'Ohio St.' -> 'Ohio State', 'Boston Col.' -> 'Boston College'."""
+    if pd.isna(name):
+        return name
+    name = NFL_DISPLAY.get(name, name)
+    return name[:-4] + " State" if name.endswith(" St.") else name
 
 
 def expected_by_era(df: pd.DataFrame, year_col: str, pick_col: str, value_col: str) -> pd.Series:
@@ -106,7 +115,7 @@ def load_nfl(raw: pd.DataFrame) -> pd.DataFrame:
     df = raw[(raw.season >= FIRST_CLASS) & (raw.season <= LAST_CLASS)].copy()
     df = df.rename(columns={"season": "year", "pfr_player_name": "player"})
     df["value"] = df["w_av"].fillna(0)  # never played = 0 career value
-    df["school"] = df["college"]
+    df["school"] = df["college"].map(display_school)
     df["sport"] = "NFL"
     return df[["year", "pick", "player", "position", "school", "value", "probowls", "allpro", "sport"]]
 
@@ -120,9 +129,7 @@ def load_nba(path: Path) -> pd.DataFrame:
     def normalize(name):
         if pd.isna(name):
             return name
-        if name in NBA_TO_NFL:
-            return NBA_TO_NFL[name]
-        return name[:-6] + " St." if name.endswith(" State") else name
+        return display_school(NBA_TO_NFL.get(name, name))
 
     df["school"] = df["college"].map(normalize)
     df["sport"] = "NBA"
@@ -168,32 +175,53 @@ def luck_test(df: pd.DataFrame, schools: pd.Index, school: str, rng: np.random.G
     return this_school / PERMUTATIONS, any_school / PERMUTATIONS
 
 
-def stress_tests(nfl: pd.DataFrame, rng: np.random.Generator) -> dict:
-    """Ways the football result could be an artifact, each checked directly."""
-    all_time = school_means(nfl, MIN_NFL_ONLY)
-    out: dict = {}
+def robustness(nfl: pd.DataFrame, min_picks: int, thresholds: tuple, rng: np.random.Generator) -> dict:
+    """Ways a school ranking could be an artifact, each checked directly.
+    Works for any set of draft classes (the 40-year ranking or one era)."""
+    base = school_means(nfl, min_picks)
+    out: dict = {"schools": int(len(base)), "rank": rank_of(base, CAL)}
 
     # 1. Does the rank depend on where the minimum-picks line is drawn?
     out["thresholds"] = [{"min": t, "schools": int(len(school_means(nfl, t))), "rank": rank_of(school_means(nfl, t), CAL)}
-                         for t in (40, 60, 80, 100, 120)]
+                         for t in thresholds]
 
     # 2. Shrinkage: pull each school toward zero in proportion to how noisy its
     #    average is (few picks = more pull). Standard empirical-Bayes estimate.
-    sizes = nfl.dropna(subset=["school"]).groupby("school").size()[all_time.index]
+    sizes = nfl.dropna(subset=["school"]).groupby("school").size()[base.index]
     noise = nfl["surplus"].var() / sizes
-    real_spread = max(all_time.var() - noise.mean(), 0)
-    out["shrunkRank"] = rank_of(all_time * real_spread / (real_spread + noise), CAL)
+    real_spread = max(base.var() - noise.mean(), 0)
+    shrunk = base * real_spread / (real_spread + noise)
+    out["shrunkRank"] = rank_of(shrunk, CAL)
+    out["shrunkMean"] = round(float(shrunk[CAL]), 1)
 
     # 3. Outliers: cap every score at the 99th percentile so no single star dominates
     capped = nfl.assign(capped=nfl["surplus"].clip(upper=nfl["surplus"].quantile(0.99)))
-    out["cappedRank"] = rank_of(school_means(capped, MIN_NFL_ONLY, "capped"), CAL)
+    out["cappedRank"] = rank_of(school_means(capped, min_picks, "capped"), CAL)
+    out["capAt"] = round(float(nfl["surplus"].quantile(0.99)), 1)
 
     # 4. Positions: subtract each position group's average score, then re-rank
     group = nfl["position"].replace(POSITION_GROUPS)
     adjusted = nfl.assign(adj=nfl["surplus"] - nfl.groupby(group)["surplus"].transform("mean"))
-    out["positionRank"] = rank_of(school_means(adjusted, MIN_NFL_ONLY, "adj"), CAL)
-    no_qb = school_means(nfl[nfl.position != "QB"], MIN_NFL_ONLY)
+    out["positionRank"] = rank_of(school_means(adjusted, min_picks, "adj"), CAL)
+    no_qb = school_means(nfl[nfl.position != "QB"], min_picks)
     out["noQbRank"], out["noQbSchools"] = rank_of(no_qb, CAL), int(len(no_qb))
+
+    # 5. Remove every school's best player
+    def drop_best(g: pd.DataFrame) -> float:
+        return g["surplus"].sort_values(ascending=False).iloc[1:].mean()
+    without_best = nfl[nfl.school.isin(base.index)].groupby("school").apply(drop_best, include_groups=False)
+    out["withoutBestRank"] = rank_of(without_best, CAL)
+    out["withoutBestMean"] = round(float(without_best[CAL]), 1)
+
+    # 6. Luck: shuffle players between schools and see how often a school scores this high
+    this_school, any_school = luck_test(nfl, base.sort_values(ascending=False).index, CAL, rng)
+    out["luck"] = {"cal": round(this_school, 3), "anySchool": round(any_school, 2)}
+    return out
+
+
+def stress_tests(nfl: pd.DataFrame, rng: np.random.Generator) -> dict:
+    """The 40-year football ranking, plus the tests that only make sense over 40 years."""
+    out = robustness(nfl, MIN_NFL_ONLY, (40, 60, 80, 100, 120), rng)
 
     # 5. Does a school's result in one decade predict the next? (It should, if
     #    "school" were a lasting trait.)
@@ -211,9 +239,7 @@ def stress_tests(nfl: pd.DataFrame, rng: np.random.Generator) -> dict:
         m = school_means(window(a, b), 30)
         out[key] = {"years": [a, b], "rank": rank_of(m, CAL), "schools": int(len(m)), "mean": round(float(m[CAL]), 1)}
 
-    # 7. Luck, all-time ranking
-    this_school, any_school = luck_test(nfl, all_time.sort_values(ascending=False).index, CAL, rng)
-    out["luckAllTime"] = {"cal": round(this_school, 3), "anySchool": round(any_school, 2)}
+    out["luckAllTime"] = out["luck"]
     return out
 
 
@@ -283,11 +309,7 @@ def main() -> None:
     era_table = era_table[era_table.n >= MIN_ERA].sort_values("mean", ascending=False)
     era_table["rank"] = range(1, len(era_table) + 1)
     cal_era = era_table.loc[CAL]
-    # Same ranking with every school's best player removed
-    def drop_best(g: pd.DataFrame) -> float:
-        return g["surplus"].sort_values(ascending=False).iloc[1:].mean()
-    without_best = era[era.school.isin(era_table.index)].groupby("school").apply(drop_best, include_groups=False)
-    era_luck_cal, era_luck_any = luck_test(era, era_table.index, CAL, rng)
+    era_stress = robustness(era, MIN_ERA, (20, 25, 30, 35, 40), rng)
 
     # How rare is a stretch this good? Compare with every window of the same
     # length at every school since 1980.
@@ -299,12 +321,26 @@ def main() -> None:
         rivals |= set(m[m >= cal_era["mean"]].index)
     rivals.discard(CAL)
 
-    # Cal's score over time: average per pick across a rolling five-class window
-    cal_nfl_picks = nfl[nfl.school == CAL]
-    timeline = []
-    for year in range(FIRST_CLASS + 2, LAST_CLASS - 1):
-        w = cal_nfl_picks[(cal_nfl_picks.year >= year - 2) & (cal_nfl_picks.year <= year + 2)]
-        timeline.append({"year": year, "mean": round(float(w.surplus.mean()), 1), "picks": int(len(w))})
+    # Each school's score over time: average per pick across a rolling five-class window
+    def rolling(school: str) -> list[dict]:
+        picks = nfl[nfl.school == school]
+        out = []
+        for year in range(FIRST_CLASS + 2, LAST_CLASS - 1):
+            w = picks[(picks.year >= year - 2) & (picks.year <= year + 2)]
+            out.append({"year": year, "mean": round(float(w.surplus.mean()), 1) if len(w) else None, "picks": int(len(w))})
+        return out
+    timeline = rolling(CAL)
+    timelines = {s: rolling(s) for s in sorted(set(nfl_table.index) | set(era_table.index))}
+
+    # Notable players from the other ranked schools in the era, for side-by-side comparison:
+    # each school's five biggest outperformers and two biggest busts
+    others = []
+    for school, g in era[era.school.isin(era_table.index) & (era.school != CAL)].groupby("school"):
+        g = g.sort_values("surplus", ascending=False)
+        for r in pd.concat([g.head(5), g.tail(2)]).drop_duplicates("player").itertuples():
+            others.append({"player": r.player, "school": school, "year": int(r.year), "pick": int(r.pick),
+                           "value": round(float(r.value), 1), "expected": round(float(r.expected), 1),
+                           "surplus": round(float(r.surplus), 1)})
 
     # ---- Talent concentration (context for NIL and the transfer portal) ----
     # Uses every draft through the latest one, not just the modeled classes.
@@ -342,13 +378,16 @@ def main() -> None:
             "rank": int(cal_era["rank"]), "picks": int(cal_era["n"]), "mean": round(float(cal_era["mean"]), 1),
             "lo": round(float(cal_era["lo"]), 1), "hi": round(float(cal_era["hi"]), 1),
             "beatShare": round(float(cal_era["beat"]), 4), "allBeatShare": round(float((era.surplus > 0).mean()), 4),
-            "withoutBestMean": round(float(without_best[CAL]), 1), "withoutBestRank": rank_of(without_best, CAL),
-            "luckCal": round(float(era_luck_cal), 3), "luckAnySchool": round(float(era_luck_any), 2),
+            "withoutBestMean": era_stress["withoutBestMean"], "withoutBestRank": era_stress["withoutBestRank"],
+            "luckCal": era_stress["luck"]["cal"], "luckAnySchool": era_stress["luck"]["anySchool"],
             "windowsCompared": int(windows), "schoolsWithAsGoodAStretch": sorted(rivals),
         },
         "eraBoard": leaderboard(era_table, 10),
         "eraPlayers": players(era, 10),
+        "eraOthers": others,
+        "eraStress": era_stress,
         "timeline": timeline,
+        "timelines": timelines,
         "stress": stress,
         "concentration": concentration,
         "twoSport": leaderboard(eligible, 10),

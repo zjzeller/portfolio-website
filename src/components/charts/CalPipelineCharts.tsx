@@ -23,6 +23,8 @@ import { CHART } from '@/lib/chartTheme'
 export type CurvePoint = { pick: number; expected: number }
 export type CalPlayer = { player: string; year: number; pick: number; value: number; expected: number; surplus: number }
 export type SchoolRow = { school: string; rank: number; n: number; mean: number; lo: number; hi: number; beat: number; featured: boolean }
+export type OtherPlayer = CalPlayer & { school: string }
+export type TimelinePoint = { year: number; mean: number | null; picks: number }
 
 const CAL = 'California'
 
@@ -258,15 +260,21 @@ export function SchoolLeaderboard({
 //   - Number of schools with a draft pick, with the NIL era shaded
 // ---------------------------------------------------------------------------
 
-function TrendTooltip({ active, payload, label, describe }: { active?: boolean; payload?: { payload: Record<string, number> }[]; label?: number; describe: (row: Record<string, number>) => string }) {
+type TrendRow = Record<string, number | null | undefined>
+
+function TrendTooltip({ active, payload, label, describe }: { active?: boolean; payload?: { payload: TrendRow }[]; label?: number; describe: (row: TrendRow) => string[] }) {
   if (!active || !payload?.length) return null
   return (
     <div className="bg-[var(--bg-surface)] border border-[var(--border)] px-3 py-2 text-xs">
       <p className="text-[var(--text-primary)] mb-1">{label}</p>
-      <p className="font-[family-name:var(--font-dm-mono)] text-[var(--text-secondary)]">{describe(payload[0].payload)}</p>
+      {describe(payload[0].payload).map((line) => (
+        <p key={line} className="font-[family-name:var(--font-dm-mono)] text-[var(--text-secondary)]">{line}</p>
+      ))}
     </div>
   )
 }
+
+const signed = (v: number) => `${v > 0 ? '+' : ''}${v}`
 
 export function TrendChart({
   data,
@@ -276,20 +284,33 @@ export function TrendChart({
   bandLabel,
   zeroLine = false,
   tooltip,
+  compare,
 }: {
-  data: Record<string, number>[]
+  data: TrendRow[]
   dataKey: string
   unit: string
   band: [number, number] // first and last year of the shaded period
   bandLabel: string
   zeroLine?: boolean
   tooltip: 'score' | 'schools'
+  // A second school's line, drawn in the comparison color from the "other" fields of each row
+  compare?: string
 }) {
   // Tooltip wording lives here because functions can't be passed from a server page
-  const describe = (row: Record<string, number>) =>
-    tooltip === 'score'
-      ? `${row.mean > 0 ? '+' : ''}${row.mean} per pick, ${row.picks} picks in the 5 classes around this year`
-      : `${row.schools} schools had a pick; the top 25 schools supplied ${Math.round(row.top25Share * 100)}%`
+  const describe = (row: TrendRow): string[] => {
+    if (tooltip === 'schools') {
+      return [`${row.schools} schools had a pick; the top 25 schools supplied ${Math.round((row.top25Share ?? 0) * 100)}%`]
+    }
+    const lines = [
+      row.mean == null
+        ? `${compare ? 'Cal: ' : ''}no picks in the 5 classes around this year`
+        : `${compare ? 'Cal: ' : ''}${signed(row.mean)} per pick, ${row.picks} picks in the 5 classes around this year`,
+    ]
+    if (compare) {
+      lines.push(row.other == null ? `${compare}: no picks` : `${compare}: ${signed(row.other)} per pick, ${row.otherPicks} picks`)
+    }
+    return lines
+  }
   return (
     <div className="h-72">
       <ResponsiveContainer width="100%" height="100%">
@@ -322,9 +343,72 @@ export function TrendChart({
           />
           {zeroLine && <ReferenceLine y={0} stroke={CHART.muted} strokeDasharray="4 4" />}
           <Tooltip content={<TrendTooltip describe={describe} />} cursor={{ stroke: CHART.axis }} />
-          <Line dataKey={dataKey} type="monotone" stroke={CHART.accent} strokeWidth={2} dot={{ r: 2, fill: CHART.accent }} isAnimationActive={false} />
+          <Line dataKey={dataKey} name="California" type="monotone" stroke={CHART.accent} strokeWidth={2} dot={{ r: 2, fill: CHART.accent }} isAnimationActive={false} connectNulls />
+          {compare && (
+            <Line dataKey="other" name={compare} type="monotone" stroke={CHART.second} strokeWidth={2} dot={{ r: 2, fill: CHART.second }} isAnimationActive={false} connectNulls />
+          )}
         </LineChart>
       </ResponsiveContainer>
+    </div>
+  )
+}
+
+// Cal's line by default, with a dropdown to lay any ranked school on top of it
+export function SchoolTrendChart({
+  timelines,
+  schools,
+  unit,
+  band,
+  bandLabel,
+}: {
+  timelines: Record<string, TimelinePoint[]>
+  schools: SchoolRow[] // ranked schools, used for the dropdown labels
+  unit: string
+  band: [number, number]
+  bandLabel: string
+}) {
+  const [other, setOther] = useState('')
+  const cal = timelines[CAL]
+  const theirs = other ? timelines[other] : undefined
+  const data: TrendRow[] = cal.map((p, i) => ({
+    year: p.year,
+    mean: p.mean,
+    picks: p.picks,
+    other: theirs?.[i]?.mean,
+    otherPicks: theirs?.[i]?.picks,
+  }))
+  const options = [...schools].sort((a, b) => a.rank - b.rank).filter((r) => r.school !== CAL && timelines[r.school])
+  return (
+    <div>
+      <div className="flex flex-wrap items-center gap-3 mb-4 text-xs">
+        <label htmlFor="trend-school" className="text-[var(--text-muted)]">
+          Compare Cal with
+        </label>
+        <select
+          id="trend-school"
+          value={other}
+          onChange={(e) => setOther(e.target.value)}
+          className="bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] px-2 py-1 rounded"
+        >
+          <option value="">Pick a school</option>
+          {options.map((r) => (
+            <option key={r.school} value={r.school}>
+              {r.school} (#{r.rank} of {schools.length} over 40 years)
+            </option>
+          ))}
+        </select>
+        {other && (
+          <span className="flex items-center gap-3">
+            <span className="flex items-center gap-1 text-[var(--text-secondary)]">
+              <span className="inline-block h-2 w-2 rounded-full" style={{ background: CHART.accent }} /> Cal
+            </span>
+            <span className="flex items-center gap-1 text-[var(--text-secondary)]">
+              <span className="inline-block h-2 w-2 rounded-full" style={{ background: CHART.second }} /> {other}
+            </span>
+          </span>
+        )}
+      </div>
+      <TrendChart data={data} dataKey="mean" unit={unit} band={band} bandLabel={bandLabel} zeroLine tooltip="score" compare={other || undefined} />
     </div>
   )
 }
@@ -334,16 +418,37 @@ export function TrendChart({
 // for each player, sorted by how far he beat his slot.
 // ---------------------------------------------------------------------------
 
-export function OutperformersChart({ players, unit }: { players: CalPlayer[]; unit: string }) {
-  const max = Math.max(...players.map((p) => Math.max(p.value, p.expected)))
+export function OutperformersChart({ players, unit, others = [] }: { players: CalPlayer[]; unit: string; others?: OtherPlayer[] }) {
+  // Players from other schools the reader has added for comparison, keyed by "player-year"
+  const [picked, setPicked] = useState<string[]>([])
+  const key = (p: CalPlayer) => `${p.player}-${p.year}`
+  const added = picked.map((k) => others.find((o) => key(o) === k)).filter((o): o is OtherPlayer => !!o)
+  const rows: (CalPlayer & { school?: string })[] = [...players, ...added]
+  const max = Math.max(...rows.map((p) => Math.max(p.value, p.expected)))
   const pos = (v: number) => (Math.max(v, 0) / max) * 100
+  // Dropdown grouped by school, best player first within each school
+  const bySchool = new Map<string, OtherPlayer[]>()
+  for (const o of others) bySchool.set(o.school, [...(bySchool.get(o.school) ?? []), o])
   return (
     <div>
       <div className="space-y-3">
-        {players.map((p) => (
-          <div key={`${p.player}-${p.year}`} className="grid grid-cols-[110px_1fr_52px] sm:grid-cols-[170px_1fr_60px] items-center gap-3 text-xs">
+        {rows.map((p) => (
+          <div key={key(p)} className="grid grid-cols-[110px_1fr_52px] sm:grid-cols-[170px_1fr_60px] items-center gap-3 text-xs">
             <div className="min-w-0">
-              <p className="truncate text-[var(--text-primary)] text-sm">{p.player}</p>
+              <p className="truncate text-[var(--text-primary)] text-sm">
+                {p.player}
+                {p.school && (
+                  <button
+                    type="button"
+                    onClick={() => setPicked((ks) => ks.filter((k) => k !== key(p)))}
+                    aria-label={`Remove ${p.player}`}
+                    className="ml-2 text-[var(--text-muted)] hover:text-[var(--accent)]"
+                  >
+                    &times;
+                  </button>
+                )}
+              </p>
+              {p.school && <p className="truncate text-[var(--text-secondary)]">{p.school}</p>}
               <p className="font-[family-name:var(--font-dm-mono)] text-[var(--text-muted)]">
                 {p.year} &middot; pick {p.pick}
               </p>
@@ -352,7 +457,12 @@ export function OutperformersChart({ players, unit }: { players: CalPlayer[]; un
               <span className="absolute top-1/2 h-px w-full -translate-y-1/2 bg-[var(--border-subtle)]" />
               <span
                 className="absolute top-1/2 h-[2px] -translate-y-1/2 bg-[var(--accent)]/50"
-                style={{ left: `${pos(Math.min(p.expected, p.value))}%`, width: `${Math.abs(pos(p.value) - pos(p.expected))}%` }}
+                style={{
+                  left: `${pos(Math.min(p.expected, p.value))}%`,
+                  width: `${Math.abs(pos(p.value) - pos(p.expected))}%`,
+                  // Comparison players use the chart palette's second series color (same as the trend chart)
+                  ...(p.school ? { background: CHART.second, opacity: 0.5 } : {}),
+                }}
               />
               <span
                 className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--text-muted)] bg-[var(--bg)]"
@@ -360,10 +470,10 @@ export function OutperformersChart({ players, unit }: { players: CalPlayer[]; un
               />
               <span
                 className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--accent)] ring-2 ring-[var(--bg)]"
-                style={{ left: `${pos(p.value)}%` }}
+                style={{ left: `${pos(p.value)}%`, ...(p.school ? { background: CHART.second } : {}) }}
               />
             </div>
-            <span className="font-[family-name:var(--font-dm-mono)] text-right text-[var(--accent)]">
+            <span className="font-[family-name:var(--font-dm-mono)] text-right text-[var(--accent)]" style={p.school ? { color: CHART.second } : undefined}>
               {p.surplus > 0 ? '+' : ''}
               {p.surplus}
             </span>
@@ -373,6 +483,37 @@ export function OutperformersChart({ players, unit }: { players: CalPlayer[]; un
       <p className="text-xs text-[var(--text-muted)] mt-4">
         Hollow dot: {unit} expected at that pick. Filled dot: actual. Number: the difference.
       </p>
+      {others.length > 0 && (
+        <div className="flex flex-wrap items-center gap-3 mt-4 text-xs">
+          <label htmlFor="compare-player" className="text-[var(--text-muted)]">
+            Add a player from another school
+          </label>
+          <select
+            id="compare-player"
+            value=""
+            onChange={(e) => {
+              if (e.target.value && !picked.includes(e.target.value)) setPicked((ks) => [...ks, e.target.value])
+            }}
+            className="bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] px-2 py-1 rounded max-w-full"
+          >
+            <option value="">Pick a player</option>
+            {[...bySchool.entries()].map(([school, list]) => (
+              <optgroup key={school} label={school}>
+                {list.map((o) => (
+                  <option key={key(o)} value={key(o)}>
+                    {o.player} ({o.year}, pick {o.pick}, {signed(o.surplus)})
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+          {picked.length > 0 && (
+            <button type="button" onClick={() => setPicked([])} className="text-[var(--text-muted)] hover:text-[var(--accent)]">
+              Clear
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }

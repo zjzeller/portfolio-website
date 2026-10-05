@@ -7,6 +7,7 @@ import {
   RankingList,
   TrendChart,
   OutperformersChart,
+  SchoolTrendChart,
 } from '@/components/charts/CalPipelineCharts'
 import { DataTable } from '@/components/charts/RetentionCharts'
 import { requireProject } from '@/data/projects'
@@ -43,7 +44,7 @@ function SectionHeader({ label }: { label: string }) {
 }
 
 // Small visible table for the stress tests (DataTable is collapsed by default; this one should be read)
-function ChecksTable({ rows }: { rows: [string, string, string][] }) {
+function ChecksTable({ headers, rows }: { headers: [string, string]; rows: [string, string, string, string][] }) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -51,15 +52,17 @@ function ChecksTable({ rows }: { rows: [string, string, string][] }) {
           <tr className="text-left text-xs tracking-wider uppercase text-[var(--text-muted)]">
             <th className="font-normal pb-3 pr-4">Test</th>
             <th className="font-normal pb-3 pr-4">What it rules out</th>
-            <th className="font-normal pb-3">Cal&apos;s result</th>
+            <th className="font-normal pb-3 pr-4">{headers[0]}</th>
+            <th className="font-normal pb-3">{headers[1]}</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map(([test, guards, result]) => (
+          {rows.map(([test, guards, era, allTime]) => (
             <tr key={test} className="border-t border-[var(--border-subtle)] align-top">
-              <td className="py-3 pr-4 text-[var(--text-primary)]">{test}</td>
-              <td className="py-3 pr-4 text-[var(--text-secondary)]">{guards}</td>
-              <td className="py-3 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--accent)] min-w-[9rem]">{result}</td>
+              <td className="py-3 pr-4 text-[var(--text-primary)] min-w-[11rem]">{test}</td>
+              <td className="py-3 pr-4 text-[var(--text-secondary)] min-w-[11rem]">{guards}</td>
+              <td className="py-3 pr-4 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--accent)] min-w-[8rem]">{era}</td>
+              <td className="py-3 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--text-secondary)] min-w-[8rem]">{allTime}</td>
             </tr>
           ))}
         </tbody>
@@ -78,6 +81,12 @@ export default function CalProPipelinePage() {
   const lynch = data.eraPlayers.find((p) => p.player === 'Marshawn Lynch')
   const pct = (x: number) => `${Math.round(x * 100)}%`
   const th = stress.thresholds
+  const es = data.eraStress
+  const eth = es.thresholds
+  // Range of Cal's 40-year rank across the six re-ranking tests (the luck test has no rank)
+  const ranks40 = [...th.map((t) => t.rank), stress.shrunkRank, stress.cappedRank, stress.positionRank, stress.noQbRank, stress.withoutBestRank]
+  const lo40 = Math.min(...ranks40)
+  const hi40 = Math.max(...ranks40)
   // Hero card: era picks who beat their draft slot by 40+ career AV (roughly four extra seasons as a starter)
   const bigHits = data.eraPlayers.filter((p) => p.surplus >= 40)
   // 1 -> 1st, 2 -> 2nd, 11 -> 11th, 21 -> 21st
@@ -288,18 +297,17 @@ export default function CalProPipelinePage() {
         <h3 className="text-sm text-[var(--text-primary)] mb-2">
           Cal&apos;s NFL picks: career value above or below draft slot, per pick
         </h3>
-        <TrendChart
-          data={data.timeline}
-          dataKey="mean"
+        <SchoolTrendChart
+          timelines={data.timelines}
+          schools={data.nflOnly}
           unit="AV per pick vs. slot"
           band={[eraFirst, eraLast]}
           bandLabel={`${m.eraCoach.split(' ').slice(-1)[0]} era`}
-          zeroLine
-          tooltip="score"
         />
         <p className="text-xs text-[var(--text-muted)] mt-4">
           Each point averages the five draft classes around that year. The dashed line is a school whose picks do
-          exactly as expected. The mid-1980s spike rests on about ten picks, led by Hardy Nickerson, a fifth-round
+          exactly as expected. Pick any ranked school from the menu to see its line next to Cal&apos;s; most of
+          them rise and fall the same way, which is the point. The mid-1980s spike rests on about ten picks, led by Hardy Nickerson, a fifth-round
           pick in 1987. It didn&apos;t last, and Cal ranks mid-pack for those two decades overall.
         </p>
       </section>
@@ -334,14 +342,14 @@ export default function CalProPipelinePage() {
         </p>
         {lynch && (
           <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          The list runs deep: Cameron Jordan, Keenan Allen, DeSean Jackson and Marshawn Lynch, who went #{lynch.pick} in {lynch.year}
+          The list runs deep: Cameron Jordan, Keenan Allen, DeSean Jackson and Marshawn Lynch, who went #{lynch.pick} in {lynch.year}{' '}
           and still beat his slot by <Metric>+{lynch.surplus}</Metric>.
         </p>
         )}
         <h3 className="text-sm text-[var(--text-primary)] mb-4">
           Cal&apos;s biggest outperformers, {eraFirst} to {eraLast} (career AV)
         </h3>
-        <OutperformersChart players={data.eraPlayers} unit="AV" />
+        <OutperformersChart players={data.eraPlayers} unit="AV" others={data.eraOthers} />
         <DataTable
           columns={['Player', 'Year', 'Pick', 'Actual', 'Expected', 'Difference']}
           rows={data.eraPlayers.map((p) => [p.player, p.year, p.pick, p.value, p.expected, p.surplus])}
@@ -354,50 +362,86 @@ export default function CalProPipelinePage() {
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
           Seven ways the result could be wrong
         </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
           A first-place finish deserves suspicion. A ranking like this can come from small samples, one
-          superstar or plain luck. Each of those can be tested, so I tested them.
+          superstar, a stat that favors certain positions, or plain luck. Each test below changes one assumption
+          and re-ranks every school. If Cal&apos;s rank barely moves, the result doesn&apos;t depend on that
+          assumption. If it moves a lot, it does.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          I ran every test twice: on the {eraFirst} to {eraLast} ranking, where Cal starts{' '}
+          <Metric>#{es.rank} of {es.schools}</Metric>, and on the 40-year ranking, where Cal starts{' '}
+          <Metric>#{cal.nflRank} of {m.nflSchools}</Metric>.
         </p>
         <ChecksTable
+          headers={[`${eraFirst} to ${eraLast}`, '40 years']}
           rows={[
             [
-              'Raise the minimum number of picks',
-              'Small schools with a few stars',
-              `${th.map((t) => ordinal(t.rank)).join(', ')} at ${th.map((t) => t.min).join(', ')}+ picks`,
+              'Raise the minimum picks a school needs to be ranked',
+              'Small schools that look great because of a few stars',
+              `${ordinal(es.rank)} at every cutoff from ${eth[0].min} to ${eth[eth.length - 1].min} picks`,
+              `${th.map((t) => ordinal(t.rank)).join(', ')} at ${th.map((t) => t.min).join(', ')} picks`,
             ],
             [
-              'Pull every school toward average, more so with fewer picks',
-              'Rankings driven by noise',
-              `Still ${ordinal(stress.shrunkRank)}`,
+              'Shrink every school toward average, more so with fewer picks',
+              'A high average that is really noise from a small sample',
+              `${ordinal(es.shrunkRank)}, still +${es.shrunkMean} per pick`,
+              ordinal(stress.shrunkRank),
             ],
-            ['Cap the biggest scores at the 99th percentile', 'One superstar carrying a school', ordinal(stress.cappedRank)],
-            ['Adjust each score for position', 'A stat that favors some positions', `Still ${ordinal(stress.positionRank)}`],
+            [
+              "Cap every player's score at the 99th percentile",
+              'One superstar carrying a whole school',
+              ordinal(es.cappedRank),
+              ordinal(stress.cappedRank),
+            ],
+            [
+              "Adjust each player's score for his position",
+              'A stat that is easier to beat at some positions',
+              ordinal(es.positionRank),
+              ordinal(stress.positionRank),
+            ],
             [
               'Remove every quarterback',
               'Rodgers, and quarterbacks in general',
+              `${ordinal(es.noQbRank)} of ${es.noQbSchools}`,
               `${ordinal(stress.noQbRank)} of ${stress.noQbSchools}`,
             ],
             [
-              `Remove each school's best player (${eraFirst} to ${eraLast})`,
-              'One player carrying the era',
-              `Still ${ordinal(era.withoutBestRank)}`,
+              "Remove each school's single best player",
+              'One player carrying the result',
+              `${ordinal(es.withoutBestRank)}, +${es.withoutBestMean} per pick`,
+              ordinal(stress.withoutBestRank),
             ],
             [
-              `Shuffle players between schools at random (${eraFirst} to ${eraLast})`,
-              'Pure luck',
-              `Some school gets this far ${pct(era.luckAnySchool)} of the time`,
+              'Shuffle players between schools at random, 5,000 times',
+              'Luck: a lead that random assignment would produce anyway',
+              `Some school leads by this much ${pct(es.luck.anySchool)} of the time`,
+              `${pct(stress.luckAllTime.anySchool)} of the time`,
             ],
           ]}
         />
         <p className="text-xs text-[var(--text-muted)] mt-4">
-          The first five rows test the 40-year football ranking, where Cal starts {ordinal(cal.nflRank)} of{' '}
-          {m.nflSchools}. The last two test the {eraFirst} to {eraLast} ranking.
+          Each cell is Cal&apos;s rank after the test, out of {es.schools} schools for {eraFirst} to {eraLast} and{' '}
+          {m.nflSchools} for 40 years unless shown otherwise.
         </p>
-        <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          The luck test matters most. Over 40 years, chance alone puts some school as far ahead as Cal{' '}
-          {pct(stress.luckAllTime.anySchool)} of the time. For {eraFirst} to {eraLast} that drops to{' '}
-          {pct(era.luckAnySchool)}. And across every {eraLast - eraFirst + 1}-year stretch at every school since{' '}
-          {m.classes[0]}, only {era.schoolsWithAsGoodAStretch.length} other schools ever had one this good.
+        <h3 className="text-sm text-[var(--text-primary)] mt-10 mb-3">What the tests say</h3>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
+          The {eraFirst} to {eraLast} result passes every test. Cal stays first no matter how high the minimum
+          is set, with small samples shrunk toward average, with the biggest scores capped, with position
+          accounted for, without any quarterback, and without its best player. The luck test matters most: deal
+          players to schools at random and some school ends up this far ahead only {pct(es.luck.anySchool)} of
+          the time, and Cal itself does {Math.round(es.luck.cal * 1000) / 10}% of the time. Across every{' '}
+          {eraLast - eraFirst + 1}-year stretch at every school since {m.classes[0]}, only{' '}
+          {era.schoolsWithAsGoodAStretch.length} other schools ({era.schoolsWithAsGoodAStretch.join(' and ')}) ever
+          had one this good.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+          The 40-year result is weaker. Cal&apos;s rank only moves between {ordinal(lo40)} and {ordinal(hi40)}{' '}
+          across the tests, but the lead itself is small: random assignment produces a leader as strong as Cal{' '}
+          {pct(stress.luckAllTime.anySchool)} of the time. So the claim this page makes is the narrow one.
+          Cal&apos;s {eraFirst} to {eraLast} classes beat their draft slots by more than any other program&apos;s,
+          and that is not an artifact of sample size, one star, position mix or chance. The broader claim, that
+          Cal as an institution has been good at this for 40 years, does not survive.
         </p>
       </section>
 
