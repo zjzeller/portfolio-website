@@ -108,9 +108,11 @@ export default function CalProPipelinePage() {
           works now makes it hard to repeat.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          Aaron Rodgers went 24th. Keenan Allen went in the third round. Was Cal unusually good at producing
-          pros, or are those a few famous names? I built a model of every NFL and NBA draft pick since{' '}
-          {m.classes[0]} to find out, then tried to prove my own answer wrong.
+          I grew up a Cal fan, watching Aaron Rodgers, Marshawn Lynch, Leon Powe, Keenan Allen and later Jaylen
+          Brown. The program hasn&apos;t looked the same since, and I wanted to know whether those years were as
+          special as they felt or whether I was remembering a few famous names. So I built a model of every NFL
+          and NBA draft pick since {m.classes[0]}. As a fan I wanted the answer to be yes, which is why I then
+          tried to prove it wrong.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
