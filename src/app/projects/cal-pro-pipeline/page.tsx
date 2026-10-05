@@ -102,26 +102,25 @@ export default function CalProPipelinePage() {
         {/* The answer first: a reader who stops here still gets the point */}
         <p className="section-label mt-10">The Takeaway</p>
         <p className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl leading-snug mt-3 max-w-3xl">
-          The Cal teams I grew up watching were every bit as good as I remembered. For one decade, under one
-          coaching staff, Cal sent out pros who beat their draft position more than any school in the country.
-          Then it stopped. And college sports has changed so much since that it may never happen again.
+          For one decade, Cal turned out pros who beat their draft position more than any other school in the
+          country. The effect was real. It belonged to one coaching staff, not to the school, and the rules of
+          college sports have changed enough to make it hard to repeat.
         </p>
-        <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          Memorial Stadium on September 27, 2003 started loud and only got louder. The tailgates outside were a
-          happy mess by the time the gates opened. Inside, every seat was taken, and when third-ranked USC came to
-          Berkeley the crowd barely sat down. Three overtimes later Cal had won, and thousands of us poured onto
-          the field. I was seven. My parents and siblings held on to me, and I held on to the moment. I never
-          really let go.
-        </p>
-        <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
-          We drove down from Napa for games all through my childhood, usually as a family, sometimes just my dad
-          and me. By 2006 I was showing up with a mohawk dyed blue on one side and gold on the other.
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
+          On October 5, 2024, ESPN&apos;s College GameDay set up on the Berkeley campus, and for one afternoon
+          Memorial Stadium felt the way it used to. The Bay Area&apos;s famously apathetic fans showed up and made
+          noise. Cal led eighth-ranked Miami by 25 points. Miami drove the field in the final minutes and won
+          39-38.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
-          Cal doesn&apos;t feel like that anymore. So I wanted to know whether those years were as special as I
-          remember, or whether I was just remembering a few famous names. I built a model of every NFL and NBA
-          draft pick since {m.classes[0]}. I wanted the answer to be yes. That is exactly why I then tried to
-          prove myself wrong.
+          Cal&apos;s quarterback that night was Fernando Mendoza. He transferred to Indiana, won the Heisman
+          Trophy and went first overall in the {latest.year} draft. Cal developed him. Indiana got the credit.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
+          It sent me back to the Cal I grew up on, when winning was normal and a Saturday in Berkeley meant
+          watching future pros. Were those teams as good as I remember, or am I remembering a few famous names? I
+          built a model of every NFL and NBA draft pick since {m.classes[0]} to find out. I wanted the answer to
+          be yes, so I spent most of the project trying to prove it wrong.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
@@ -242,9 +241,7 @@ export default function CalProPipelinePage() {
           Put both sports on one scale and Cal&apos;s players beat their draft slots by more than players from all
           but three schools, ahead of UCLA, Kentucky, Stanford, USC and Alabama. Football alone says the same (#
           {cal.nflRank} of {m.nflSchools}). Basketball alone has Cal #{cal.nbaRank} of {m.nbaSchools}, though{' '}
-          {cal.nbaPicks} picks is too few to say much. It still fits what I saw at Haas Pavilion, where Leon Powe
-          dunked on people and Ryan Anderson drained threes. Both beat their slot. Use the buttons to switch
-          sports.
+          {cal.nbaPicks} picks is too few to say much. Use the buttons to switch sports.
         </p>
         <SchoolLeaderboard
           both={{
@@ -345,12 +342,9 @@ export default function CalProPipelinePage() {
         </p>
         {lynch && (
           <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-            There was a buzz every time DeSean Jackson stood back to field a punt, because anything could happen. And
-            then there was October 21, 2006. I was in the stadium when Marshawn Lynch celebrated an overtime win over
-            Washington by driving an injury cart across the field, so close to the crowd that I figured someone was
-            about to get hit. The scene afterward was chaos. He went #{lynch.pick} the next spring and still beat his
-            slot by <Metric>+{lynch.surplus}</Metric>.
-          </p>
+          The list runs deep: Cameron Jordan, Keenan Allen, DeSean Jackson and Marshawn Lynch, who went #{lynch.pick} in {lynch.year}
+          and still beat his slot by <Metric>+{lynch.surplus}</Metric>.
+        </p>
         )}
         <h3 className="text-sm text-[var(--text-primary)] mb-4">
           Cal&apos;s biggest outperformers, {eraFirst} to {eraLast} (career AV)
@@ -444,13 +438,9 @@ export default function CalProPipelinePage() {
           tooltip="schools"
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 mb-4 max-w-2xl">
-          Every so often the old feeling came back. On October 5, 2024, ESPN&apos;s College GameDay set up on
-          campus, the stadium filled and shook the way I remembered from childhood, and for one afternoon the Bay
-          Area&apos;s famously apathetic fans showed up and cheered like they meant it. Cal led eighth-ranked Miami
-          by 25 points. Then Miami drove the field in the final minutes and won 39-38. Cal&apos;s quarterback that
-          night was Fernando Mendoza. He spent three seasons in Berkeley, transferred to Indiana, won the Heisman
-          Trophy and went first overall in the {latest.year} draft. Draft records credit the last school a player
-          attended, so he counts for Indiana.
+          Mendoza, from the opening, is the clearest example of the new math. Draft records credit the last school
+          a player attended, so he counts for Indiana. Cal spent three seasons developing a first overall pick and
+          kept none of the credit.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
           I can&apos;t yet measure this era the way I measured {eraFirst} to {eraLast}. Players drafted since{' '}
@@ -473,8 +463,7 @@ export default function CalProPipelinePage() {
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">It only sees players who were drafted.</strong>{' '}
-            Jerome Randle ran the point next to Ryan Anderson, went undrafted and became a star overseas. He
-            doesn&apos;t exist in this data.
+            A college star who goes undrafted and thrives elsewhere never appears in this data.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">It doesn&apos;t prove the coach caused it.</strong>{' '}
@@ -520,11 +509,16 @@ export default function CalProPipelinePage() {
           </li>
         </ol>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          I&apos;m still a fan. That is why I wrote this. As I write it in October 2026, Cal has just lost to
-          UNLV, and every new round of conference realignment makes me wonder whether the program will have a
-          seat when the music stops. At least now I know what to hope for. Not the old Cal back, but the next
-          staff that can do what that one did, in a sport where keeping the players you develop has never been
-          harder.
+          As I write this in October 2026, Cal has just lost to UNLV, and every round of conference realignment makes me wonder whether the program
+          will keep its seat when the music stops. What I know now is what to hope for: not the old Cal back, but
+          the next staff that can build what that one did, in a sport that makes keeping the players you develop
+          harder than ever.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
+          On September 27, 2003, Cal beat third-ranked USC in triple overtime. Memorial Stadium was full and
+          roaring, the tailgates outside were still going, and thousands of people poured onto the field. I was
+          seven, running with my parents and siblings, and I assumed that was simply what Cal was. It was a moment,
+          and now I know what it took. I would like to hear that sound again.
         </p>
       </section>
 
