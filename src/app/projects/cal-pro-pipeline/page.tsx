@@ -102,14 +102,16 @@ export default function CalProPipelinePage() {
         {/* The answer first: a reader who stops here still gets the point */}
         <p className="section-label mt-10">The Takeaway</p>
         <p className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl leading-snug mt-3 max-w-3xl">
-          From {eraFirst} to {eraLast}, Cal&apos;s NFL draft picks outperformed their draft position more than
-          any other program&apos;s: first of {m.eraSchools}. The result holds with every school&apos;s best player
-          removed, and it follows one coaching staff, not the school.
+          For one decade, no college program produced NFL players who outperformed their draft slot more
+          than Cal did.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          Which colleges produce players who outperform where they were drafted? I modeled the expected career
-          value of every NFL and NBA draft pick since {m.classes[0]}, ranked schools by how far their players
-          beat it, then stress-tested the ranking until I knew which parts held.
+          The question: which colleges produce players who beat where they were drafted? To answer it, I modeled
+          the expected career value of every NFL and NBA draft pick since {m.classes[0]} and ranked schools by
+          how far their players beat it. Three things came out of it. Cal&apos;s 40-year ranking looks strong but
+          can&apos;t be separated from luck. School rankings don&apos;t persist from one decade to the next, so
+          a 40-year average hides more than it shows. And Cal&apos;s {eraFirst} to {eraLast} classes rank first
+          of {m.eraSchools}, survive seven stress tests, and line up with one coaching staff.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
@@ -137,8 +139,8 @@ export default function CalProPipelinePage() {
           ))}
         </div>
         <p className="text-sm text-[var(--text-muted)] leading-relaxed mt-6 max-w-2xl">
-          What it shows about how I work: build the model, question the first answer, and explain the result to
-          someone who doesn&apos;t care about the statistics.
+          How I work: build the model, distrust the first answer, and explain the result to someone who
+          doesn&apos;t care about the statistics.
         </p>
       </section>
 
@@ -224,10 +226,10 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Finding 1" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          At first glance, yes: #{cal.twoSportRank} of {m.twoSportSchools} over 40 years
+          Over 40 years, Cal ranks #{cal.twoSportRank} of {m.twoSportSchools}
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Put both sports on one scale and Cal&apos;s players beat their draft slots by more than players from all
+          With both sports on one scale, Cal&apos;s players beat their draft slots by more than players from all
           but three schools, ahead of UCLA, Kentucky, Stanford, USC and Alabama. Football alone says the same (#
           {cal.nflRank} of {m.nflSchools}). Basketball alone has Cal #{cal.nbaRank} of {m.nbaSchools}, though{' '}
           {cal.nbaPicks} picks is too few to say much. Use the buttons to switch sports.
@@ -255,7 +257,8 @@ export default function CalProPipelinePage() {
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
           A good result, but a soft one. Cal&apos;s line crosses zero, and if you shuffle players between schools
           at random, some school lands this far ahead <Metric>{pct(stress.luckAllTime.anySchool)}</Metric> of the
-          time. Forty years of data can&apos;t tell a real edge from a lucky one.
+          time. The 40-year ranking can&apos;t tell a real edge from a lucky one. The next question is whether a
+          40-year ranking is even the right thing to measure.
         </p>
       </section>
 
@@ -263,7 +266,7 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Finding 2" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          It wasn&apos;t the school. It was a decade.
+          School rankings don&apos;t last. Cal&apos;s comes from one decade.
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
           A 40-year ranking quietly assumes a school stays the same for 40 years. It doesn&apos;t. If beating the
@@ -275,7 +278,7 @@ export default function CalProPipelinePage() {
           leave. Coaches leave. Systems change.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Cal is a clean example. From {stress.early.years[0]} to {stress.early.years[1]} it ranked{' '}
+          Cal shows the pattern clearly. From {stress.early.years[0]} to {stress.early.years[1]} it ranked{' '}
           <Metric>{ordinal(stress.early.rank)}</Metric> of {stress.early.schools} schools. From{' '}
           {stress.late.years[0]} on, it ranked <Metric>{ordinal(stress.late.rank)}</Metric>. Most of the 40-year
           result comes from one long stretch, and that stretch lines up with one head coach: {m.eraCoach}, who ran
@@ -402,11 +405,11 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="What Changed" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Why it&apos;s hard to bring back
+          Why it would be harder to repeat today
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          The run ended when the staff did, and getting it back is harder now than it was then. That run depended
-          on players staying put long enough to be developed. Since {NIL_YEAR}, players can be paid for their
+          The run ended when the staff did, and repeating it would be harder now. It depended on players staying
+          put long enough to be developed. Since {NIL_YEAR}, players can be paid for their
           name, image and likeness (NIL), and they can transfer without sitting out a year. A program can now
           spend three years developing a player and lose him to a bigger budget before the draft.
         </p>
