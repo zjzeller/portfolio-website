@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import {
   ComposedChart,
+  LineChart,
+  ReferenceArea,
+  ReferenceLine,
   Line,
   Scatter,
   XAxis,
@@ -106,38 +109,20 @@ export function DraftCurveChart({
 }
 
 // ---------------------------------------------------------------------------
-// 2. School leaderboard: average surplus per pick with a 95% interval.
+// 2. School rankings: average surplus per pick with a 95% interval.
 // Dot = average, bar = the range the true average plausibly falls in.
 // A bar that crosses zero means "can't rule out average".
 // Built with positioned divs, so it stays sharp and responsive.
 //
-// Two toggle buttons pick the sport(s): both on = combined ranking,
-// one on = that sport alone. At least one always stays on.
-// By default only the "featured" rows show (top 10, Cal, big-name programs);
-// "Show all" expands to the full, gap-free ranking.
+// RankingList draws one ranking. By default only the "featured" rows show
+// (top 10, Cal, big-name programs); "Show all" expands to the full list.
+// SchoolLeaderboard adds the Football / Basketball toggle buttons on top.
 // ---------------------------------------------------------------------------
 
 export type LeaderboardView = { unit: string; rows: SchoolRow[]; total: number; decimals: number }
 
-export function SchoolLeaderboard({
-  both,
-  football,
-  basketball,
-}: {
-  both: LeaderboardView
-  football: LeaderboardView
-  basketball: LeaderboardView
-}) {
-  const [sports, setSports] = useState({ football: true, basketball: true })
+export function RankingList({ view }: { view: LeaderboardView }) {
   const [showAll, setShowAll] = useState(false)
-
-  // Clicking a sport turns it on or off, but never leaves both off
-  const toggle = (sport: 'football' | 'basketball') => {
-    const next = { ...sports, [sport]: !sports[sport] }
-    if (next.football || next.basketball) setSports(next)
-  }
-
-  const view = sports.football && sports.basketball ? both : sports.football ? football : basketball
   const rows = showAll ? view.rows : view.rows.filter((r) => r.featured)
   // Scale from every school in the view, so the axis doesn't jump when the list expands
   const lo = Math.min(0, ...view.rows.map((r) => r.lo))
@@ -145,39 +130,8 @@ export function SchoolLeaderboard({
   const pos = (v: number) => ((v - lo) / (hi - lo)) * 100
   const fmt = (v: number) => v.toFixed(view.decimals)
 
-  const buttons: { key: 'football' | 'basketball'; label: string }[] = [
-    { key: 'football', label: 'Football' },
-    { key: 'basketball', label: 'Basketball' },
-  ]
-
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2 mb-6">
-        <span className="text-xs text-[var(--text-muted)] mr-1">Include:</span>
-        {buttons.map((b) => (
-          <button
-            key={b.key}
-            type="button"
-            onClick={() => toggle(b.key)}
-            aria-pressed={sports[b.key]}
-            className={`flex items-center gap-2 text-xs tracking-wider uppercase px-3 py-1.5 border transition-colors ${
-              sports[b.key]
-                ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
-                : 'border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
-            }`}
-          >
-            {/* Small box so on/off doesn't depend on color alone */}
-            <span
-              aria-hidden="true"
-              className={`inline-block h-2.5 w-2.5 border ${
-                sports[b.key] ? 'border-[var(--accent)] bg-[var(--accent)]' : 'border-[var(--text-muted)]'
-              }`}
-            />
-            {b.label}
-          </button>
-        ))}
-      </div>
-
       <div className="text-xs">
         {rows.map((r, i) => {
           const isCal = r.school === CAL
@@ -238,6 +192,139 @@ export function SchoolLeaderboard({
         {view.unit} Dot: the school&apos;s average per pick. Line: how far that average could move with luck (95%
         interval). Left of the vertical line means below draft slot. Ranked among {view.total} schools.
       </p>
+    </div>
+  )
+}
+
+export function SchoolLeaderboard({
+  both,
+  football,
+  basketball,
+}: {
+  both: LeaderboardView
+  football: LeaderboardView
+  basketball: LeaderboardView
+}) {
+  const [sports, setSports] = useState({ football: true, basketball: true })
+
+  // Clicking a sport turns it on or off, but never leaves both off
+  const toggle = (sport: 'football' | 'basketball') => {
+    const next = { ...sports, [sport]: !sports[sport] }
+    if (next.football || next.basketball) setSports(next)
+  }
+
+  const view = sports.football && sports.basketball ? both : sports.football ? football : basketball
+  const buttons: { key: 'football' | 'basketball'; label: string }[] = [
+    { key: 'football', label: 'Football' },
+    { key: 'basketball', label: 'Basketball' },
+  ]
+
+  return (
+    <div>
+      <div className="flex flex-wrap items-center gap-2 mb-6">
+        <span className="text-xs text-[var(--text-muted)] mr-1">Include:</span>
+        {buttons.map((b) => (
+          <button
+            key={b.key}
+            type="button"
+            onClick={() => toggle(b.key)}
+            aria-pressed={sports[b.key]}
+            className={`flex items-center gap-2 text-xs tracking-wider uppercase px-3 py-1.5 border transition-colors ${
+              sports[b.key]
+                ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
+                : 'border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            {/* Small box so on/off doesn't depend on color alone */}
+            <span
+              aria-hidden="true"
+              className={`inline-block h-2.5 w-2.5 border ${
+                sports[b.key] ? 'border-[var(--accent)] bg-[var(--accent)]' : 'border-[var(--text-muted)]'
+              }`}
+            />
+            {b.label}
+          </button>
+        ))}
+      </div>
+      <RankingList view={view} />
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// 2b. Trend lines. Both are a single series over draft years with one marked
+// period, so they share a component:
+//   - Cal's score over time, with the coaching era shaded
+//   - Number of schools with a draft pick, with the NIL era shaded
+// ---------------------------------------------------------------------------
+
+function TrendTooltip({ active, payload, label, describe }: { active?: boolean; payload?: { payload: Record<string, number> }[]; label?: number; describe: (row: Record<string, number>) => string }) {
+  if (!active || !payload?.length) return null
+  return (
+    <div className="bg-[var(--bg-surface)] border border-[var(--border)] px-3 py-2 text-xs">
+      <p className="text-[var(--text-primary)] mb-1">{label}</p>
+      <p className="font-[family-name:var(--font-dm-mono)] text-[var(--text-secondary)]">{describe(payload[0].payload)}</p>
+    </div>
+  )
+}
+
+export function TrendChart({
+  data,
+  dataKey,
+  unit,
+  band,
+  bandLabel,
+  zeroLine = false,
+  tooltip,
+}: {
+  data: Record<string, number>[]
+  dataKey: string
+  unit: string
+  band: [number, number] // first and last year of the shaded period
+  bandLabel: string
+  zeroLine?: boolean
+  tooltip: 'score' | 'schools'
+}) {
+  // Tooltip wording lives here because functions can't be passed from a server page
+  const describe = (row: Record<string, number>) =>
+    tooltip === 'score'
+      ? `${row.mean > 0 ? '+' : ''}${row.mean} per pick, ${row.picks} picks in the 5 classes around this year`
+      : `${row.schools} schools had a pick; the top 25 schools supplied ${Math.round(row.top25Share * 100)}%`
+  return (
+    <div className="h-72">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 24, right: 16, bottom: 8, left: 0 }}>
+          <CartesianGrid stroke={CHART.grid} vertical={false} />
+          <XAxis
+            dataKey="year"
+            type="number"
+            domain={['dataMin', 'dataMax']}
+            tick={{ fontSize: 11, fill: CHART.muted }}
+            tickLine={false}
+            axisLine={{ stroke: CHART.axis }}
+            label={{ value: 'Draft year', position: 'insideBottom', offset: -4, fontSize: 11, fill: CHART.muted }}
+          />
+          <YAxis
+            tick={{ fontSize: 11, fill: CHART.muted }}
+            tickLine={false}
+            axisLine={false}
+            width={40}
+            // Round the axis out to whole tens so the tick labels are clean numbers
+            domain={[(min: number) => Math.floor((min - 1) / 10) * 10, (max: number) => Math.ceil((max + 1) / 10) * 10]}
+            label={{ value: unit, angle: -90, position: 'insideLeft', fontSize: 11, fill: CHART.muted, dy: 50 }}
+          />
+          <ReferenceArea
+            x1={band[0]}
+            x2={band[1]}
+            fill={CHART.accent}
+            fillOpacity={0.1}
+            label={{ value: bandLabel, position: 'insideTop', fontSize: 11, fill: CHART.accent, dy: -18 }}
+          />
+          {zeroLine && <ReferenceLine y={0} stroke={CHART.muted} strokeDasharray="4 4" />}
+          <Tooltip content={<TrendTooltip describe={describe} />} cursor={{ stroke: CHART.axis }} />
+          <Line dataKey={dataKey} type="monotone" stroke={CHART.accent} strokeWidth={2} dot={{ r: 2, fill: CHART.accent }} isAnimationActive={false} />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   )
 }

@@ -15,7 +15,7 @@ export const PROJECTS: Project[] = [
     href: '/projects/cal-pro-pipeline',
     title: "Cal's Pro Pipeline: Beating the Draft Board",
     description:
-      'Do Cal players outperform their draft slot? A model of expected career value for every NFL and NBA pick since 1980 ranks Cal 4th of 57 schools.',
+      "Which colleges' players beat their draft slot? A model of every NFL and NBA pick since 1980 finds Cal's 2003 to 2013 classes ranked 1st of 41 schools, then stress-tests the result.",
     tags: ['Python', 'scikit-learn', 'Sports Analytics'],
     tools: ['Python', 'Pandas', 'scikit-learn', 'Recharts', 'Next.js'],
     githubUrl: 'https://github.com/zjzeller/portfolio-website/blob/main/scripts/cal-pipeline.py',

@@ -16,7 +16,14 @@
     "minNbaOnly": 15,
     "nflSpread": 18.5,
     "nbaSpread": 24.5,
-    "generatedAt": "2026-10-05T06:01:58.408774+00:00"
+    "era": [
+      2003,
+      2013
+    ],
+    "eraCoach": "Jeff Tedford",
+    "eraSchools": 41,
+    "minEra": 25,
+    "generatedAt": "2026-10-05T06:36:49.550627+00:00"
   },
   "cal": {
     "twoSportRank": 4,
@@ -36,6 +43,948 @@
     "nflBeatShare": 0.398,
     "allBeatShare": 0.319
   },
+  "calEra": {
+    "rank": 1,
+    "picks": 44,
+    "mean": 9.6,
+    "lo": 1.8,
+    "hi": 19.0,
+    "beatShare": 0.4545,
+    "allBeatShare": 0.345,
+    "withoutBestMean": 6.9,
+    "withoutBestRank": 1,
+    "luckCal": 0.001,
+    "luckAnySchool": 0.09,
+    "windowsCompared": 1323,
+    "schoolsWithAsGoodAStretch": [
+      "Boston Col.",
+      "Purdue"
+    ]
+  },
+  "eraBoard": [
+    {
+      "school": "California",
+      "rank": 1,
+      "n": 44,
+      "mean": 9.624,
+      "lo": 1.808,
+      "hi": 19.015,
+      "beat": 0.455,
+      "featured": true
+    },
+    {
+      "school": "Cincinnati",
+      "rank": 2,
+      "n": 25,
+      "mean": 6.954,
+      "lo": -2.84,
+      "hi": 18.471,
+      "beat": 0.44,
+      "featured": true
+    },
+    {
+      "school": "Purdue",
+      "rank": 3,
+      "n": 28,
+      "mean": 6.85,
+      "lo": 0.871,
+      "hi": 13.582,
+      "beat": 0.536,
+      "featured": true
+    },
+    {
+      "school": "Utah",
+      "rank": 4,
+      "n": 25,
+      "mean": 6.63,
+      "lo": 0.994,
+      "hi": 13.174,
+      "beat": 0.52,
+      "featured": true
+    },
+    {
+      "school": "Nebraska",
+      "rank": 5,
+      "n": 42,
+      "mean": 3.693,
+      "lo": -1.608,
+      "hi": 9.838,
+      "beat": 0.381,
+      "featured": true
+    },
+    {
+      "school": "North Carolina St.",
+      "rank": 6,
+      "n": 32,
+      "mean": 2.049,
+      "lo": -5.42,
+      "hi": 10.606,
+      "beat": 0.375,
+      "featured": true
+    },
+    {
+      "school": "Miami (FL)",
+      "rank": 7,
+      "n": 60,
+      "mean": 1.754,
+      "lo": -3.705,
+      "hi": 7.819,
+      "beat": 0.367,
+      "featured": true
+    },
+    {
+      "school": "Pittsburgh",
+      "rank": 8,
+      "n": 30,
+      "mean": 1.56,
+      "lo": -5.113,
+      "hi": 8.635,
+      "beat": 0.4,
+      "featured": true
+    },
+    {
+      "school": "Wisconsin",
+      "rank": 9,
+      "n": 44,
+      "mean": 1.403,
+      "lo": -5.121,
+      "hi": 8.944,
+      "beat": 0.295,
+      "featured": true
+    },
+    {
+      "school": "South Carolina",
+      "rank": 10,
+      "n": 38,
+      "mean": 0.973,
+      "lo": -3.706,
+      "hi": 5.755,
+      "beat": 0.395,
+      "featured": true
+    },
+    {
+      "school": "TCU",
+      "rank": 11,
+      "n": 26,
+      "mean": 0.592,
+      "lo": -5.623,
+      "hi": 7.697,
+      "beat": 0.308,
+      "featured": false
+    },
+    {
+      "school": "Texas",
+      "rank": 12,
+      "n": 49,
+      "mean": 0.588,
+      "lo": -4.172,
+      "hi": 5.713,
+      "beat": 0.469,
+      "featured": true
+    },
+    {
+      "school": "Louisville",
+      "rank": 13,
+      "n": 29,
+      "mean": 0.532,
+      "lo": -5.615,
+      "hi": 7.034,
+      "beat": 0.379,
+      "featured": false
+    },
+    {
+      "school": "Georgia",
+      "rank": 14,
+      "n": 64,
+      "mean": 0.466,
+      "lo": -4.659,
+      "hi": 5.977,
+      "beat": 0.328,
+      "featured": false
+    },
+    {
+      "school": "Michigan St.",
+      "rank": 15,
+      "n": 29,
+      "mean": 0.407,
+      "lo": -8.108,
+      "hi": 10.088,
+      "beat": 0.276,
+      "featured": false
+    },
+    {
+      "school": "Iowa",
+      "rank": 16,
+      "n": 46,
+      "mean": 0.275,
+      "lo": -4.366,
+      "hi": 5.662,
+      "beat": 0.37,
+      "featured": false
+    },
+    {
+      "school": "Auburn",
+      "rank": 17,
+      "n": 34,
+      "mean": 0.095,
+      "lo": -5.662,
+      "hi": 6.128,
+      "beat": 0.412,
+      "featured": false
+    },
+    {
+      "school": "Oregon St.",
+      "rank": 18,
+      "n": 30,
+      "mean": -0.036,
+      "lo": -5.301,
+      "hi": 6.113,
+      "beat": 0.3,
+      "featured": false
+    },
+    {
+      "school": "Arizona St.",
+      "rank": 19,
+      "n": 26,
+      "mean": -0.172,
+      "lo": -6.223,
+      "hi": 7.497,
+      "beat": 0.269,
+      "featured": false
+    },
+    {
+      "school": "Oregon",
+      "rank": 20,
+      "n": 39,
+      "mean": -0.354,
+      "lo": -5.856,
+      "hi": 5.327,
+      "beat": 0.41,
+      "featured": true
+    },
+    {
+      "school": "Notre Dame",
+      "rank": 21,
+      "n": 44,
+      "mean": -0.701,
+      "lo": -5.789,
+      "hi": 4.776,
+      "beat": 0.341,
+      "featured": true
+    },
+    {
+      "school": "Colorado",
+      "rank": 22,
+      "n": 25,
+      "mean": -0.868,
+      "lo": -7.14,
+      "hi": 6.897,
+      "beat": 0.32,
+      "featured": false
+    },
+    {
+      "school": "LSU",
+      "rank": 23,
+      "n": 65,
+      "mean": -1.251,
+      "lo": -6.613,
+      "hi": 4.243,
+      "beat": 0.354,
+      "featured": false
+    },
+    {
+      "school": "Alabama",
+      "rank": 24,
+      "n": 54,
+      "mean": -1.254,
+      "lo": -5.674,
+      "hi": 3.489,
+      "beat": 0.389,
+      "featured": true
+    },
+    {
+      "school": "Tennessee",
+      "rank": 25,
+      "n": 43,
+      "mean": -1.489,
+      "lo": -7.051,
+      "hi": 4.561,
+      "beat": 0.372,
+      "featured": false
+    },
+    {
+      "school": "Illinois",
+      "rank": 26,
+      "n": 29,
+      "mean": -1.871,
+      "lo": -7.45,
+      "hi": 4.972,
+      "beat": 0.241,
+      "featured": false
+    },
+    {
+      "school": "USC",
+      "rank": 27,
+      "n": 74,
+      "mean": -2.04,
+      "lo": -6.492,
+      "hi": 2.879,
+      "beat": 0.27,
+      "featured": true
+    },
+    {
+      "school": "Florida",
+      "rank": 28,
+      "n": 56,
+      "mean": -2.055,
+      "lo": -6.362,
+      "hi": 2.254,
+      "beat": 0.429,
+      "featured": true
+    },
+    {
+      "school": "Virginia Tech",
+      "rank": 29,
+      "n": 44,
+      "mean": -2.098,
+      "lo": -6.585,
+      "hi": 2.858,
+      "beat": 0.273,
+      "featured": false
+    },
+    {
+      "school": "Ohio St.",
+      "rank": 30,
+      "n": 65,
+      "mean": -2.227,
+      "lo": -6.38,
+      "hi": 2.469,
+      "beat": 0.369,
+      "featured": true
+    },
+    {
+      "school": "Florida St.",
+      "rank": 31,
+      "n": 58,
+      "mean": -2.875,
+      "lo": -7.472,
+      "hi": 2.178,
+      "beat": 0.293,
+      "featured": false
+    },
+    {
+      "school": "Stanford",
+      "rank": 32,
+      "n": 34,
+      "mean": -2.939,
+      "lo": -8.112,
+      "hi": 3.946,
+      "beat": 0.176,
+      "featured": true
+    },
+    {
+      "school": "Texas A&M",
+      "rank": 33,
+      "n": 30,
+      "mean": -3.031,
+      "lo": -9.414,
+      "hi": 4.071,
+      "beat": 0.233,
+      "featured": false
+    },
+    {
+      "school": "Virginia",
+      "rank": 34,
+      "n": 28,
+      "mean": -3.374,
+      "lo": -8.975,
+      "hi": 3.238,
+      "beat": 0.25,
+      "featured": false
+    },
+    {
+      "school": "Penn St.",
+      "rank": 35,
+      "n": 43,
+      "mean": -3.513,
+      "lo": -8.611,
+      "hi": 1.785,
+      "beat": 0.302,
+      "featured": false
+    },
+    {
+      "school": "Oklahoma",
+      "rank": 36,
+      "n": 60,
+      "mean": -3.531,
+      "lo": -7.7,
+      "hi": 1.303,
+      "beat": 0.25,
+      "featured": false
+    },
+    {
+      "school": "Michigan",
+      "rank": 37,
+      "n": 41,
+      "mean": -3.759,
+      "lo": -8.416,
+      "hi": 0.985,
+      "beat": 0.268,
+      "featured": true
+    },
+    {
+      "school": "UCLA",
+      "rank": 38,
+      "n": 27,
+      "mean": -4.213,
+      "lo": -9.297,
+      "hi": 1.617,
+      "beat": 0.259,
+      "featured": true
+    },
+    {
+      "school": "Clemson",
+      "rank": 39,
+      "n": 40,
+      "mean": -5.586,
+      "lo": -10.081,
+      "hi": -0.757,
+      "beat": 0.275,
+      "featured": false
+    },
+    {
+      "school": "North Carolina",
+      "rank": 40,
+      "n": 33,
+      "mean": -5.961,
+      "lo": -10.427,
+      "hi": -1.517,
+      "beat": 0.273,
+      "featured": true
+    },
+    {
+      "school": "Arkansas",
+      "rank": 41,
+      "n": 33,
+      "mean": -8.517,
+      "lo": -11.601,
+      "hi": -5.202,
+      "beat": 0.152,
+      "featured": false
+    }
+  ],
+  "eraPlayers": [
+    {
+      "player": "Aaron Rodgers",
+      "year": 2005,
+      "pick": 24,
+      "value": 169.0,
+      "expected": 41.2,
+      "surplus": 127.8
+    },
+    {
+      "player": "Cameron Jordan",
+      "year": 2011,
+      "pick": 24,
+      "value": 109.0,
+      "expected": 39.9,
+      "surplus": 69.1
+    },
+    {
+      "player": "Keenan Allen",
+      "year": 2013,
+      "pick": 76,
+      "value": 80.0,
+      "expected": 23.7,
+      "surplus": 56.3
+    },
+    {
+      "player": "DeSean Jackson",
+      "year": 2008,
+      "pick": 49,
+      "value": 75.0,
+      "expected": 27.7,
+      "surplus": 47.3
+    },
+    {
+      "player": "Brandon Mebane",
+      "year": 2007,
+      "pick": 85,
+      "value": 63.0,
+      "expected": 17.4,
+      "surplus": 45.6
+    },
+    {
+      "player": "Mitchell Schwartz",
+      "year": 2012,
+      "pick": 37,
+      "value": 75.0,
+      "expected": 30.1,
+      "surplus": 44.9
+    },
+    {
+      "player": "Marvin Jones",
+      "year": 2012,
+      "pick": 166,
+      "value": 53.0,
+      "expected": 8.8,
+      "surplus": 44.2
+    },
+    {
+      "player": "Alex Mack",
+      "year": 2009,
+      "pick": 21,
+      "value": 86.0,
+      "expected": 43.3,
+      "surplus": 42.7
+    },
+    {
+      "player": "Marshawn Lynch",
+      "year": 2007,
+      "pick": 12,
+      "value": 74.0,
+      "expected": 46.6,
+      "surplus": 27.4
+    },
+    {
+      "player": "Justin Forsett",
+      "year": 2008,
+      "pick": 233,
+      "value": 32.0,
+      "expected": 7.1,
+      "surplus": 24.9
+    }
+  ],
+  "timeline": [
+    {
+      "year": 1982,
+      "mean": -5.7,
+      "picks": 14
+    },
+    {
+      "year": 1983,
+      "mean": -6.3,
+      "picks": 11
+    },
+    {
+      "year": 1984,
+      "mean": -1.9,
+      "picks": 8
+    },
+    {
+      "year": 1985,
+      "mean": 11.8,
+      "picks": 10
+    },
+    {
+      "year": 1986,
+      "mean": 15.2,
+      "picks": 8
+    },
+    {
+      "year": 1987,
+      "mean": 10.5,
+      "picks": 11
+    },
+    {
+      "year": 1988,
+      "mean": 8.8,
+      "picks": 11
+    },
+    {
+      "year": 1989,
+      "mean": 4.2,
+      "picks": 16
+    },
+    {
+      "year": 1990,
+      "mean": -5.1,
+      "picks": 18
+    },
+    {
+      "year": 1991,
+      "mean": -4.4,
+      "picks": 18
+    },
+    {
+      "year": 1992,
+      "mean": -2.5,
+      "picks": 18
+    },
+    {
+      "year": 1993,
+      "mean": -2.9,
+      "picks": 20
+    },
+    {
+      "year": 1994,
+      "mean": -4.1,
+      "picks": 20
+    },
+    {
+      "year": 1995,
+      "mean": 0.6,
+      "picks": 19
+    },
+    {
+      "year": 1996,
+      "mean": 2.2,
+      "picks": 20
+    },
+    {
+      "year": 1997,
+      "mean": 1.2,
+      "picks": 19
+    },
+    {
+      "year": 1998,
+      "mean": 2.0,
+      "picks": 20
+    },
+    {
+      "year": 1999,
+      "mean": 5.8,
+      "picks": 17
+    },
+    {
+      "year": 2000,
+      "mean": 4.4,
+      "picks": 16
+    },
+    {
+      "year": 2001,
+      "mean": 1.3,
+      "picks": 16
+    },
+    {
+      "year": 2002,
+      "mean": 1.7,
+      "picks": 14
+    },
+    {
+      "year": 2003,
+      "mean": 8.6,
+      "picks": 15
+    },
+    {
+      "year": 2004,
+      "mean": 6.9,
+      "picks": 16
+    },
+    {
+      "year": 2005,
+      "mean": 7.8,
+      "picks": 18
+    },
+    {
+      "year": 2006,
+      "mean": 10.1,
+      "picks": 20
+    },
+    {
+      "year": 2007,
+      "mean": 12.0,
+      "picks": 21
+    },
+    {
+      "year": 2008,
+      "mean": 6.7,
+      "picks": 19
+    },
+    {
+      "year": 2009,
+      "mean": 11.0,
+      "picks": 20
+    },
+    {
+      "year": 2010,
+      "mean": 10.8,
+      "picks": 22
+    },
+    {
+      "year": 2011,
+      "mean": 10.6,
+      "picks": 20
+    },
+    {
+      "year": 2012,
+      "mean": 8.4,
+      "picks": 19
+    },
+    {
+      "year": 2013,
+      "mean": 12.0,
+      "picks": 16
+    },
+    {
+      "year": 2014,
+      "mean": 7.7,
+      "picks": 16
+    },
+    {
+      "year": 2015,
+      "mean": 0.0,
+      "picks": 13
+    },
+    {
+      "year": 2016,
+      "mean": -4.3,
+      "picks": 11
+    },
+    {
+      "year": 2017,
+      "mean": -3.3,
+      "picks": 9
+    },
+    {
+      "year": 2018,
+      "mean": -3.4,
+      "picks": 12
+    }
+  ],
+  "stress": {
+    "thresholds": [
+      {
+        "min": 40,
+        "schools": 80,
+        "rank": 4
+      },
+      {
+        "min": 60,
+        "schools": 61,
+        "rank": 4
+      },
+      {
+        "min": 80,
+        "schools": 53,
+        "rank": 4
+      },
+      {
+        "min": 100,
+        "schools": 39,
+        "rank": 2
+      },
+      {
+        "min": 120,
+        "schools": 29,
+        "rank": 2
+      }
+    ],
+    "shrunkRank": 4,
+    "cappedRank": 6,
+    "positionRank": 4,
+    "noQbRank": 5,
+    "noQbSchools": 60,
+    "decades": [
+      {
+        "from": "1980s",
+        "to": "1990s",
+        "schools": 42,
+        "correlation": 0.01
+      },
+      {
+        "from": "1990s",
+        "to": "2000s",
+        "schools": 35,
+        "correlation": -0.0
+      },
+      {
+        "from": "2000s",
+        "to": "2010s",
+        "schools": 38,
+        "correlation": 0.17
+      }
+    ],
+    "early": {
+      "years": [
+        1980,
+        1999
+      ],
+      "rank": 27,
+      "schools": 64,
+      "mean": 0.2
+    },
+    "late": {
+      "years": [
+        2000,
+        2020
+      ],
+      "rank": 4,
+      "schools": 64,
+      "mean": 6.0
+    },
+    "luckAllTime": {
+      "cal": 0.021,
+      "anySchool": 0.82
+    }
+  },
+  "concentration": [
+    {
+      "year": 1994,
+      "schools": 105,
+      "top25Share": 0.505
+    },
+    {
+      "year": 1995,
+      "schools": 103,
+      "top25Share": 0.558
+    },
+    {
+      "year": 1996,
+      "schools": 119,
+      "top25Share": 0.476
+    },
+    {
+      "year": 1997,
+      "schools": 104,
+      "top25Share": 0.5
+    },
+    {
+      "year": 1998,
+      "schools": 98,
+      "top25Share": 0.523
+    },
+    {
+      "year": 1999,
+      "schools": 108,
+      "top25Share": 0.502
+    },
+    {
+      "year": 2000,
+      "schools": 105,
+      "top25Share": 0.488
+    },
+    {
+      "year": 2001,
+      "schools": 100,
+      "top25Share": 0.524
+    },
+    {
+      "year": 2002,
+      "schools": 103,
+      "top25Share": 0.556
+    },
+    {
+      "year": 2003,
+      "schools": 107,
+      "top25Share": 0.508
+    },
+    {
+      "year": 2004,
+      "schools": 101,
+      "top25Share": 0.529
+    },
+    {
+      "year": 2005,
+      "schools": 110,
+      "top25Share": 0.475
+    },
+    {
+      "year": 2006,
+      "schools": 97,
+      "top25Share": 0.561
+    },
+    {
+      "year": 2007,
+      "schools": 111,
+      "top25Share": 0.49
+    },
+    {
+      "year": 2008,
+      "schools": 110,
+      "top25Share": 0.468
+    },
+    {
+      "year": 2009,
+      "schools": 107,
+      "top25Share": 0.516
+    },
+    {
+      "year": 2010,
+      "schools": 106,
+      "top25Share": 0.494
+    },
+    {
+      "year": 2011,
+      "schools": 107,
+      "top25Share": 0.512
+    },
+    {
+      "year": 2012,
+      "schools": 105,
+      "top25Share": 0.502
+    },
+    {
+      "year": 2013,
+      "schools": 111,
+      "top25Share": 0.528
+    },
+    {
+      "year": 2014,
+      "schools": 113,
+      "top25Share": 0.465
+    },
+    {
+      "year": 2015,
+      "schools": 98,
+      "top25Share": 0.547
+    },
+    {
+      "year": 2016,
+      "schools": 102,
+      "top25Share": 0.524
+    },
+    {
+      "year": 2017,
+      "schools": 102,
+      "top25Share": 0.557
+    },
+    {
+      "year": 2018,
+      "schools": 111,
+      "top25Share": 0.506
+    },
+    {
+      "year": 2019,
+      "schools": 102,
+      "top25Share": 0.563
+    },
+    {
+      "year": 2020,
+      "schools": 95,
+      "top25Share": 0.573
+    },
+    {
+      "year": 2021,
+      "schools": 89,
+      "top25Share": 0.575
+    },
+    {
+      "year": 2022,
+      "schools": 105,
+      "top25Share": 0.538
+    },
+    {
+      "year": 2023,
+      "schools": 95,
+      "top25Share": 0.552
+    },
+    {
+      "year": 2024,
+      "schools": 85,
+      "top25Share": 0.62
+    },
+    {
+      "year": 2025,
+      "schools": 86,
+      "top25Share": 0.623
+    },
+    {
+      "year": 2026,
+      "schools": 74,
+      "top25Share": 0.68
+    }
+  ],
   "twoSport": [
     {
       "school": "Boston Col.",

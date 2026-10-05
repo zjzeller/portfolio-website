@@ -1,26 +1,69 @@
 import { pageMetadata } from '@/lib/metadata'
 import { Github } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
-import { DraftCurveChart, SchoolLeaderboard, OutperformersChart } from '@/components/charts/CalPipelineCharts'
+import {
+  DraftCurveChart,
+  SchoolLeaderboard,
+  RankingList,
+  TrendChart,
+  OutperformersChart,
+} from '@/components/charts/CalPipelineCharts'
 import { DataTable } from '@/components/charts/RetentionCharts'
 import { requireProject } from '@/data/projects'
 import data from '@/data/cal-pipeline.json'
 
 export const metadata = pageMetadata(
   "Cal's Pro Pipeline",
-  'Do Cal players outperform their draft slot? A model of expected career value by pick for every NFL and NBA pick since 1980, with Cal ranked against every major program.',
+  'Cal players drafted from 2003 to 2013 beat their draft slot by more than any other school\'s. A model of every NFL and NBA pick since 1980, the stress tests it survived, and why NIL makes a repeat unlikely.',
   '/projects/cal-pro-pipeline/opengraph-image.png'
 )
 
 const project = requireProject('/projects/cal-pro-pipeline')
 const m = data.metadata
 const cal = data.cal
+const era = data.calEra
+const stress = data.stress
+const [eraFirst, eraLast] = m.era
+
+// Talent concentration: the latest draft against the long-run norm before NIL (2021)
+const NIL_YEAR = 2021
+const preNil = data.concentration.filter((c) => c.year < NIL_YEAR)
+const avg = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
+const preNilSchools = Math.round(avg(preNil.map((c) => c.schools)))
+const preNilTop25 = avg(preNil.map((c) => c.top25Share))
+const latest = data.concentration[data.concentration.length - 1]
 
 function SectionHeader({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-4 mb-10">
       <span className="section-label">{label}</span>
       <div className="flex-1 h-px bg-[var(--border-subtle)]" />
+    </div>
+  )
+}
+
+// Small visible table for the stress tests (DataTable is collapsed by default; this one should be read)
+function ChecksTable({ rows }: { rows: [string, string, string][] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="text-left text-xs tracking-wider uppercase text-[var(--text-muted)]">
+            <th className="font-normal pb-3 pr-4">Test</th>
+            <th className="font-normal pb-3 pr-4">What it rules out</th>
+            <th className="font-normal pb-3">Cal&apos;s result</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([test, guards, result]) => (
+            <tr key={test} className="border-t border-[var(--border-subtle)] align-top">
+              <td className="py-3 pr-4 text-[var(--text-primary)]">{test}</td>
+              <td className="py-3 pr-4 text-[var(--text-secondary)]">{guards}</td>
+              <td className="py-3 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--accent)] min-w-[9rem]">{result}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }
@@ -34,6 +77,13 @@ export default function CalProPipelinePage() {
   const kidd = data.calNba[0]
   const brown = data.calNba.find((p) => p.player === 'Jaylen Brown')
   const pct = (x: number) => `${Math.round(x * 100)}%`
+  const th = stress.thresholds
+  // 1 -> 1st, 2 -> 2nd, 11 -> 11th, 21 -> 21st
+  const ordinal = (n: number) => {
+    const tens = n % 100
+    const suffix = tens >= 11 && tens <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] ?? 'th'
+    return `${n}${suffix}`
+  }
 
   return (
     <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-4xl">
@@ -48,18 +98,22 @@ export default function CalProPipelinePage() {
         </h1>
         <div className="editorial-rule w-16 mt-6" />
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-8 max-w-2xl">
-          Aaron Rodgers went 24th. Keenan Allen went in the third round. Jason Kidd went 2nd and still beat
-          expectations. Is that a pattern or a few famous exceptions? I modeled how much career value every
-          NFL and NBA draft pick since {m.classes[0]} <em>should</em> produce based on where he was taken, then
-          measured which colleges&apos; players beat that expectation most often.
+          Aaron Rodgers went 24th. Keenan Allen went in the third round. Marshawn Lynch, DeSean Jackson and
+          Cameron Jordan all outplayed where they were picked. Was Cal unusually good at producing pros, or are
+          those a few famous names? I modeled how much career value every NFL and NBA draft pick since{' '}
+          {m.classes[0]} <em>should</em> produce based on where he was taken, then tried to break my own answer.
+        </p>
+        <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-4 max-w-2xl">
+          The short version: it was real, it belonged to one coaching era, and the way college sports works now
+          makes it hard to repeat.
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 border-t border-[var(--border-subtle)] pt-8">
           {[
-            { label: `Of ${m.twoSportSchools} two-sport schools`, value: `#${cal.twoSportRank}` },
-            { label: `Cal picks, ${m.classes[0]} to ${m.classes[1]}`, value: `${cal.nflPicks + cal.nbaPicks}` },
-            { label: `NFL picks who beat their slot (${pct(cal.allBeatShare)} overall)`, value: pct(cal.nflBeatShare) },
-            { label: 'Rodgers vs. a typical #24', value: `+${Math.round(rodgers.surplus)}` },
+            { label: `Of ${m.eraSchools} schools, ${eraFirst} to ${eraLast} draft classes`, value: `#${era.rank}` },
+            { label: 'Career value per pick above draft slot', value: `+${era.mean}` },
+            { label: `Of those picks beat their slot (${pct(era.allBeatShare)} overall)`, value: pct(era.beatShare) },
+            { label: `Schools with a ${latest.year} draft pick (about ${preNilSchools} before NIL)`, value: `${latest.schools}` },
           ].map(({ label, value }) => (
             <div key={label} className="text-center">
               <p className="font-[family-name:var(--font-dm-mono)] text-2xl text-[var(--accent)]">{value}</p>
@@ -143,25 +197,24 @@ export default function CalProPipelinePage() {
         <h3 className="text-sm text-[var(--text-primary)] mt-10 mb-2">What about positions?</h3>
         <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
           The draft handles most of it. Teams already weigh position when they decide where to take a player, so
-          a quarterback and a guard taken 24th face the same bar. The weak spot is the scoring stat itself:
-          Approximate Value tends to credit some positions more than others, so a school that produces a lot of
-          quarterbacks gets a small boost. I don&apos;t correct for that here.
+          a quarterback and a guard taken 24th face the same bar. I also checked it directly: adjusting every
+          player&apos;s score for his position leaves Cal&apos;s rank unchanged, and so does removing every quarterback
+          from every school.
         </p>
       </section>
 
-      {/* FINDING 1 */}
+      {/* FINDING 1: the 40-year view */}
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Finding 1" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Cal ranks #{cal.twoSportRank} of {m.twoSportSchools}, ahead of UCLA, USC and Alabama
+          Over 40 years, Cal ranks #{cal.twoSportRank} of {m.twoSportSchools}
         </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
           Putting both sports on one scale, Cal players beat their draft slot by more than players from all but
           three schools that send at least {m.minNfl} players to the NFL and {m.minNba} to the NBA. That&apos;s ahead
-          of UCLA, Kentucky, Stanford, USC, North Carolina and Alabama. Football alone tells the same story: #
-          {cal.nflRank} of {m.nflSchools} schools with {m.minNflOnly}+ picks, and {pct(cal.nflBeatShare)} of Cal&apos;s
-          NFL picks beat their slot versus {pct(cal.allBeatShare)} of all picks. Basketball alone puts Cal #
-          {cal.nbaRank} of {m.nbaSchools} schools with {m.minNbaOnly}+ picks, on a much smaller sample.
+          of UCLA, Kentucky, Stanford, USC, North Carolina and Alabama. Football alone says the same: #
+          {cal.nflRank} of {m.nflSchools} schools with {m.minNflOnly}+ picks. Basketball alone puts Cal #
+          {cal.nbaRank} of {m.nbaSchools}, on a much smaller sample.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           Use the buttons to include football, basketball or both.
@@ -186,57 +239,235 @@ export default function CalProPipelinePage() {
             unit: 'Score: career Win Shares above or below the draft-slot bar, per pick. Far fewer picks than football, so the lines are long.',
           }}
         />
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
+          A good result, but a soft one. Cal&apos;s line crosses zero, and with {m.nflSchools} schools in the
+          race, shuffling players randomly between schools puts some school this far ahead{' '}
+          <Metric>{pct(stress.luckAllTime.anySchool)}</Metric> of the time. On its own, a 40-year ranking
+          can&apos;t separate a real edge from a lucky one.
+        </p>
       </section>
 
-      {/* FINDING 2 */}
+      {/* FINDING 2: it is an era, not a school */}
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Finding 2" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          It isn&apos;t just Aaron Rodgers
+          It&apos;s an era, not a school
         </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
+          A 40-year ranking assumes a school is the same thing for 40 years. It isn&apos;t. If beating the draft
+          board were a lasting trait of a school, schools that did it in one decade would do it in the next. They
+          don&apos;t: how a school&apos;s picks did in the {stress.decades[0].from} tells you nothing about the{' '}
+          {stress.decades[0].to} (correlation <Metric>{stress.decades[0].correlation.toFixed(2)}</Metric>, where 1
+          is a perfect match and 0 is none), and the {stress.decades[1].from} tell you nothing about the{' '}
+          {stress.decades[1].to} (<Metric>{Math.abs(stress.decades[1].correlation).toFixed(2)}</Metric>). Players,
+          coaches and systems all turn over.
+        </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Rodgers produced <Metric>{rodgers.value}</Metric> career AV against <Metric>{rodgers.expected}</Metric> for
-          a typical #24 pick, the single biggest gap. But a result driven by one player isn&apos;t a pattern, so I
-          reran the football ranking without each school&apos;s best player: Cal still ranks 5th of 61. The list runs
-          deep, and much of it comes from the middle rounds, where teams pay the least for talent.
+          Cal shows it clearly. From {stress.early.years[0]} to {stress.early.years[1]} it ranked{' '}
+          <Metric>{ordinal(stress.early.rank)}</Metric> of {stress.early.schools} schools. From{' '}
+          {stress.late.years[0]} on it ranked <Metric>{ordinal(stress.late.rank)}</Metric>. Most of the 40-year
+          result comes from one sustained stretch, and that stretch lines up with one head coach: {m.eraCoach}, who ran the
+          program from the {eraFirst - 1} season through {eraLast - 1}. The players he coached were drafted from{' '}
+          {eraFirst} to {eraLast}.
         </p>
-        <h3 className="text-sm text-[var(--text-primary)] mb-4">Cal&apos;s biggest NFL outperformers (career AV)</h3>
-        <OutperformersChart players={data.calNfl} unit="AV" />
-        <h3 className="text-sm text-[var(--text-primary)] mt-12 mb-4">Cal&apos;s NBA outperformers (career Win Shares)</h3>
-        <OutperformersChart players={data.calNba.filter((p) => p.surplus > 0)} unit="Win Shares" />
-        <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          In basketball, Jason Kidd added <Metric>{kidd.surplus}</Metric> Win Shares beyond a typical #2 pick
-          {brown && (
-            <>
-              , and Jaylen Brown is already <Metric>+{brown.surplus}</Metric> past a typical #3 pick from his draft era
-            </>
-          )}
-          . With only {cal.nbaPicks} Cal picks in the first two rounds since 1980, basketball supports the story, but
-          the sample is too small to rank Cal with confidence on basketball alone.
-        </p>
-        <DataTable
-          columns={['Player', 'Sport', 'Year', 'Pick', 'Actual', 'Expected', 'Difference']}
-          rows={[
-            ...data.calNfl.map((p) => [p.player, 'NFL (AV)', p.year, p.pick, p.value, p.expected, p.surplus]),
-            ...data.calNba.map((p) => [p.player, 'NBA (WS)', p.year, p.pick, p.value, p.expected, p.surplus]),
-          ]}
+        <h3 className="text-sm text-[var(--text-primary)] mb-2">
+          Cal&apos;s NFL picks: career value above or below draft slot, per pick
+        </h3>
+        <TrendChart
+          data={data.timeline}
+          dataKey="mean"
+          unit="AV per pick vs. slot"
+          band={[eraFirst, eraLast]}
+          bandLabel={`${m.eraCoach.split(' ').slice(-1)[0]} era`}
+          zeroLine
+          tooltip="score"
         />
+        <p className="text-xs text-[var(--text-muted)] mt-4">
+          Each point averages the five draft classes around that year. The dashed line is a school whose picks do
+          exactly as expected. The mid-1980s spike rests on about ten picks, led by Hardy Nickerson, a fifth-round
+          pick in 1987. It didn&apos;t last, and Cal ranks mid-pack for those two decades overall.
+        </p>
       </section>
 
-      {/* FINDING 3 */}
+      {/* FINDING 3: the era ranking */}
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Finding 3" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Strong evidence, not proof
+          {eraFirst} to {eraLast}: the best in the country
         </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-          Cal&apos;s 95% interval in the combined ranking runs from <Metric>{cal.twoSportLo.toFixed(2)}</Metric> to{' '}
-          <Metric>{cal.twoSportHi.toFixed(2)}</Metric>. It just touches zero, which means I can&apos;t fully rule out
-          that Cal is average and got lucky. With {m.twoSportSchools} schools in the race, a few will land near the
-          top by chance. What makes it more than luck: in football, Cal ranks 4th on the average, 5th on the share of
-          players who beat their slot, and 5th with its best player removed. Those are different ways of measuring the same
-          question, and they agree.
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          Rank every school on just those {eraLast - eraFirst + 1} draft classes and Cal is{' '}
+          <Metric>#{era.rank} of {m.eraSchools}</Metric> schools with at least {m.minEra} picks. Its {era.picks}{' '}
+          picks beat their draft slot by <Metric>+{era.mean}</Metric> career Approximate Value each, about one
+          extra season as a solid starter per player. This time the line does not cross zero.
         </p>
+        <RankingList
+          view={{
+            rows: data.eraBoard,
+            total: m.eraSchools,
+            decimals: 1,
+            unit: `Score: career Approximate Value above or below the draft-slot bar, per pick, ${eraFirst} to ${eraLast} draft classes only.`,
+          }}
+        />
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-10 mb-8 max-w-2xl">
+          It isn&apos;t just Aaron Rodgers. He produced <Metric>{rodgers.value}</Metric> career AV against{' '}
+          <Metric>{rodgers.expected}</Metric> for a typical #{rodgers.pick} pick, the biggest gap of anyone. But
+          remove every school&apos;s best player and Cal still ranks <Metric>{ordinal(era.withoutBestRank)}</Metric>,
+          at +{era.withoutBestMean} per pick. Much of the list comes from the middle rounds, where teams pay the
+          least for talent.
+        </p>
+        <h3 className="text-sm text-[var(--text-primary)] mb-4">
+          Cal&apos;s biggest outperformers, {eraFirst} to {eraLast} (career AV)
+        </h3>
+        <OutperformersChart players={data.eraPlayers} unit="AV" />
+        <DataTable
+          columns={['Player', 'Year', 'Pick', 'Actual', 'Expected', 'Difference']}
+          rows={data.eraPlayers.map((p) => [p.player, p.year, p.pick, p.value, p.expected, p.surplus])}
+        />
+      </section>
+
+      {/* STRESS TESTS */}
+      <section className="mb-20 animate-reveal">
+        <SectionHeader label="Stress Tests" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
+          I tried to break it
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          A ranking like this can be an accident of small samples, one superstar, or a lucky draw. Each of those
+          can be tested, so I tested them.
+        </p>
+        <ChecksTable
+          rows={[
+            [
+              'Raise the minimum number of picks',
+              'Small schools with a few stars',
+              `${th.map((t) => ordinal(t.rank)).join(', ')} at ${th.map((t) => t.min).join(', ')}+ picks`,
+            ],
+            [
+              'Pull every school toward average, more so with fewer picks',
+              'Rankings driven by noise',
+              `Still ${ordinal(stress.shrunkRank)}`,
+            ],
+            ['Cap the biggest scores at the 99th percentile', 'One superstar carrying a school', ordinal(stress.cappedRank)],
+            ['Adjust each score for position', 'A stat that favors some positions', `Still ${ordinal(stress.positionRank)}`],
+            [
+              'Remove every quarterback',
+              'Rodgers, and quarterbacks in general',
+              `${ordinal(stress.noQbRank)} of ${stress.noQbSchools}`,
+            ],
+            [
+              `Remove each school's best player (${eraFirst} to ${eraLast})`,
+              'One player carrying the era',
+              `Still ${ordinal(era.withoutBestRank)}`,
+            ],
+            [
+              `Shuffle players between schools at random (${eraFirst} to ${eraLast})`,
+              'Pure luck',
+              `Some school gets this far ${pct(era.luckAnySchool)} of the time`,
+            ],
+          ]}
+        />
+        <p className="text-xs text-[var(--text-muted)] mt-4">
+          The first five rows test the 40-year football ranking, where Cal starts {ordinal(cal.nflRank)} of{' '}
+          {m.nflSchools}. The last two test the {eraFirst} to {eraLast} ranking.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
+          The luck test is the one that matters most. Over 40 years, chance alone puts some school as far ahead
+          as Cal {pct(stress.luckAllTime.anySchool)} of the time. For the {eraFirst} to {eraLast} classes that
+          drops to {pct(era.luckAnySchool)}. And across every {eraLast - eraFirst + 1}-year stretch at every school
+          since {m.classes[0]}, {era.windowsCompared.toLocaleString()} in all, only{' '}
+          {era.schoolsWithAsGoodAStretch.length} other schools ever had one as good.
+        </p>
+      </section>
+
+      {/* NIL AND THE TRANSFER PORTAL */}
+      <section className="mb-20 animate-reveal">
+        <SectionHeader label="What Changed" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
+          Why it would be harder today
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
+          That run depended on players staying in one program long enough to be developed there. Two rule
+          changes in {NIL_YEAR} weakened that. Players can now be paid for their name, image and likeness (NIL),
+          and they can transfer without sitting out a season. A program that develops a player can now lose him
+          to a bigger budget before he is ever drafted.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          The draft already shows talent pooling in fewer places. From {preNil[0].year} to {NIL_YEAR - 1}, about{' '}
+          <Metric>{preNilSchools}</Metric> schools had a player drafted each year. In {latest.year} it was{' '}
+          <Metric>{latest.schools}</Metric>. The 25 schools with the most picks used to supply{' '}
+          <Metric>{pct(preNilTop25)}</Metric> of the draft. In {latest.year} they supplied{' '}
+          <Metric>{pct(latest.top25Share)}</Metric>.
+        </p>
+        <h3 className="text-sm text-[var(--text-primary)] mb-2">Schools with at least one NFL draft pick, by year</h3>
+        <TrendChart
+          data={data.concentration}
+          dataKey="schools"
+          unit="Schools"
+          band={[NIL_YEAR, latest.year]}
+          bandLabel="NIL era"
+          tooltip="schools"
+        />
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-8 mb-4 max-w-2xl">
+          Cal has its own example. Fernando Mendoza spent three seasons at Cal, transferred to Indiana, won the
+          Heisman Trophy and went first overall in the {latest.year} draft. In this dataset, and in every draft
+          record, he is an Indiana player. Draft data credits the last school a player attended, so the kind of
+          development this study measures is now partly invisible, and partly someone else&apos;s.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+          What I can&apos;t do yet is measure the NIL era the way I measured {eraFirst} to {eraLast}. Players drafted since{' '}
+          {NIL_YEAR} are only a few seasons into their careers, and the drop in the chart could also reflect the
+          extra year of eligibility granted during the pandemic. The fair test comes around 2030: track players
+          by the school that first signed them, not the last one they played for, and see whether development
+          still shows up anywhere.
+        </p>
+      </section>
+
+      {/* BASKETBALL */}
+      <section className="mb-20 animate-reveal">
+        <SectionHeader label="Basketball" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
+          Same direction, too few players to rank
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          Jason Kidd added <Metric>{kidd.surplus}</Metric> Win Shares beyond a typical #{kidd.pick} pick
+          {brown && (
+            <>
+              , and Jaylen Brown is already <Metric>+{brown.surplus}</Metric> past a typical #{brown.pick} pick from
+              his draft era
+            </>
+          )}
+          . But Cal has only {cal.nbaPicks} picks in the first two rounds since {m.classes[0]}, far too few to
+          split into coaching eras. Basketball supports the 40-year story and can&apos;t say more than that.
+        </p>
+        <h3 className="text-sm text-[var(--text-primary)] mb-4">Cal&apos;s NBA outperformers (career Win Shares)</h3>
+        <OutperformersChart players={data.calNba.filter((p) => p.surplus > 0)} unit="Win Shares" />
+      </section>
+
+      {/* LIMITS */}
+      <section className="mb-20 animate-reveal">
+        <SectionHeader label="Limits" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
+          What this can&apos;t claim
+        </h2>
+        <ul className="space-y-4 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-disc pl-5">
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">I looked before I chose the era.</strong>{' '}
+            The {eraFirst} to {eraLast} window follows one coach&apos;s tenure, not the best-looking years. But I
+            only thought to test it after seeing the before-and-after split, so treat it as a strong lead, not a
+            pre-registered experiment.
+          </li>
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">It doesn&apos;t prove the coach caused it.</strong>{' '}
+            Recruiting, the offensive system, assistants and the conference at the time are all tangled together.
+            The data says something worked in that building for a decade. It can&apos;t say which part.
+          </li>
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">A {pct(era.luckAnySchool)} chance of luck is not zero.</strong>{' '}
+            It is far better than {pct(stress.luckAllTime.anySchool)}, and the result holds up under every test
+            above, but one school out of {m.eraSchools} will always lead.
+          </li>
+        </ul>
       </section>
 
       {/* SO WHAT */}
@@ -247,19 +478,21 @@ export default function CalProPipelinePage() {
         </h2>
         <ol className="space-y-4 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-decimal pl-5">
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">Treat school as a tiebreaker, not a signal.</strong>{' '}
-            The effect is real enough to break a tie between two similar prospects in the middle rounds, not big
-            enough to move a player up a draft board.
+            <strong className="text-[var(--text-primary)] font-medium">Scout the staff, not the logo.</strong>{' '}
+            A school&apos;s name carries no lasting signal from one decade to the next. A coaching staff on a
+            multi-year run might. The edge is worth a tiebreaker between similar prospects in the middle rounds,
+            and it expires when the staff leaves.
           </li>
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">Look for the mechanism before paying for it.</strong>{' '}
-            Coaching, conference competition and pro-style systems are all candidates. A school effect only helps
-            if it survives a change in coaching staff, which is the next thing I&apos;d test.
+            <strong className="text-[var(--text-primary)] font-medium">Track where players were developed.</strong>{' '}
+            With transfers, the last school on a prospect&apos;s record is often not the one that built him. Any
+            school-level signal now needs the full path, not the final stop.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">Reuse the method.</strong>{' '}
-            &ldquo;Actual versus expected given the price paid&rdquo; works anywhere value is bought at a known price:
-            sales hires, marketing channels, vendor contracts.
+            &ldquo;Actual versus expected given the price paid&rdquo;, followed by an honest attempt to break the
+            result, works anywhere value is bought at a known price: sales hires, marketing channels, vendor
+            contracts.
           </li>
         </ol>
       </section>
@@ -281,6 +514,14 @@ export default function CalProPipelinePage() {
           <li>
             Approximate Value and Win Shares are single-number summaries and undervalue some roles (offensive
             linemen, defensive specialists). Players are credited to the last college they attended.
+          </li>
+          <li>
+            The luck tests shuffle which school each pick belongs to 5,000 times, keeping every school&apos;s number
+            of picks, and count how often a school scores as high as Cal really did.
+          </li>
+          <li>
+            The talent concentration chart counts schools by the college listed on each draft pick,{' '}
+            {preNil[0].year} (the first seven-round draft) to {latest.year}.
           </li>
           <li>
             NFL data from the open nflverse project; NBA data from Basketball Reference draft pages.
