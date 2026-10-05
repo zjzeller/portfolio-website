@@ -102,16 +102,16 @@ export default function CalProPipelinePage() {
         {/* The answer first: a reader who stops here still gets the point */}
         <p className="section-label mt-10">The Takeaway</p>
         <p className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl leading-snug mt-3 max-w-3xl">
-          For one decade under one coaching staff, Cal turned out pros who outplayed their draft position more
-          than any other school in the country. It was real, it was not permanent, and the way college sports
-          works now makes it hard to repeat.
+          The Cal teams I grew up watching really were special. For one decade under one coaching staff, Cal
+          turned out pros who outplayed their draft position more than any other school in the country. It was
+          real, it was not permanent, and the way college sports works now makes it hard to repeat.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          I grew up a Cal fan, watching Aaron Rodgers, Marshawn Lynch, Leon Powe, Keenan Allen and later Jaylen
-          Brown. The program hasn&apos;t looked the same since, and I wanted to know whether those years were as
-          special as they felt or whether I was remembering a few famous names. So I built a model of every NFL
-          and NBA draft pick since {m.classes[0]}. As a fan I wanted the answer to be yes, which is why I then
-          tried to prove it wrong.
+          I&apos;ve been a Cal fan my whole life. Aaron Rodgers, Marshawn Lynch, Leon Powe, Keenan Allen and later
+          Jaylen Brown all came through while I was growing up. The program hasn&apos;t looked the same since, and
+          I wanted to know: were those years as special as they felt, or was I remembering a few famous names?
+          So I built a model of every NFL and NBA draft pick since {m.classes[0]}. As a fan I wanted the answer
+          to be yes, which is why I then tried to prove it wrong.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
@@ -223,9 +223,9 @@ export default function CalProPipelinePage() {
 
       {/* FINDING 1: the 40-year view */}
       <section className="mb-20 animate-reveal">
-        <SectionHeader label="Finding 1" />
+        <SectionHeader label="First Look" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Over 40 years, Cal ranks #{cal.twoSportRank} of {m.twoSportSchools}
+          At first glance, yes: #{cal.twoSportRank} of {m.twoSportSchools} over 40 years
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           With both sports on one scale, Cal players beat their draft slot by more than players from all but
@@ -264,9 +264,9 @@ export default function CalProPipelinePage() {
 
       {/* FINDING 2: it is an era, not a school */}
       <section className="mb-20 animate-reveal">
-        <SectionHeader label="Finding 2" />
+        <SectionHeader label="The Twist" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          It&apos;s an era, not a school
+          It wasn&apos;t the school. It was a decade.
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
           A 40-year ranking assumes a school is the same thing for 40 years. It isn&apos;t. If beating the draft
@@ -283,7 +283,7 @@ export default function CalProPipelinePage() {
           {stress.late.years[0]} on it ranked <Metric>{ordinal(stress.late.rank)}</Metric>. Most of the 40-year
           result comes from one sustained stretch, and that stretch lines up with one head coach: {m.eraCoach}, who ran the
           program from the {eraFirst - 1} season through {eraLast - 1}. The players he coached were drafted from{' '}
-          {eraFirst} to {eraLast}.
+          {eraFirst} to {eraLast}, almost exactly the years I was growing up.
         </p>
         <h3 className="text-sm text-[var(--text-primary)] mb-2">
           Cal&apos;s NFL picks: career value above or below draft slot, per pick
@@ -306,12 +306,13 @@ export default function CalProPipelinePage() {
 
       {/* FINDING 3: the era ranking */}
       <section className="mb-20 animate-reveal">
-        <SectionHeader label="Finding 3" />
+        <SectionHeader label="The Payoff" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          {eraFirst} to {eraLast}: the best in the country
+          The teams I grew up on were the best in the country
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Rank every school on just those {eraLast - eraFirst + 1} draft classes and Cal is{' '}
+          So I wasn&apos;t imagining it. Rank every school on just those {eraLast - eraFirst + 1} draft classes
+          ({eraFirst} to {eraLast}) and Cal is{' '}
           <Metric>#{era.rank} of {m.eraSchools}</Metric> schools with at least {m.minEra} picks. Its {era.picks}{' '}
           picks beat their draft slot by <Metric>+{era.mean}</Metric> career Approximate Value each, about one
           extra season as a solid starter per player. This time the line does not cross zero.
@@ -343,13 +344,14 @@ export default function CalProPipelinePage() {
 
       {/* STRESS TESTS */}
       <section className="mb-20 animate-reveal">
-        <SectionHeader label="Stress Tests" />
+        <SectionHeader label="The Doubt" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          I tried to break it
+          A fan&apos;s answer needs checking
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          A ranking like this can be an accident of small samples, one superstar, or a lucky draw. Each of those
-          can be tested, so I tested them.
+          I wanted this to be true, which is the best reason to distrust it. A ranking like this can be an
+          accident of small samples, one superstar, or a lucky draw. Each of those can be tested, so I tested
+          them.
         </p>
         <ChecksTable
           rows={[
@@ -398,10 +400,11 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="What Changed" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Why it would be harder today
+          Why it&apos;s hard to bring back
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          That run depended on players staying in one program long enough to be developed there. Since{' '}
+          The run ended when the staff did. Getting it back is harder now than it was then. That run depended
+          on players staying in one program long enough to be developed there. Since{' '}
           {NIL_YEAR}, players can be paid for their name, image and likeness (NIL) and can transfer without
           sitting out a season. A program that develops a player can now lose him to a bigger budget before he
           is drafted.
@@ -457,31 +460,41 @@ export default function CalProPipelinePage() {
         </ul>
       </section>
 
-      {/* SO WHAT */}
+      {/* THE ANSWER: closes the loop on the question in the hero */}
       <section className="mb-20 animate-reveal">
-        <SectionHeader label="So What" />
+        <SectionHeader label="The Answer" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          What a front office could do with this
+          So was I right?
         </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
+          Half right. The Cal teams I grew up watching were as good at producing pros as I remembered, and better
+          than any other school&apos;s in those years. But what I was watching was a coaching staff, not a
+          permanent feature of the school. It wasn&apos;t there before them and it didn&apos;t outlast them.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+          That is a harder answer for a fan and a more useful one for anyone making decisions. The same three
+          lessons apply well outside football:
+        </p>
         <ol className="space-y-4 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-decimal pl-5">
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">Scout the staff, not the logo.</strong>{' '}
-            A school&apos;s name carries no lasting signal from one decade to the next. A coaching staff on a
-            multi-year run might. The edge is worth a tiebreaker between similar prospects in the middle rounds,
-            and it expires when the staff leaves.
+            <strong className="text-[var(--text-primary)] font-medium">Credit the team, not the brand.</strong>{' '}
+            Results follow the people doing the work. A school&apos;s name carried no signal from one decade to
+            the next, and a vendor&apos;s or a department&apos;s name may not either.
           </li>
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">Track where players were developed.</strong>{' '}
-            With transfers, the last school on a prospect&apos;s record is often not the one that built him. Any
-            school-level signal now needs the full path, not the final stop.
+            <strong className="text-[var(--text-primary)] font-medium">Check whether a result lasts before betting on it.</strong>{' '}
+            A 40-year average hid one great decade and several ordinary ones.
           </li>
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">Reuse the method.</strong>{' '}
-            &ldquo;Actual versus expected given the price paid&rdquo;, followed by an honest attempt to break the
-            result, works anywhere value is bought at a known price: sales hires, marketing channels, vendor
-            contracts.
+            <strong className="text-[var(--text-primary)] font-medium">Measure against the price paid.</strong>{' '}
+            Judging a draft pick against his slot is the same idea as judging a sales hire against quota or a
+            marketing channel against its cost.
           </li>
         </ol>
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
+          I&apos;m still a fan. Now I know what to hope for: not the old Cal back, but the next staff that can do
+          what that one did, in a sport where keeping the players you develop is harder than ever.
+        </p>
       </section>
 
       {/* CAVEATS + TOOLS */}
