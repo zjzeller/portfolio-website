@@ -78,9 +78,6 @@ export default function CalProPipelinePage() {
   const brown = data.calNba.find((p) => p.player === 'Jaylen Brown')
   const pct = (x: number) => `${Math.round(x * 100)}%`
   const th = stress.thresholds
-  // Hero card: how many stress tests ran, and Cal's worst rank across the ranking-based ones
-  const checks = 7
-  const worstRank = Math.max(...th.map((t) => t.rank), stress.shrunkRank, stress.cappedRank, stress.positionRank, stress.noQbRank, era.withoutBestRank)
   // 1 -> 1st, 2 -> 2nd, 11 -> 11th, 21 -> 21st
   const ordinal = (n: number) => {
     const tens = n % 100
@@ -122,8 +119,8 @@ export default function CalProPipelinePage() {
               text: `Cal's rank among schools for draft picks who outplayed where they were taken, ${eraFirst} to ${eraLast}.`,
             },
             {
-              value: `${checks} checks`,
-              text: `Small samples, one superstar, position, pure luck. Cal never dropped below ${ordinal(worstRank)}.`,
+              value: `Still #${era.withoutBestRank}`,
+              text: `Without Aaron Rodgers. Take away every school's best player and Cal stays on top.`,
             },
             {
               value: `${preNilSchools} to ${latest.schools}`,
