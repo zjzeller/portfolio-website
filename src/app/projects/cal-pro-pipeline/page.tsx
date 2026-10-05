@@ -78,6 +78,9 @@ export default function CalProPipelinePage() {
   const brown = data.calNba.find((p) => p.player === 'Jaylen Brown')
   const pct = (x: number) => `${Math.round(x * 100)}%`
   const th = stress.thresholds
+  // Hero card: how many stress tests ran, and Cal's worst rank across the ranking-based ones
+  const checks = 7
+  const worstRank = Math.max(...th.map((t) => t.rank), stress.shrunkRank, stress.cappedRank, stress.positionRank, stress.noQbRank, era.withoutBestRank)
   // 1 -> 1st, 2 -> 2nd, 11 -> 11th, 21 -> 21st
   const ordinal = (n: number) => {
     const tens = n % 100
@@ -97,35 +100,49 @@ export default function CalProPipelinePage() {
           <span className="text-[var(--accent)]">Beating the Draft Board</span>
         </h1>
         <div className="editorial-rule w-16 mt-6" />
-        <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-8 max-w-2xl">
-          Aaron Rodgers went 24th. Keenan Allen went in the third round. Marshawn Lynch, DeSean Jackson and
-          Cameron Jordan all outplayed where they were picked. Was Cal unusually good at producing pros, or are
-          those a few famous names? I modeled how much career value every NFL and NBA draft pick since{' '}
-          {m.classes[0]} <em>should</em> produce based on where he was taken, then tried to break my own answer.
+        {/* The answer first: a reader who stops here still gets the point */}
+        <p className="section-label mt-10">The Takeaway</p>
+        <p className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl leading-snug mt-3 max-w-3xl">
+          For one decade under one coaching staff, Cal turned out pros who outplayed their draft position more
+          than any other school in the country. It was real, it was not permanent, and the way college sports
+          works now makes it hard to repeat.
         </p>
-        <p className="text-[var(--text-secondary)] text-lg leading-relaxed mt-4 max-w-2xl">
-          The short version: it was real, it belonged to one coaching era, and the way college sports works now
-          makes it hard to repeat.
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
+          Aaron Rodgers went 24th. Keenan Allen went in the third round. Was Cal unusually good at producing
+          pros, or are those a few famous names? I built a model of every NFL and NBA draft pick since{' '}
+          {m.classes[0]} to find out, then tried to prove my own answer wrong.
         </p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 border-t border-[var(--border-subtle)] pt-8">
+        <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
           {[
-            { label: `Of ${m.eraSchools} schools, ${eraFirst} to ${eraLast} draft classes`, value: `#${era.rank}` },
-            { label: 'Career value per pick above draft slot', value: `+${era.mean}` },
-            { label: `Of those picks beat their slot (${pct(era.allBeatShare)} overall)`, value: pct(era.beatShare) },
-            { label: `Schools with a ${latest.year} draft pick (about ${preNilSchools} before NIL)`, value: `${latest.schools}` },
-          ].map(({ label, value }) => (
-            <div key={label} className="text-center">
+            {
+              value: `#${era.rank} of ${m.eraSchools}`,
+              text: `Cal's rank among schools for draft picks who outplayed where they were taken, ${eraFirst} to ${eraLast}.`,
+            },
+            {
+              value: `${checks} checks`,
+              text: `Small samples, one superstar, position, pure luck. Cal never dropped below ${ordinal(worstRank)}.`,
+            },
+            {
+              value: `${preNilSchools} to ${latest.schools}`,
+              text: `Schools with an NFL draft pick: a typical year before players could be paid, then ${latest.year}.`,
+            },
+          ].map(({ value, text }) => (
+            <div key={value} className="bg-[var(--bg)] p-6">
               <p className="font-[family-name:var(--font-dm-mono)] text-2xl text-[var(--accent)]">{value}</p>
-              <p className="text-xs tracking-wider uppercase text-[var(--text-muted)] mt-1">{label}</p>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mt-2">{text}</p>
             </div>
           ))}
         </div>
+        <p className="text-sm text-[var(--text-muted)] leading-relaxed mt-6 max-w-2xl">
+          What it shows about how I work: build the model, question the first answer, and explain the result to
+          someone who doesn&apos;t care about the statistics.
+        </p>
       </section>
 
       {/* THE METHOD */}
       <section className="mb-20 animate-reveal">
-        <SectionHeader label="The Approach" />
+        <SectionHeader label="How It Works" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
           Judge players against their draft slot, not each other
         </h2>
@@ -150,19 +167,15 @@ export default function CalProPipelinePage() {
             <DraftCurveChart curve={data.curves.nba} players={data.calNba} unit="Win Shares" labelTop={4} />
           </div>
         </div>
-      </section>
-
-      {/* HOW IT WORKS: plain-language method for non-technical readers */}
-      <section className="mb-20 animate-reveal">
-        <SectionHeader label="How It Works" />
-        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          One score for two sports and every position
-        </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          No player is ever compared directly with someone from another sport or another position. Each player
-          is compared only with players from his own sport who were drafted at about the same spot in about the
-          same years. The school ranking is built from those individual comparisons in four steps.
-        </p>
+        <details className="mt-10 group">
+          <summary className="cursor-pointer select-none text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+            How one score covers two sports and every position (four steps)
+          </summary>
+          <p className="text-[var(--text-secondary)] leading-relaxed mt-6 mb-8 max-w-2xl">
+            No player is ever compared directly with someone from another sport or another position. Each player
+            is compared only with players from his own sport who were drafted at about the same spot in about the
+            same years.
+          </p>
         <ol className="space-y-5 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-decimal pl-5">
           <li>
             <strong className="text-[var(--text-primary)] font-medium">Set a bar for every draft slot.</strong>{' '}
@@ -201,6 +214,7 @@ export default function CalProPipelinePage() {
           player&apos;s score for his position leaves Cal&apos;s rank unchanged, and so does removing every quarterback
           from every school.
         </p>
+        </details>
       </section>
 
       {/* FINDING 1: the 40-year view */}
@@ -209,15 +223,13 @@ export default function CalProPipelinePage() {
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
           Over 40 years, Cal ranks #{cal.twoSportRank} of {m.twoSportSchools}
         </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          Putting both sports on one scale, Cal players beat their draft slot by more than players from all but
-          three schools that send at least {m.minNfl} players to the NFL and {m.minNba} to the NBA. That&apos;s ahead
-          of UCLA, Kentucky, Stanford, USC, North Carolina and Alabama. Football alone says the same: #
-          {cal.nflRank} of {m.nflSchools} schools with {m.minNflOnly}+ picks. Basketball alone puts Cal #
-          {cal.nbaRank} of {m.nbaSchools}, on a much smaller sample.
-        </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Use the buttons to include football, basketball or both.
+          With both sports on one scale, Cal players beat their draft slot by more than players from all but
+          three schools, ahead of UCLA, Kentucky, Stanford, USC and Alabama. Football alone says the same (#
+          {cal.nflRank} of {m.nflSchools}). Basketball alone puts Cal #{cal.nbaRank} of {m.nbaSchools}, though{' '}
+          {cal.nbaPicks} picks is too few to say more: Jason Kidd and Jaylen Brown both beat their slot
+          {brown ? <> (Brown by <Metric>+{brown.surplus}</Metric> Win Shares so far)</> : null}. Use the buttons to
+          switch sports.
         </p>
         <SchoolLeaderboard
           both={{
@@ -240,10 +252,9 @@ export default function CalProPipelinePage() {
           }}
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          A good result, but a soft one. Cal&apos;s line crosses zero, and with {m.nflSchools} schools in the
-          race, shuffling players randomly between schools puts some school this far ahead{' '}
-          <Metric>{pct(stress.luckAllTime.anySchool)}</Metric> of the time. On its own, a 40-year ranking
-          can&apos;t separate a real edge from a lucky one.
+          A good result, but a soft one. Cal&apos;s line crosses zero, and shuffling players randomly between
+          schools puts some school this far ahead <Metric>{pct(stress.luckAllTime.anySchool)}</Metric> of the
+          time. A 40-year ranking can&apos;t separate a real edge from a lucky one.
         </p>
       </section>
 
@@ -372,11 +383,10 @@ export default function CalProPipelinePage() {
           {m.nflSchools}. The last two test the {eraFirst} to {eraLast} ranking.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 max-w-2xl">
-          The luck test is the one that matters most. Over 40 years, chance alone puts some school as far ahead
-          as Cal {pct(stress.luckAllTime.anySchool)} of the time. For the {eraFirst} to {eraLast} classes that
-          drops to {pct(era.luckAnySchool)}. And across every {eraLast - eraFirst + 1}-year stretch at every school
-          since {m.classes[0]}, {era.windowsCompared.toLocaleString()} in all, only{' '}
-          {era.schoolsWithAsGoodAStretch.length} other schools ever had one as good.
+          The luck test matters most. Over 40 years, chance puts some school as far ahead as Cal{' '}
+          {pct(stress.luckAllTime.anySchool)} of the time. For {eraFirst} to {eraLast} that drops to{' '}
+          {pct(era.luckAnySchool)}. Across every {eraLast - eraFirst + 1}-year stretch at every school since{' '}
+          {m.classes[0]}, only {era.schoolsWithAsGoodAStretch.length} other schools ever had one as good.
         </p>
       </section>
 
@@ -387,10 +397,10 @@ export default function CalProPipelinePage() {
           Why it would be harder today
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
-          That run depended on players staying in one program long enough to be developed there. Two rule
-          changes in {NIL_YEAR} weakened that. Players can now be paid for their name, image and likeness (NIL),
-          and they can transfer without sitting out a season. A program that develops a player can now lose him
-          to a bigger budget before he is ever drafted.
+          That run depended on players staying in one program long enough to be developed there. Since{' '}
+          {NIL_YEAR}, players can be paid for their name, image and likeness (NIL) and can transfer without
+          sitting out a season. A program that develops a player can now lose him to a bigger budget before he
+          is drafted.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
           The draft already shows talent pooling in fewer places. From {preNil[0].year} to {NIL_YEAR - 1}, about{' '}
@@ -410,38 +420,14 @@ export default function CalProPipelinePage() {
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 mb-4 max-w-2xl">
           Cal has its own example. Fernando Mendoza spent three seasons at Cal, transferred to Indiana, won the
-          Heisman Trophy and went first overall in the {latest.year} draft. In this dataset, and in every draft
-          record, he is an Indiana player. Draft data credits the last school a player attended, so the kind of
-          development this study measures is now partly invisible, and partly someone else&apos;s.
+          Heisman Trophy and went first overall in the {latest.year} draft. Draft records credit the last school
+          a player attended, so he counts for Indiana.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-          What I can&apos;t do yet is measure the NIL era the way I measured {eraFirst} to {eraLast}. Players drafted since{' '}
-          {NIL_YEAR} are only a few seasons into their careers, and the drop in the chart could also reflect the
-          extra year of eligibility granted during the pandemic. The fair test comes around 2030: track players
-          by the school that first signed them, not the last one they played for, and see whether development
-          still shows up anywhere.
+          I can&apos;t yet measure this era the way I measured {eraFirst} to {eraLast}: players drafted since{' '}
+          {NIL_YEAR} are only a few seasons in, and the pandemic&apos;s extra year of eligibility may explain part
+          of the drop. The fair test comes around 2030.
         </p>
-      </section>
-
-      {/* BASKETBALL */}
-      <section className="mb-20 animate-reveal">
-        <SectionHeader label="Basketball" />
-        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Same direction, too few players to rank
-        </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-          Jason Kidd added <Metric>{kidd.surplus}</Metric> Win Shares beyond a typical #{kidd.pick} pick
-          {brown && (
-            <>
-              , and Jaylen Brown is already <Metric>+{brown.surplus}</Metric> past a typical #{brown.pick} pick from
-              his draft era
-            </>
-          )}
-          . But Cal has only {cal.nbaPicks} picks in the first two rounds since {m.classes[0]}, far too few to
-          split into coaching eras. Basketball supports the 40-year story and can&apos;t say more than that.
-        </p>
-        <h3 className="text-sm text-[var(--text-primary)] mb-4">Cal&apos;s NBA outperformers (career Win Shares)</h3>
-        <OutperformersChart players={data.calNba.filter((p) => p.surplus > 0)} unit="Win Shares" />
       </section>
 
       {/* LIMITS */}
@@ -450,22 +436,19 @@ export default function CalProPipelinePage() {
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
           What this can&apos;t claim
         </h2>
-        <ul className="space-y-4 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-disc pl-5">
+        <ul className="space-y-3 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-disc pl-5">
           <li>
             <strong className="text-[var(--text-primary)] font-medium">I looked before I chose the era.</strong>{' '}
-            The {eraFirst} to {eraLast} window follows one coach&apos;s tenure, not the best-looking years. But I
-            only thought to test it after seeing the before-and-after split, so treat it as a strong lead, not a
-            pre-registered experiment.
+            The window follows one coach&apos;s tenure, but I only tested it after seeing the before-and-after
+            split. Treat it as a strong lead, not a planned experiment.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">It doesn&apos;t prove the coach caused it.</strong>{' '}
-            Recruiting, the offensive system, assistants and the conference at the time are all tangled together.
-            The data says something worked in that building for a decade. It can&apos;t say which part.
+            Recruiting, the system, assistants and the conference are tangled together.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">A {pct(era.luckAnySchool)} chance of luck is not zero.</strong>{' '}
-            It is far better than {pct(stress.luckAllTime.anySchool)}, and the result holds up under every test
-            above, but one school out of {m.eraSchools} will always lead.
+            One school out of {m.eraSchools} will always lead.
           </li>
         </ul>
       </section>
@@ -499,8 +482,12 @@ export default function CalProPipelinePage() {
 
       {/* CAVEATS + TOOLS */}
       <section className="mb-10 animate-reveal">
-        <SectionHeader label="Caveats" />
-        <ul className="space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl list-disc pl-5">
+        <SectionHeader label="Method Notes" />
+        <details>
+          <summary className="cursor-pointer select-none text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+            Model details and data sources
+          </summary>
+        <ul className="mt-6 space-y-3 text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl list-disc pl-5">
           <li>
             Expected value comes from isotonic regression: the best-fitting curve that only goes down as the pick
             number goes up, with no other shape assumed. Each draft class is compared only with classes within{' '}
@@ -527,6 +514,7 @@ export default function CalProPipelinePage() {
             NFL data from the open nflverse project; NBA data from Basketball Reference draft pages.
           </li>
         </ul>
+        </details>
 
         <div className="border-t border-[var(--border-subtle)] mt-10 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
