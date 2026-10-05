@@ -98,6 +98,57 @@ export default function CalProPipelinePage() {
         </div>
       </section>
 
+      {/* HOW IT WORKS: plain-language method for non-technical readers */}
+      <section className="mb-20 animate-reveal">
+        <SectionHeader label="How It Works" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
+          One score for two sports and every position
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          No player is ever compared directly with someone from another sport or another position. Each player
+          is compared only with players from his own sport who were drafted at about the same spot in about the
+          same years. The school ranking is built from those individual comparisons in four steps.
+        </p>
+        <ol className="space-y-5 text-[var(--text-secondary)] leading-relaxed max-w-2xl list-decimal pl-5">
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">Set a bar for every draft slot.</strong>{' '}
+            Using every player drafted in the same sport within {m.eraWindow} years, I find the typical career a
+            team gets from each pick number. That is the bar. A #2 pick has a high bar. A third-rounder has a low
+            one. The grey lines in the charts above are those bars.
+          </li>
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">Score each player against his own bar.</strong>{' '}
+            The score is what he actually produced minus the bar. The bar for a #{rodgers.pick} pick in
+            Rodgers&apos; era was <Metric>{rodgers.expected}</Metric> Approximate Value. He produced{' '}
+            <Metric>{rodgers.value}</Metric>, so his score is <Metric>+{rodgers.surplus}</Metric>. A bust gets a
+            negative score.
+          </li>
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">Put both sports on one scale.</strong>{' '}
+            Football scores are in Approximate Value and basketball scores are in Win Shares. Those are different
+            units, like dollars and yen, so they can&apos;t be added together. To convert them, I divide each score
+            by the size of a typical hit or miss in that sport (statisticians call this the standard deviation):
+            about <Metric>{m.nflSpread}</Metric> in football and <Metric>{m.nbaSpread}</Metric> in basketball.
+            Rodgers&apos; +{rodgers.surplus} becomes <Metric>+{(rodgers.surplus / m.nflSpread).toFixed(1)}</Metric>,
+            roughly seven times a typical miss. Jason Kidd&apos;s +{kidd.surplus} Win Shares becomes{' '}
+            <Metric>+{(kidd.surplus / m.nbaSpread).toFixed(1)}</Metric>. Both numbers now mean the same thing: how
+            far a player landed from expectations, measured in what is normal for his sport.
+          </li>
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">Average by school.</strong>{' '}
+            A school&apos;s score is the average across all of its picks, busts included. A school needs enough picks
+            to be ranked, because a handful of players can make any school look great or terrible.
+          </li>
+        </ol>
+        <h3 className="text-sm text-[var(--text-primary)] mt-10 mb-2">What about positions?</h3>
+        <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+          The draft handles most of it. Teams already weigh position when they decide where to take a player, so
+          a quarterback and a guard taken 24th face the same bar. The weak spot is the scoring stat itself:
+          Approximate Value tends to credit some positions more than others, so a school that produces a lot of
+          quarterbacks gets a small boost. I don&apos;t correct for that here.
+        </p>
+      </section>
+
       {/* FINDING 1 */}
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Finding 1" />
@@ -109,13 +160,31 @@ export default function CalProPipelinePage() {
           three schools that send at least {m.minNfl} players to the NFL and {m.minNba} to the NBA. That&apos;s ahead
           of UCLA, Kentucky, Stanford, USC, North Carolina and Alabama. Football alone tells the same story: #
           {cal.nflRank} of {m.nflSchools} schools with {m.minNflOnly}+ picks, and {pct(cal.nflBeatShare)} of Cal&apos;s
-          NFL picks beat their slot versus {pct(cal.allBeatShare)} of all picks.
+          NFL picks beat their slot versus {pct(cal.allBeatShare)} of all picks. Basketball alone puts Cal #
+          {cal.nbaRank} of {m.nbaSchools} schools with {m.minNbaOnly}+ picks, on a much smaller sample.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+          Use the buttons to include football, basketball or both.
         </p>
         <SchoolLeaderboard
-          views={[
-            { key: 'two', label: 'Football + basketball', unit: 'Surplus in standard deviations, both sports combined.', rows: data.twoSport, total: m.twoSportSchools },
-            { key: 'nfl', label: 'Football only', unit: 'Surplus in career Approximate Value per pick.', rows: data.nflOnly, total: m.nflSchools },
-          ]}
+          both={{
+            rows: data.twoSport,
+            total: m.twoSportSchools,
+            decimals: 2,
+            unit: "Score: how far a school's picks land from their draft-slot bar, both sports on one scale (step 3 above). Zero means exactly as expected.",
+          }}
+          football={{
+            rows: data.nflOnly,
+            total: m.nflSchools,
+            decimals: 1,
+            unit: 'Score: career Approximate Value above or below the draft-slot bar, per pick.',
+          }}
+          basketball={{
+            rows: data.nbaOnly,
+            total: m.nbaSchools,
+            decimals: 1,
+            unit: 'Score: career Win Shares above or below the draft-slot bar, per pick. Far fewer picks than football, so the lines are long.',
+          }}
         />
       </section>
 
@@ -142,8 +211,8 @@ export default function CalProPipelinePage() {
               , and Jaylen Brown is already <Metric>+{brown.surplus}</Metric> past a typical #3 pick from his draft era
             </>
           )}
-          . With only {cal.nbaPicks} Cal picks in the first two rounds since 1980, basketball supports the story but
-          can&apos;t rank Cal on its own.
+          . With only {cal.nbaPicks} Cal picks in the first two rounds since 1980, basketball supports the story, but
+          the sample is too small to rank Cal with confidence on basketball alone.
         </p>
         <DataTable
           columns={['Player', 'Sport', 'Year', 'Pick', 'Actual', 'Expected', 'Difference']}

@@ -19,7 +19,7 @@ import { CHART } from '@/lib/chartTheme'
 
 export type CurvePoint = { pick: number; expected: number }
 export type CalPlayer = { player: string; year: number; pick: number; value: number; expected: number; surplus: number }
-export type SchoolRow = { school: string; rank: number; n: number; mean: number; lo: number; hi: number; beat: number }
+export type SchoolRow = { school: string; rank: number; n: number; mean: number; lo: number; hi: number; beat: number; featured: boolean }
 
 const CAL = 'California'
 
@@ -110,48 +110,86 @@ export function DraftCurveChart({
 // Dot = average, bar = the range the true average plausibly falls in.
 // A bar that crosses zero means "can't rule out average".
 // Built with positioned divs, so it stays sharp and responsive.
+//
+// Two toggle buttons pick the sport(s): both on = combined ranking,
+// one on = that sport alone. At least one always stays on.
+// By default only the "featured" rows show (top 10, Cal, big-name programs);
+// "Show all" expands to the full, gap-free ranking.
 // ---------------------------------------------------------------------------
 
+export type LeaderboardView = { unit: string; rows: SchoolRow[]; total: number; decimals: number }
+
 export function SchoolLeaderboard({
-  views,
+  both,
+  football,
+  basketball,
 }: {
-  views: { key: string; label: string; unit: string; rows: SchoolRow[]; total: number }[]
+  both: LeaderboardView
+  football: LeaderboardView
+  basketball: LeaderboardView
 }) {
-  const [active, setActive] = useState(views[0].key)
-  const view = views.find((v) => v.key === active) ?? views[0]
+  const [sports, setSports] = useState({ football: true, basketball: true })
+  const [showAll, setShowAll] = useState(false)
+
+  // Clicking a sport turns it on or off, but never leaves both off
+  const toggle = (sport: 'football' | 'basketball') => {
+    const next = { ...sports, [sport]: !sports[sport] }
+    if (next.football || next.basketball) setSports(next)
+  }
+
+  const view = sports.football && sports.basketball ? both : sports.football ? football : basketball
+  const rows = showAll ? view.rows : view.rows.filter((r) => r.featured)
+  // Scale from every school in the view, so the axis doesn't jump when the list expands
   const lo = Math.min(0, ...view.rows.map((r) => r.lo))
   const hi = Math.max(0, ...view.rows.map((r) => r.hi))
   const pos = (v: number) => ((v - lo) / (hi - lo)) * 100
-  const fmt = (v: number) => (view.key === 'two' ? v.toFixed(2) : v.toFixed(1))
+  const fmt = (v: number) => v.toFixed(view.decimals)
+
+  const buttons: { key: 'football' | 'basketball'; label: string }[] = [
+    { key: 'football', label: 'Football' },
+    { key: 'basketball', label: 'Basketball' },
+  ]
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2 mb-6">
-        {views.map((v) => (
+      <div className="flex flex-wrap items-center gap-2 mb-6">
+        <span className="text-xs text-[var(--text-muted)] mr-1">Include:</span>
+        {buttons.map((b) => (
           <button
-            key={v.key}
+            key={b.key}
             type="button"
-            onClick={() => setActive(v.key)}
-            aria-pressed={active === v.key}
-            className={`text-xs tracking-wider uppercase px-3 py-1.5 border transition-colors ${
-              active === v.key
-                ? 'border-[var(--accent)] text-[var(--accent)]'
+            onClick={() => toggle(b.key)}
+            aria-pressed={sports[b.key]}
+            className={`flex items-center gap-2 text-xs tracking-wider uppercase px-3 py-1.5 border transition-colors ${
+              sports[b.key]
+                ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
                 : 'border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
-            {v.label}
+            {/* Small box so on/off doesn't depend on color alone */}
+            <span
+              aria-hidden="true"
+              className={`inline-block h-2.5 w-2.5 border ${
+                sports[b.key] ? 'border-[var(--accent)] bg-[var(--accent)]' : 'border-[var(--text-muted)]'
+              }`}
+            />
+            {b.label}
           </button>
         ))}
       </div>
 
       <div className="text-xs">
-        {view.rows.map((r, i) => {
+        {rows.map((r, i) => {
           const isCal = r.school === CAL
-          // One visual break where the list jumps from the top 10 to the comparison schools
-          const gap = i > 0 && view.rows[i - 1].rank <= 10 && r.rank > 11
+          // In the short list, label the point where ranks start to skip
+          const skips = !showAll && i > 0 && r.rank > rows[i - 1].rank + 1 && rows[i - 1].rank === i
           return (
             <div key={r.school}>
-              {gap && <div className="py-1 pl-8 text-[var(--text-muted)]">&middot;&middot;&middot;</div>}
+              {skips && (
+                <div className="mt-3 mb-1 pt-3 border-t border-[var(--border-subtle)] text-[var(--text-muted)]">
+                  Well-known programs for comparison (schools ranked in between are hidden)
+                </div>
+              )}
               <div
                 className={`grid grid-cols-[28px_minmax(0,120px)_1fr_44px] sm:grid-cols-[28px_150px_1fr_52px] items-center gap-2 py-1.5 ${
                   isCal ? 'bg-[var(--accent)]/10' : ''
@@ -186,9 +224,19 @@ export function SchoolLeaderboard({
           )
         })}
       </div>
+
+      <button
+        type="button"
+        onClick={() => setShowAll(!showAll)}
+        aria-expanded={showAll}
+        className="mt-4 text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+      >
+        {showAll ? 'Show fewer schools' : `Show all ${view.total} schools`}
+      </button>
+
       <p className="text-xs text-[var(--text-muted)] mt-4">
-        {view.unit} Dot: average per pick. Line: 95% interval. Left of the vertical line means below draft
-        slot. Ranked among {view.total} schools.
+        {view.unit} Dot: the school&apos;s average per pick. Line: how far that average could move with luck (95%
+        interval). Left of the vertical line means below draft slot. Ranked among {view.total} schools.
       </p>
     </div>
   )

@@ -37,6 +37,7 @@ FIRST_CLASS, LAST_CLASS = 1980, 2020  # 2021+ classes are too early in their car
 ERA_WINDOW = 3  # compare each class with classes drafted within +/- 3 years
 MIN_NFL, MIN_NBA = 40, 10  # picks needed per sport for the two-sport ranking
 MIN_NFL_ONLY = 60  # picks needed for the football-only ranking
+MIN_NBA_ONLY = 15  # picks needed for the basketball-only ranking
 BOOTSTRAP = 4000
 CAL = "California"
 
@@ -143,14 +144,22 @@ def main() -> None:
     nfl_table = nfl_table[nfl_table.n >= MIN_NFL_ONLY].sort_values("mean", ascending=False)
     nfl_table["rank"] = range(1, len(nfl_table) + 1)
 
+    # Basketball-only ranking (small samples, so intervals are wide)
+    nba_table = school_table(nba, rng, "surplus")
+    nba_table = nba_table[nba_table.n >= MIN_NBA_ONLY].sort_values("mean", ascending=False)
+    nba_table["rank"] = range(1, len(nba_table) + 1)
+
     def leaderboard(t: pd.DataFrame, top: int) -> list[dict]:
-        show = list(t.index[:top]) + [s for s in PEERS + [CAL] if s in t.index and s not in t.index[:top]]
+        """Every ranked school. "featured" marks the rows shown before the reader
+        expands the list: the top schools, Cal, and well-known programs for context."""
+        featured = set(t.index[:top]) | {s for s in PEERS + [CAL] if s in t.index}
         out = []
-        for s in show:
+        for s in t.index:
             r = t.loc[s]
             out.append({"school": s, "rank": int(r["rank"]), "n": int(r["n"]), "mean": round(float(r["mean"]), 3),
-                        "lo": round(float(r["lo"]), 3), "hi": round(float(r["hi"]), 3), "beat": round(float(r["beat"]), 3)})
-        return sorted(out, key=lambda x: x["rank"])
+                        "lo": round(float(r["lo"]), 3), "hi": round(float(r["hi"]), 3), "beat": round(float(r["beat"]), 3),
+                        "featured": s in featured})
+        return out
 
     # Cal players, biggest surplus first
     def players(df: pd.DataFrame, limit: int) -> list[dict]:
@@ -166,12 +175,17 @@ def main() -> None:
     cal_two = eligible.loc[CAL]
     cal_nfl = nfl_table.loc[CAL]
     cal_nba = nba[nba.school == CAL]
+    cal_nba_row = nba_table.loc[CAL]
     output = {
         "metadata": {
             "classes": [FIRST_CLASS, LAST_CLASS], "eraWindow": ERA_WINDOW,
             "nflPicks": int(len(nfl)), "nbaPicks": int(len(nba)),
             "twoSportSchools": int(len(eligible)), "nflSchools": int(len(nfl_table)),
-            "minNfl": MIN_NFL, "minNba": MIN_NBA, "minNflOnly": MIN_NFL_ONLY,
+            "nbaSchools": int(len(nba_table)),
+            "minNfl": MIN_NFL, "minNba": MIN_NBA, "minNflOnly": MIN_NFL_ONLY, "minNbaOnly": MIN_NBA_ONLY,
+            # Typical size of a hit or miss in each sport (standard deviation of surplus).
+            # Dividing by these is what puts both sports on one scale.
+            "nflSpread": round(float(nfl["surplus"].std()), 1), "nbaSpread": round(float(nba["surplus"].std()), 1),
             "generatedAt": datetime.now(timezone.utc).isoformat(),
         },
         "cal": {
@@ -180,11 +194,13 @@ def main() -> None:
             "nflRank": int(cal_nfl["rank"]), "nflPicks": int(cal_nfl["n"]), "nflMean": round(float(cal_nfl["mean"]), 2),
             "nflLo": round(float(cal_nfl["lo"]), 2), "nflHi": round(float(cal_nfl["hi"]), 2),
             "nbaPicks": int(len(cal_nba)), "nbaMean": round(float(cal_nba.surplus.mean()), 2),
+            "nbaRank": int(cal_nba_row["rank"]), "nbaLo": round(float(cal_nba_row["lo"]), 2), "nbaHi": round(float(cal_nba_row["hi"]), 2),
             "nflBeatShare": round(float((nfl[nfl.school == CAL].surplus > 0).mean()), 3),
             "allBeatShare": round(float((nfl.surplus > 0).mean()), 3),
         },
         "twoSport": leaderboard(eligible, 10),
         "nflOnly": leaderboard(nfl_table, 10),
+        "nbaOnly": leaderboard(nba_table, 10),
         "calNfl": players(nfl, 10),
         "calNba": players(nba, 6),
         "curves": {
@@ -198,6 +214,7 @@ def main() -> None:
     print(f"Wrote {OUT_PATH}")
     print(f"  Cal two-sport rank: {output['cal']['twoSportRank']} of {len(eligible)}")
     print(f"  Cal NFL rank: {output['cal']['nflRank']} of {len(nfl_table)}")
+    print(f"  Cal NBA rank: {output['cal']['nbaRank']} of {len(nba_table)}")
 
 
 if __name__ == "__main__":
