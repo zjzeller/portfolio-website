@@ -107,10 +107,14 @@ export default function CalProPipelinePage() {
           real, it was not permanent, and the way college sports works now makes it hard to repeat.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          On September 27, 2003, Cal beat third-ranked USC in triple overtime and I ran onto the field with my
-          parents and siblings. I was seven. My family drove down from Napa for games all through my childhood.
-          By the time Marshawn Lynch and DeSean Jackson were there, I had a mohawk dyed blue on one side and gold
-          on the other, and I looked forward to punts, because Jackson was the one catching them.
+          The tailgates outside Memorial Stadium were already wild by the time the gates opened on September 27,
+          2003. Inside, every seat was filled and the crowd roared as third-ranked USC came to Berkeley. Three
+          overtimes later, Cal had won and the stands emptied onto the field. I was seven, swept along with my
+          parents and siblings, and I have been chasing that feeling ever since.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
+          We drove down from Napa for games all through my childhood. By 2006 I was going with a mohawk dyed
+          blue on one side and gold on the other.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
           Cal doesn&apos;t feel like that anymore, and I wanted to know: were those years as special as they
@@ -337,7 +341,8 @@ export default function CalProPipelinePage() {
         </p>
         {lynch && (
           <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
-            I was in the stadium on October 21, 2006, when Marshawn Lynch celebrated an overtime win over
+            I remember waiting for DeSean Jackson to field punts, because anything could happen. I was in the
+            stadium on October 21, 2006, when Marshawn Lynch celebrated an overtime win over
             Washington by driving an injury cart around the field, close enough to the crowd that I thought he
             might hit someone. He was drafted #{lynch.pick} the next spring and still beat his slot by{' '}
             <Metric>+{lynch.surplus}</Metric>.
