@@ -75,7 +75,7 @@ function Metric({ children }: { children: React.ReactNode }) {
 export default function CalProPipelinePage() {
   const rodgers = data.calNfl[0]
   const kidd = data.calNba[0]
-  const brown = data.calNba.find((p) => p.player === 'Jaylen Brown')
+  const lynch = data.eraPlayers.find((p) => p.player === 'Marshawn Lynch')
   const pct = (x: number) => `${Math.round(x * 100)}%`
   const th = stress.thresholds
   // Hero card: era picks who beat their draft slot by 40+ career AV (roughly four extra seasons as a starter)
@@ -107,11 +107,15 @@ export default function CalProPipelinePage() {
           real, it was not permanent, and the way college sports works now makes it hard to repeat.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          I&apos;ve been a Cal fan my whole life. Aaron Rodgers, Marshawn Lynch, Leon Powe, Keenan Allen and later
-          Jaylen Brown all came through while I was growing up. The program hasn&apos;t looked the same since, and
-          I wanted to know: were those years as special as they felt, or was I remembering a few famous names?
-          So I built a model of every NFL and NBA draft pick since {m.classes[0]}. As a fan I wanted the answer
-          to be yes, which is why I then tried to prove it wrong.
+          On September 27, 2003, Cal beat third-ranked USC in triple overtime and I ran onto the field with my
+          parents and siblings. I was seven. My family drove down from Napa for games all through my childhood.
+          By the time Marshawn Lynch and DeSean Jackson were there, I had a mohawk dyed blue on one side and gold
+          on the other, and I looked forward to punts, because Jackson was the one catching them.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mt-4 max-w-2xl">
+          Cal doesn&apos;t feel like that anymore, and I wanted to know: were those years as special as they
+          felt, or am I remembering a few famous names? So I built a model of every NFL and NBA draft pick since{' '}
+          {m.classes[0]}. As a fan I wanted the answer to be yes, which is why I then tried to prove it wrong.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
@@ -231,9 +235,8 @@ export default function CalProPipelinePage() {
           With both sports on one scale, Cal players beat their draft slot by more than players from all but
           three schools, ahead of UCLA, Kentucky, Stanford, USC and Alabama. Football alone says the same (#
           {cal.nflRank} of {m.nflSchools}). Basketball alone puts Cal #{cal.nbaRank} of {m.nbaSchools}, though{' '}
-          {cal.nbaPicks} picks is too few to say more: Jason Kidd and Jaylen Brown both beat their slot
-          {brown ? <> (Brown by <Metric>+{brown.surplus}</Metric> Win Shares so far)</> : null}. Use the buttons to
-          switch sports.
+          {cal.nbaPicks} picks is too few to say more. The two I watched most at Haas Pavilion, Leon Powe dunking
+          on people and Ryan Anderson hitting threes, both beat their slot. Use the buttons to switch sports.
         </p>
         <SchoolLeaderboard
           both={{
@@ -332,6 +335,14 @@ export default function CalProPipelinePage() {
           at +{era.withoutBestMean} per pick. Much of the list comes from the middle rounds, where teams pay the
           least for talent.
         </p>
+        {lynch && (
+          <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+            I was in the stadium on October 21, 2006, when Marshawn Lynch celebrated an overtime win over
+            Washington by driving an injury cart around the field, close enough to the crowd that I thought he
+            might hit someone. He was drafted #{lynch.pick} the next spring and still beat his slot by{' '}
+            <Metric>+{lynch.surplus}</Metric>.
+          </p>
+        )}
         <h3 className="text-sm text-[var(--text-primary)] mb-4">
           Cal&apos;s biggest outperformers, {eraFirst} to {eraLast} (career AV)
         </h3>
@@ -426,9 +437,12 @@ export default function CalProPipelinePage() {
           tooltip="schools"
         />
         <p className="text-[var(--text-secondary)] leading-relaxed mt-8 mb-4 max-w-2xl">
-          Cal has its own example. Fernando Mendoza spent three seasons at Cal, transferred to Indiana, won the
-          Heisman Trophy and went first overall in the {latest.year} draft. Draft records credit the last school
-          a player attended, so he counts for Indiana.
+          I felt the old days come back once. On October 5, 2024, ESPN&apos;s College GameDay was in Berkeley,
+          the stadium was full and loud the way I remember it from growing up, and Cal led eighth-ranked Miami by
+          25 points. Cal lost 39-38 in the final minute. The quarterback that night was Fernando Mendoza. He
+          spent three seasons at Cal, transferred to Indiana, won the Heisman Trophy and went first overall in
+          the {latest.year} draft. Draft records credit the last school a player attended, so he counts for
+          Indiana.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
           I can&apos;t yet measure this era the way I measured {eraFirst} to {eraLast}: players drafted since{' '}
@@ -448,6 +462,11 @@ export default function CalProPipelinePage() {
             <strong className="text-[var(--text-primary)] font-medium">I looked before I chose the era.</strong>{' '}
             The window follows one coach&apos;s tenure, but I only tested it after seeing the before-and-after
             split. Treat it as a strong lead, not a planned experiment.
+          </li>
+          <li>
+            <strong className="text-[var(--text-primary)] font-medium">It only sees players who were drafted.</strong>{' '}
+            Jerome Randle ran the point next to Ryan Anderson, went undrafted and became a star overseas. He
+            doesn&apos;t exist in this data.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">It doesn&apos;t prove the coach caused it.</strong>{' '}
@@ -492,8 +511,11 @@ export default function CalProPipelinePage() {
           </li>
         </ol>
         <p className="text-[var(--text-secondary)] leading-relaxed mt-6 max-w-2xl">
-          I&apos;m still a fan. Now I know what to hope for: not the old Cal back, but the next staff that can do
-          what that one did, in a sport where keeping the players you develop is harder than ever.
+          I&apos;m still a fan, which is why I wrote this. As I write it in October 2026, Cal has just
+          lost to UNLV, and every new round of conference realignment makes me wonder whether the program will
+          have a seat when the music stops. At least now I know what to hope for: not the old Cal back, but the
+          next staff that can do what that one did, in a sport where keeping the players you develop is harder
+          than ever.
         </p>
       </section>
 
