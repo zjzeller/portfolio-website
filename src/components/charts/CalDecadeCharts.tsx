@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 // Charts for "Cal Football, 2000 to Now". Every chart reads from src/data/cal-decade.json
 // (built by scripts/cal-decade.py).
 
@@ -153,7 +155,7 @@ export function SeasonArc({ seasons, eras }: { seasons: Season[]; eras: Era[] })
               dot={(p: { cx?: number; cy?: number; payload?: Season }) => (
                 <ArcDot key={p.payload?.year} {...p} below={(prev.get(p.payload?.year ?? 0) ?? 0) > (p.payload?.strength ?? 0)} />
               )}
-              activeDot={{ r: 6, fill: CHART.accent, stroke: CHART.surface, strokeWidth: 2 }}
+              activeDot={{ r: 7, fill: CHART.accent, stroke: CHART.text, strokeWidth: 2 }}
               isAnimationActive={false}
             />
           </ComposedChart>
@@ -223,7 +225,7 @@ export function TalentRankChart({ seasons, eras }: { seasons: SeasonRanks[]; era
                 return <Box title={`${s.year} · ${s.coach}`} lines={[`Roster talent: ${s.talentRank} of ${s.talentTeams}`, s.classRank ? `That year's recruiting class: ${s.classRank} of ${s.classTeams}` : '']} />
               }}
             />
-            <Line dataKey="talentRank" stroke={CHART.accent} strokeWidth={2} dot={{ r: 3, fill: CHART.accent, stroke: CHART.surface, strokeWidth: 2 }} isAnimationActive={false}>
+            <Line dataKey="talentRank" stroke={CHART.accent} strokeWidth={2} dot={{ r: 3, fill: CHART.accent, stroke: CHART.surface, strokeWidth: 2 }} activeDot={{ r: 7, fill: CHART.accent, stroke: CHART.text, strokeWidth: 2 }} isAnimationActive={false}>
               <LabelList
                 dataKey="talentRank"
                 content={(p: LabelProps & { index?: number }) => {
@@ -319,8 +321,8 @@ export function ExpectedVsActual({ seasons, eras }: { seasons: SeasonRanks[]; er
             <ReferenceArea x1={2019.6} x2={2020.4} fill={CHART.surface} fillOpacity={0} label={{ value: '2020: COVID, not rated', angle: -90, position: 'center', fontSize: 10, fill: CHART.muted }} />
             <Area dataKey="beat" type="linear" stroke="none" fill={GOOD} fillOpacity={0.45} isAnimationActive={false} activeDot={false} />
             <Area dataKey="missed" type="linear" stroke="none" fill={BAD} fillOpacity={0.45} isAnimationActive={false} activeDot={false} />
-            <Line dataKey="expectedRank" type="linear" stroke={CHART.muted} strokeWidth={2} strokeDasharray="5 4" dot={false} isAnimationActive={false} />
-            <Line dataKey="strengthRank" type="linear" stroke={CHART.text} strokeWidth={2} dot={{ r: 3, fill: CHART.text, stroke: CHART.surface, strokeWidth: 2 }} isAnimationActive={false} />
+            <Line dataKey="expectedRank" type="linear" stroke={CHART.muted} strokeWidth={2} strokeDasharray="5 4" dot={false} activeDot={{ r: 5, fill: CHART.muted, stroke: CHART.text, strokeWidth: 2 }} isAnimationActive={false} />
+            <Line dataKey="strengthRank" type="linear" stroke={CHART.text} strokeWidth={2} dot={{ r: 3, fill: CHART.text, stroke: CHART.surface, strokeWidth: 2 }} activeDot={{ r: 7, fill: CHART.text, stroke: CHART.accent, strokeWidth: 3 }} isAnimationActive={false} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -372,7 +374,7 @@ export function AttendanceChart({ rows, capacity }: { rows: AttendanceRow[]; cap
               }}
             />
             <ReferenceLine x={2020} stroke="none" label={{ value: 'No fans (COVID)', angle: -90, position: 'insideBottom', offset: 40, fontSize: 10, fill: CHART.muted }} />
-            <Bar dataKey="average" radius={[4, 4, 0, 0]} isAnimationActive={false}>
+            <Bar dataKey="average" radius={[4, 4, 0, 0]} isAnimationActive={false} activeBar={{ stroke: CHART.text, strokeWidth: 2 }}>
               {data.map((r) => (
                 <Cell key={r.year} fill={r.winning ? GOOD : CHART.axis} />
               ))}
@@ -430,10 +432,10 @@ export function PortalChart({ rows }: { rows: PortalRow[] }) {
                 return <Box title={`${r.year} portal`} lines={[`${r.in} transferred in`, `${r.out} transferred out`]} />
               }}
             />
-            <Bar dataKey="in" stackId="p" fill={GOOD} radius={[4, 4, 0, 0]} isAnimationActive={false}>
+            <Bar dataKey="in" stackId="p" fill={GOOD} radius={[4, 4, 0, 0]} isAnimationActive={false} activeBar={{ stroke: CHART.text, strokeWidth: 2 }}>
               <LabelList dataKey="in" position="top" fontSize={10} fill={CHART.text} />
             </Bar>
-            <Bar dataKey="outNeg" stackId="p" fill={BAD} radius={[0, 0, 4, 4]} isAnimationActive={false}>
+            <Bar dataKey="outNeg" stackId="p" fill={BAD} radius={[0, 0, 4, 4]} isAnimationActive={false} activeBar={{ stroke: CHART.text, strokeWidth: 2 }}>
               <LabelList
                 dataKey="out"
                 content={(p: LabelProps) => (
@@ -466,20 +468,67 @@ export function PortalChart({ rows }: { rows: PortalRow[] }) {
 
 const CONFS = ['SEC', 'Big Ten', 'Big 12', 'ACC']
 
+type StripPoint = Peer & { row: number; y: number }
+
+// Spread out dots that would sit on top of each other: within a conference row, a dot
+// closer than `gap` talent points to an already-placed dot moves up or down a lane.
+function beeswarm(points: (Peer & { row: number })[], gap = 7): StripPoint[] {
+  const lanes = [0, -0.2, 0.2, -0.4, 0.4]
+  const placed: StripPoint[] = []
+  for (const p of [...points].sort((a, b) => a.talent - b.talent)) {
+    const lane =
+      lanes.find((off) => !placed.some((q) => q.row === p.row && q.y === p.row + off && Math.abs(q.talent - p.talent) < gap)) ?? 0
+    placed.push({ ...p, y: p.row + lane })
+  }
+  return placed
+}
+
 export function PeerStrip({ peers, highlight = 'California' }: { peers: Peer[]; highlight?: string }) {
-  const data = peers.map((p) => ({ ...p, row: CONFS.indexOf(p.conference) }))
+  const [hover, setHover] = useState<string | null>(null)
+  const data = beeswarm(peers.map((p) => ({ ...p, row: CONFS.indexOf(p.conference) })))
   const median = (xs: number[]) => {
     const s = [...xs].sort((a, b) => a - b)
     return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2
   }
-  const medians = CONFS.map((c, i) => ({ row: i, talent: median(data.filter((d) => d.conference === c).map((d) => d.talent)) }))
-  const others = data.filter((d) => d.team !== highlight)
-  const cal = data.filter((d) => d.team === highlight)
+  const medians = CONFS.map((c, i) => ({ y: i, talent: median(data.filter((d) => d.conference === c).map((d) => d.talent)) }))
+  const gold = ERA_COLORS['Jeff Tedford']
+
+  // One shape for every team: a generous invisible hit area, and on hover a white ring,
+  // a larger dot and the other teams dimmed so the hovered one stands out.
+  const Dot = (p: { cx?: number; cy?: number; payload?: StripPoint }) => {
+    const d = p.payload
+    if (p.cx == null || p.cy == null || !d) return <g />
+    const isCal = d.team === highlight
+    const isHover = hover === d.team
+    const dimmed = hover != null && !isHover
+    const r = (isCal ? 7 : 5) + (isHover ? 3 : 0)
+    return (
+      <g onMouseEnter={() => setHover(d.team)} onMouseLeave={() => setHover(null)} style={{ cursor: 'pointer' }}>
+        <circle cx={p.cx} cy={p.cy} r={12} fill="transparent" />
+        <circle
+          cx={p.cx}
+          cy={p.cy}
+          r={r}
+          fill={isCal ? gold : CHART.muted}
+          fillOpacity={dimmed ? 0.35 : isCal ? 1 : 0.85}
+          stroke={isHover ? CHART.text : CHART.surface}
+          strokeWidth={2}
+          style={{ transition: 'r 120ms ease-out, fill-opacity 120ms' }}
+        />
+        {isCal && (
+          <text x={p.cx} y={p.cy - r - 6} textAnchor="middle" fontSize={11} fill={CHART.text}>
+            Cal
+          </text>
+        )}
+      </g>
+    )
+  }
+
   return (
     <div>
       <div className="flex flex-wrap gap-x-5 gap-y-1 mb-3 text-xs text-[var(--text-secondary)]">
         <span className="flex items-center gap-1.5">
-          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: ERA_COLORS['Jeff Tedford'] }} /> Cal
+          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: gold }} /> Cal
         </span>
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: CHART.muted }} /> Other Power 4 teams
@@ -488,44 +537,34 @@ export function PeerStrip({ peers, highlight = 'California' }: { peers: Peer[]; 
           <span className="inline-block h-3 w-0.5" style={{ background: CHART.text }} /> Conference median
         </span>
       </div>
-      <div className="h-64">
+      <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">
-          <ScatterChart margin={{ top: 8, right: 16, bottom: 24, left: 8 }}>
+          <ScatterChart margin={{ top: 12, right: 16, bottom: 24, left: 8 }}>
             <CartesianGrid stroke={CHART.grid} horizontal={false} />
             <XAxis type="number" dataKey="talent" domain={[550, 1050]} ticks={[600, 700, 800, 900, 1000]} tick={tick} tickLine={false} axisLine={{ stroke: CHART.axis }}
               label={{ value: '2026 roster talent (247Sports composite)', position: 'insideBottom', offset: -14, fontSize: 11, fill: CHART.muted }} />
-            <YAxis type="number" dataKey="row" domain={[-0.6, 3.6]} ticks={[0, 1, 2, 3]} tickFormatter={(i: number) => CONFS[i]} reversed tick={tick} tickLine={false} axisLine={false} width={56} />
+            <YAxis type="number" dataKey="y" domain={[-0.65, 3.65]} ticks={[0, 1, 2, 3]} tickFormatter={(i: number) => CONFS[i]} reversed tick={tick} tickLine={false} axisLine={false} width={56} />
             <ZAxis range={[50, 50]} />
             <Tooltip
               cursor={false}
               content={({ active, payload }) => {
                 if (!active || !payload?.length) return null
-                const p = payload[0].payload as Peer & { row: number }
+                const p = payload[0].payload as StripPoint
                 if (p.team == null) return null
                 return <Box title={`${p.team} · ${p.conference}`} lines={[`Talent ${p.talent.toFixed(0)}`, `${ordinalOf(p.rank)} of ${peers.length} Power 4 teams`]} />
               }}
             />
-            <Scatter data={others} fill={CHART.muted} fillOpacity={0.7} stroke={CHART.surface} strokeWidth={1} isAnimationActive={false} />
-            <Scatter data={medians} shape={(p: { cx?: number; cy?: number }) => <rect x={(p.cx ?? 0) - 1} y={(p.cy ?? 0) - 11} width={2} height={22} fill={CHART.text} />} isAnimationActive={false} />
-            {/* Cal: a larger gold dot with a direct label */}
-            <Scatter
-              data={cal}
-              isAnimationActive={false}
-              shape={(p: { cx?: number; cy?: number }) => (
-                <g>
-                  <circle cx={p.cx} cy={p.cy} r={7} fill={ERA_COLORS['Jeff Tedford']} stroke={CHART.surface} strokeWidth={2} />
-                  <text x={p.cx} y={(p.cy ?? 0) - 13} textAnchor="middle" fontSize={11} fill={CHART.text}>
-                    Cal
-                  </text>
-                </g>
-              )}
-            />
+            <Scatter data={medians} shape={(p: { cx?: number; cy?: number }) => <rect x={(p.cx ?? 0) - 1} y={(p.cy ?? 0) - 16} width={2} height={32} fill={CHART.text} />} isAnimationActive={false} />
+            {/* Cal drawn last so it sits on top */}
+            <Scatter data={data.filter((d) => d.team !== highlight)} shape={Dot} isAnimationActive={false} />
+            <Scatter data={data.filter((d) => d.team === highlight)} shape={Dot} isAnimationActive={false} />
           </ScatterChart>
         </ResponsiveContainer>
       </div>
       <p className="text-xs text-[var(--text-muted)] mt-2">
         Each dot is one Power 4 team&apos;s 2026 roster, rated by the 247Sports talent composite, which counts every
-        player on the roster, transfers included. Further right is more talented.
+        player on the roster, transfers included. Further right is more talented. Dots that would overlap are
+        nudged up or down within their conference row.
       </p>
     </div>
   )

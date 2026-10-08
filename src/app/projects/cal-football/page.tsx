@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { pageMetadata } from '@/lib/metadata'
+import { requireProject } from '@/data/projects'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import {
   SeasonArc,
@@ -17,9 +17,12 @@ import { DataTable } from '@/components/charts/RetentionCharts'
 import data from '@/data/cal-decade.json'
 import draft from '@/data/cal-pipeline.json'
 
+const project = requireProject('/projects/cal-football')
+
 export const metadata = pageMetadata(
   'Cal Football, 2000 to Now',
-  'How a program rose, peaked and drifted: a guided look at Cal football through results, recruiting, the draft, attendance and the transfer portal.'
+  'How a program rose, peaked and drifted: a guided look at Cal football through results, recruiting, the draft, attendance and the transfer portal.',
+  '/projects/cal-football/opengraph-image.png'
 )
 
 const seasons = data.seasons as SeasonRanks[]
@@ -53,6 +56,7 @@ const calPeer = peers.find((p) => p.team === 'California') as Peer
 const acc = peers.filter((p) => p.conference === 'ACC')
 const calInAcc = acc.findIndex((p) => p.team === 'California') + 1
 const era = draft.calEra
+const stress = draft.eraStress
 const k = (n: number) => n.toLocaleString()
 
 function Chapter({ n, label, title, children }: { n: number; label: string; title: string; children: React.ReactNode }) {
@@ -83,7 +87,7 @@ export default function CalFootballPage() {
   const y13 = by(2013)
   return (
     <div className="container mx-auto px-6 md:px-8 py-16 md:py-24 max-w-4xl">
-      <PageViewTracker pagePath="/projects/cal-football" pageTitle="Cal Football, 2000 to Now" />
+      <PageViewTracker pagePath="/projects/cal-football" pageTitle={project.title} />
 
       {/* HERO */}
       <section className="mb-20 animate-reveal">
@@ -196,14 +200,38 @@ export default function CalFootballPage() {
         />
         <H3>Cal&apos;s biggest outperformers (career value vs. a typical pick at the same slot)</H3>
         <OutperformersChart players={draft.eraPlayers} unit="AV" others={draft.eraOthers} />
-        <p className="text-xs text-[var(--text-muted)] mt-6 max-w-2xl">
-          The result holds up to eight stress tests, including removing every school&apos;s best player and
-          adjusting for program size.{' '}
-          <Link href="/projects/cal-pro-pipeline" className="text-[var(--accent)] hover:underline">
-            Read the full draft analysis
-          </Link>
-          .
-        </p>
+        <details className="mt-10 max-w-2xl group">
+          <summary className="cursor-pointer select-none text-xs tracking-wider uppercase text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+            How the draft model works, and how I tested it
+          </summary>
+          <div className="mt-5 space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <p>
+              Career value is Pro Football Reference&apos;s Approximate Value, one number for a player&apos;s total
+              contribution (a solid starting season is roughly 8 to 10). For each draft class, an isotonic regression
+              (a curve that only goes down as the pick number goes up) sets what a typical player at each slot
+              produces, using classes within three years. A player&apos;s score is his actual value minus that bar,
+              and a school&apos;s score is the average across all its picks, busts included.
+            </p>
+            <p>A first-place finish deserves suspicion, so the 2003 to 2013 ranking was re-run eight ways:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Raising the minimum picks to be ranked from 20 to 40: Cal {ord(stress.rank)} at every cutoff</li>
+              <li>Shrinking small samples toward average: still {ord(stress.shrunkRank)}</li>
+              <li>Capping every score at the 99th percentile: {ord(stress.cappedRank)}</li>
+              <li>Adjusting for position: {ord(stress.positionRank)}</li>
+              <li>Removing every quarterback: {ord(stress.noQbRank)}</li>
+              <li>Removing each school&apos;s single best player: {ord(stress.withoutBestRank)}</li>
+              <li>Adjusting for program size (big-name programs get over-drafted): {ord(stress.sizeAdjRank)}</li>
+              <li>
+                Shuffling players between schools 5,000 times: a lead this large happens by chance{' '}
+                {Math.round(stress.luck.anySchool * 100)}% of the time
+              </li>
+            </ul>
+            <p>
+              Over all 40 years, Cal ranks 4th of 61, but that lead is small enough that chance produces it often. The
+              edge belongs to one decade and one staff, not to the school.
+            </p>
+          </div>
+        </details>
       </Chapter>
 
       {/* CHAPTER 4 */}

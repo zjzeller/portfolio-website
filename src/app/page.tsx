@@ -8,7 +8,7 @@ import retention from '@/data/customer-retention.json'
 
 // Lead project gets the wide card; the others sit beside it
 const featured = requireProject('/projects/customer-retention')
-const supporting = ['/projects/cal-pro-pipeline', '/projects/baby-names'].map(requireProject)
+const supporting = ['/projects/cal-football', '/projects/baby-names'].map(requireProject)
 
 // What I do day to day. Tells a recruiter which roles I fit at a glance.
 const focusAreas = [

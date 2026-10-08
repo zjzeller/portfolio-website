@@ -12,13 +12,13 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/zjzeller/thelook-analytics-dbt',
   },
   {
-    href: '/projects/cal-pro-pipeline',
-    title: "Cal's Pro Pipeline: Beating the Draft Board",
+    href: '/projects/cal-football',
+    title: 'Cal Football, 2000 to Now: Rise, Peak and Drift',
     description:
-      "Which colleges' players beat their draft slot? A model of every NFL and NBA pick since 1980 finds Cal's 2003 to 2013 classes ranked 1st of 41 schools, then stress-tests the result.",
-    tags: ['Python', 'scikit-learn', 'Sports Analytics'],
+      'A six-chapter data story on how Cal football rose, peaked and drifted: talent vs. results, NFL draft outcomes, attendance, the transfer portal and where Cal stands in the ACC.',
+    tags: ['Data Storytelling', 'Python', 'Sports Analytics'],
     tools: ['Python', 'Pandas', 'scikit-learn', 'Recharts', 'Next.js'],
-    githubUrl: 'https://github.com/zjzeller/portfolio-website/blob/main/scripts/cal-pipeline.py',
+    githubUrl: 'https://github.com/zjzeller/portfolio-website/blob/main/scripts/cal-decade.py',
   },
   {
     href: '/projects/baby-names',
