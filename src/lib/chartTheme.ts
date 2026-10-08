@@ -12,6 +12,15 @@ export const CHART = {
   cursorFill: 'rgba(143, 179, 224, 0.08)', // hover band behind bars
 }
 
+// Coaching-era colors for the Cal football story. Three categorical slots, validated
+// together on the dark surface (all-pairs, so they can share a scatterplot):
+// node validate_palette.js "#c98500,#3987e5,#199e70" --mode dark --surface "#0f1419" --pairs all
+export const ERA_COLORS: Record<string, string> = {
+  'Jeff Tedford': '#c98500', // gold
+  'Sonny Dykes': '#3987e5', // blue
+  'Justin Wilcox': '#199e70', // aqua
+}
+
 // Sequential ramp for heatmaps: one hue (steel blue), dark to light.
 // On a dark background, "more" = lighter. Values above `max` share the top color
 // so one extreme cohort doesn't wash out every other row.
