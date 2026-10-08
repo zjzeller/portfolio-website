@@ -315,6 +315,8 @@ export function ExpectedVsActual({ seasons, eras }: { seasons: SeasonRanks[]; er
                 )
               }}
             />
+            {/* 2020 gap: explain it on the chart, not just in the caption */}
+            <ReferenceArea x1={2019.6} x2={2020.4} fill={CHART.surface} fillOpacity={0} label={{ value: '2020: COVID, not rated', angle: -90, position: 'center', fontSize: 10, fill: CHART.muted }} />
             <Area dataKey="beat" type="linear" stroke="none" fill={GOOD} fillOpacity={0.45} isAnimationActive={false} activeDot={false} />
             <Area dataKey="missed" type="linear" stroke="none" fill={BAD} fillOpacity={0.45} isAnimationActive={false} activeDot={false} />
             <Line dataKey="expectedRank" type="linear" stroke={CHART.muted} strokeWidth={2} strokeDasharray="5 4" dot={false} isAnimationActive={false} />
@@ -325,7 +327,8 @@ export function ExpectedVsActual({ seasons, eras }: { seasons: SeasonRanks[]; er
       <p className="text-xs text-[var(--text-muted)] mt-2">
         National rank among FBS teams (1 is best, so higher on the chart is better). The dashed line is where a
         roster with Cal&apos;s talent typically finishes; the solid line is where Cal actually finished, by
-        schedule-adjusted margin. Blue gaps: Cal did more with its players than expected. Orange: less.
+        schedule-adjusted margin. Blue gaps: Cal did more with its players than expected. Orange: less. The 2020
+        season was four games because of COVID and has no final rating, so it is left blank.
       </p>
     </div>
   )
@@ -368,6 +371,7 @@ export function AttendanceChart({ rows, capacity }: { rows: AttendanceRow[]; cap
                 return <Box title={`${r.year}${r.venue === 'AT&T Park' ? ' · AT&T Park' : ''}`} lines={[`${r.average.toLocaleString()} per home game`, `${r.games} home games`]} />
               }}
             />
+            <ReferenceLine x={2020} stroke="none" label={{ value: 'No fans (COVID)', angle: -90, position: 'insideBottom', offset: 40, fontSize: 10, fill: CHART.muted }} />
             <Bar dataKey="average" radius={[4, 4, 0, 0]} isAnimationActive={false}>
               {data.map((r) => (
                 <Cell key={r.year} fill={r.winning ? GOOD : CHART.axis} />

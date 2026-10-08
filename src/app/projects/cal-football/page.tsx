@@ -293,14 +293,18 @@ export default function CalFootballPage() {
             best seasons came with top-20 rosters. It hasn&apos;t had one since {lastTop20Roster}.
           </li>
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">Development decides how close you get.</strong>{' '}
-            The peak teams beat their talent by {peakSpots} spots a year, and their players kept outperforming in the
-            NFL. Since 2009, Cal has beaten its prediction in {beatSince09} of {since09.length} seasons.
+            <strong className="text-[var(--text-primary)] font-medium">
+              Coaching decides how much of that talent shows up on Saturdays.
+            </strong>{' '}
+            With the portal reshuffling rosters every year, there is little time for slow, multi-year development.
+            What matters is a staff that gets the most out of whoever is on the roster this season and turns them
+            into a coherent team. Cal&apos;s peak teams finished an average of {peakSpots} spots better than their talent predicted;
+            since 2009, Cal has beaten its prediction in only {beatSince09} of {since09.length} seasons.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">The portal is now the fastest lever.</strong> A
             roster can be rebuilt in a single offseason, in either direction. Cal&apos;s is already mid-pack in its
-            conference, so the next gain has to come from results.
+            conference, so the next gain has to come from coaching that roster into a team that plays above it.
           </li>
         </ol>
         <p className="text-xs text-[var(--text-muted)] mt-12 max-w-2xl">
