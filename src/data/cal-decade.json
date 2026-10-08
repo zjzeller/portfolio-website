@@ -55,7 +55,10 @@
    "classRank": null,
    "classTeams": null,
    "talent": null,
-   "expected": null
+   "talentRank": null,
+   "talentTeams": null,
+   "expected": null,
+   "expectedRank": null
   },
   {
    "year": 2001,
@@ -71,7 +74,10 @@
    "classRank": null,
    "classTeams": null,
    "talent": null,
-   "expected": null
+   "talentRank": null,
+   "talentTeams": null,
+   "expected": null,
+   "expectedRank": null
   },
   {
    "year": 2002,
@@ -87,7 +93,10 @@
    "classRank": null,
    "classTeams": null,
    "talent": null,
-   "expected": null
+   "talentRank": null,
+   "talentTeams": null,
+   "expected": null,
+   "expectedRank": null
   },
   {
    "year": 2003,
@@ -103,7 +112,10 @@
    "classRank": 24,
    "classTeams": 117,
    "talent": null,
-   "expected": null
+   "talentRank": null,
+   "talentTeams": null,
+   "expected": null,
+   "expectedRank": null
   },
   {
    "year": 2004,
@@ -119,7 +131,10 @@
    "classRank": 20,
    "classTeams": 117,
    "talent": null,
-   "expected": null
+   "talentRank": null,
+   "talentTeams": null,
+   "expected": null,
+   "expectedRank": null
   },
   {
    "year": 2005,
@@ -135,7 +150,10 @@
    "classRank": 10,
    "classTeams": 118,
    "talent": 85.4,
-   "expected": 76.4
+   "talentRank": 12,
+   "talentTeams": 116,
+   "expected": 76.4,
+   "expectedRank": 29
   },
   {
    "year": 2006,
@@ -151,7 +169,10 @@
    "classRank": 20,
    "classTeams": 119,
    "talent": 85.0,
-   "expected": 76.1
+   "talentRank": 12,
+   "talentTeams": 117,
+   "expected": 76.1,
+   "expectedRank": 29
   },
   {
    "year": 2007,
@@ -167,7 +188,10 @@
    "classRank": 23,
    "classTeams": 116,
    "talent": 85.2,
-   "expected": 76.3
+   "talentRank": 13,
+   "talentTeams": 118,
+   "expected": 76.3,
+   "expectedRank": 29
   },
   {
    "year": 2008,
@@ -183,7 +207,10 @@
    "classRank": 29,
    "classTeams": 117,
    "talent": 83.2,
-   "expected": 74.8
+   "talentRank": 16,
+   "talentTeams": 117,
+   "expected": 74.8,
+   "expectedRank": 31
   },
   {
    "year": 2009,
@@ -199,7 +226,10 @@
    "classRank": 37,
    "classTeams": 115,
    "talent": 77.3,
-   "expected": 70.5
+   "talentRank": 25,
+   "talentTeams": 117,
+   "expected": 70.5,
+   "expectedRank": 36
   },
   {
    "year": 2010,
@@ -215,7 +245,10 @@
    "classRank": 20,
    "classTeams": 120,
    "talent": 77.3,
-   "expected": 70.5
+   "talentRank": 22,
+   "talentTeams": 117,
+   "expected": 70.5,
+   "expectedRank": 36
   },
   {
    "year": 2011,
@@ -231,7 +264,10 @@
    "classRank": 15,
    "classTeams": 120,
    "talent": 79.1,
-   "expected": 71.8
+   "talentRank": 22,
+   "talentTeams": 117,
+   "expected": 71.8,
+   "expectedRank": 35
   },
   {
    "year": 2012,
@@ -247,7 +283,10 @@
    "classRank": 30,
    "classTeams": 124,
    "talent": 79.2,
-   "expected": 71.9
+   "talentRank": 22,
+   "talentTeams": 120,
+   "expected": 71.9,
+   "expectedRank": 36
   },
   {
    "year": 2013,
@@ -263,7 +302,10 @@
    "classRank": 41,
    "classTeams": 125,
    "talent": 79.1,
-   "expected": 71.8
+   "talentRank": 23,
+   "talentTeams": 120,
+   "expected": 71.8,
+   "expectedRank": 36
   },
   {
    "year": 2014,
@@ -279,7 +321,10 @@
    "classRank": 55,
    "classTeams": 128,
    "talent": 72.5,
-   "expected": 67.0
+   "talentRank": 35,
+   "talentTeams": 124,
+   "expected": 67.0,
+   "expectedRank": 43
   },
   {
    "year": 2015,
@@ -295,7 +340,10 @@
    "classRank": 34,
    "classTeams": 128,
    "talent": 68.9,
-   "expected": 64.3
+   "talentRank": 40,
+   "talentTeams": 124,
+   "expected": 64.3,
+   "expectedRank": 46
   },
   {
    "year": 2016,
@@ -311,7 +359,10 @@
    "classRank": 31,
    "classTeams": 128,
    "talent": 68.9,
-   "expected": 64.3
+   "talentRank": 40,
+   "talentTeams": 127,
+   "expected": 64.3,
+   "expectedRank": 46
   },
   {
    "year": 2017,
@@ -327,7 +378,10 @@
    "classRank": 70,
    "classTeams": 130,
    "talent": 63.6,
-   "expected": 60.4
+   "talentRank": 45,
+   "talentTeams": 128,
+   "expected": 60.4,
+   "expectedRank": 52
   },
   {
    "year": 2018,
@@ -343,7 +397,10 @@
    "classRank": 42,
    "classTeams": 130,
    "talent": 66.3,
-   "expected": 62.4
+   "talentRank": 43,
+   "talentTeams": 127,
+   "expected": 62.4,
+   "expectedRank": 50
   },
   {
    "year": 2019,
@@ -359,7 +416,10 @@
    "classRank": 43,
    "classTeams": 130,
    "talent": 64.6,
-   "expected": 61.2
+   "talentRank": 44,
+   "talentTeams": 129,
+   "expected": 61.2,
+   "expectedRank": 51
   },
   {
    "year": 2020,
@@ -375,7 +435,10 @@
    "classRank": 39,
    "classTeams": 128,
    "talent": 63.1,
-   "expected": 60.1
+   "talentRank": 48,
+   "talentTeams": 128,
+   "expected": 60.1,
+   "expectedRank": 31
   },
   {
    "year": 2021,
@@ -391,7 +454,10 @@
    "classRank": 28,
    "classTeams": 130,
    "talent": 71.2,
-   "expected": 66.0
+   "talentRank": 37,
+   "talentTeams": 130,
+   "expected": 66.0,
+   "expectedRank": 45
   },
   {
    "year": 2022,
@@ -407,7 +473,10 @@
    "classRank": 59,
    "classTeams": 130,
    "talent": 67.9,
-   "expected": 63.6
+   "talentRank": 39,
+   "talentTeams": 130,
+   "expected": 63.6,
+   "expectedRank": 48
   },
   {
    "year": 2023,
@@ -423,7 +492,10 @@
    "classRank": 79,
    "classTeams": 133,
    "talent": 61.3,
-   "expected": 58.7
+   "talentRank": 55,
+   "talentTeams": 130,
+   "expected": 58.7,
+   "expectedRank": 56
   },
   {
    "year": 2024,
@@ -439,7 +511,10 @@
    "classRank": 55,
    "classTeams": 134,
    "talent": 58.6,
-   "expected": 56.8
+   "talentRank": 55,
+   "talentTeams": 131,
+   "expected": 56.8,
+   "expectedRank": 58
   },
   {
    "year": 2025,
@@ -455,7 +530,10 @@
    "classRank": 69,
    "classTeams": 136,
    "talent": 51.2,
-   "expected": 51.3
+   "talentRank": 69,
+   "talentTeams": 133,
+   "expected": 51.3,
+   "expectedRank": 67
   },
   {
    "year": 2026,
@@ -471,7 +549,795 @@
    "classRank": 56,
    "classTeams": 138,
    "talent": 52.5,
-   "expected": 52.3
+   "talentRank": 67,
+   "talentTeams": 134,
+   "expected": 52.3,
+   "expectedRank": 66
+  }
+ ],
+ "attendance": [
+  {
+   "year": 2000,
+   "average": 46300,
+   "games": 5,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2001,
+   "average": 33442,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2002,
+   "average": 37103,
+   "games": 7,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2003,
+   "average": 38305,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2004,
+   "average": 64019,
+   "games": 5,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2005,
+   "average": 60377,
+   "games": 6,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2006,
+   "average": 64318,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2007,
+   "average": 63136,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2008,
+   "average": 61634,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2009,
+   "average": 59472,
+   "games": 6,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2010,
+   "average": 57873,
+   "games": 7,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2011,
+   "average": 37657,
+   "games": 5,
+   "source": "Wikipedia season page",
+   "venue": "AT&T Park",
+   "winning": true
+  },
+  {
+   "year": 2012,
+   "average": 55876,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2013,
+   "average": 49329,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2014,
+   "average": 48798,
+   "games": 7,
+   "source": "Wikipedia season page",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2015,
+   "average": 48800,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2016,
+   "average": 46628,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2017,
+   "average": 36548,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2018,
+   "average": 42866,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2019,
+   "average": 42433,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2020,
+   "average": null,
+   "games": 0,
+   "source": null,
+   "venue": null
+  },
+  {
+   "year": 2021,
+   "average": 37383,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2022,
+   "average": 38596,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2023,
+   "average": 38684,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2024,
+   "average": 39173,
+   "games": 7,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": false
+  },
+  {
+   "year": 2025,
+   "average": 34991,
+   "games": 6,
+   "source": "College Football Data API",
+   "venue": "Memorial Stadium",
+   "winning": true
+  },
+  {
+   "year": 2026,
+   "average": null,
+   "games": 0,
+   "source": null,
+   "venue": null
+  }
+ ],
+ "stadiumCapacity": 62467,
+ "portal": [
+  {
+   "year": 2021,
+   "out": 10,
+   "in": 3,
+   "outGroups": {
+    "Group of 5": 1,
+    "No destination listed": 7,
+    "Power 4": 2
+   },
+   "outStars": 2.9,
+   "inStars": 3.0
+  },
+  {
+   "year": 2022,
+   "out": 11,
+   "in": 6,
+   "outGroups": {
+    "No destination listed": 5,
+    "Group of 5": 4,
+    "Power 4": 2
+   },
+   "outStars": 3.0,
+   "inStars": 3.4
+  },
+  {
+   "year": 2023,
+   "out": 26,
+   "in": 20,
+   "outGroups": {
+    "Group of 5": 6,
+    "No destination listed": 8,
+    "Power 4": 11,
+    "FCS or lower": 1
+   },
+   "outStars": 2.92,
+   "inStars": 3.1
+  },
+  {
+   "year": 2024,
+   "out": 23,
+   "in": 23,
+   "outGroups": {
+    "No destination listed": 4,
+    "FCS or lower": 3,
+    "Power 4": 9,
+    "Group of 5": 7
+   },
+   "outStars": 3.09,
+   "inStars": 3.17
+  },
+  {
+   "year": 2025,
+   "out": 34,
+   "in": 36,
+   "outGroups": {
+    "Group of 5": 11,
+    "Power 4": 16,
+    "FCS or lower": 3,
+    "No destination listed": 4
+   },
+   "outStars": 3.06,
+   "inStars": 3.0
+  },
+  {
+   "year": 2026,
+   "out": 36,
+   "in": 32,
+   "outGroups": {
+    "FCS or lower": 4,
+    "No destination listed": 9,
+    "Group of 5": 10,
+    "Power 4": 13
+   },
+   "outStars": 3.09,
+   "inStars": 3.2
+  }
+ ],
+ "topDepartures": [
+  {
+   "year": 2026,
+   "player": "Cade Uluave",
+   "position": "LB",
+   "destination": "BYU",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.94
+  },
+  {
+   "year": 2023,
+   "player": "J.Michael Sturdivant",
+   "position": "WR",
+   "destination": "UCLA",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.93
+  },
+  {
+   "year": 2025,
+   "player": "Fernando Mendoza",
+   "position": "QB",
+   "destination": "Indiana",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.93
+  },
+  {
+   "year": 2025,
+   "player": "Jaydn Ott",
+   "position": "RB",
+   "destination": "Oklahoma",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.92
+  },
+  {
+   "year": 2026,
+   "player": "Kendrick Raphael",
+   "position": "RB",
+   "destination": "SMU",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.92
+  },
+  {
+   "year": 2025,
+   "player": "Jack Endries",
+   "position": "TE",
+   "destination": "Texas",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.91
+  },
+  {
+   "year": 2022,
+   "player": "McKade Mettauer",
+   "position": "IOL",
+   "destination": "Oklahoma",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.9
+  },
+  {
+   "year": 2024,
+   "player": "Kaleb Elarms-Orr",
+   "position": "LB",
+   "destination": "TCU",
+   "group": "Power 4",
+   "stars": 4,
+   "rating": 0.9
+  }
+ ],
+ "peers": [
+  {
+   "team": "Georgia",
+   "conference": "SEC",
+   "talent": 1003.7,
+   "rank": 1
+  },
+  {
+   "team": "Texas",
+   "conference": "SEC",
+   "talent": 985.2,
+   "rank": 2
+  },
+  {
+   "team": "Oregon",
+   "conference": "Big Ten",
+   "talent": 984.3,
+   "rank": 3
+  },
+  {
+   "team": "Alabama",
+   "conference": "SEC",
+   "talent": 973.5,
+   "rank": 4
+  },
+  {
+   "team": "Ohio State",
+   "conference": "Big Ten",
+   "talent": 964.3,
+   "rank": 5
+  },
+  {
+   "team": "Texas A&M",
+   "conference": "SEC",
+   "talent": 933.0,
+   "rank": 6
+  },
+  {
+   "team": "LSU",
+   "conference": "SEC",
+   "talent": 931.8,
+   "rank": 7
+  },
+  {
+   "team": "USC",
+   "conference": "Big Ten",
+   "talent": 899.0,
+   "rank": 8
+  },
+  {
+   "team": "Florida",
+   "conference": "SEC",
+   "talent": 891.1,
+   "rank": 9
+  },
+  {
+   "team": "Michigan",
+   "conference": "Big Ten",
+   "talent": 890.0,
+   "rank": 10
+  },
+  {
+   "team": "Miami",
+   "conference": "ACC",
+   "talent": 885.9,
+   "rank": 11
+  },
+  {
+   "team": "Tennessee",
+   "conference": "SEC",
+   "talent": 885.9,
+   "rank": 12
+  },
+  {
+   "team": "Ole Miss",
+   "conference": "SEC",
+   "talent": 885.7,
+   "rank": 13
+  },
+  {
+   "team": "Clemson",
+   "conference": "ACC",
+   "talent": 862.9,
+   "rank": 14
+  },
+  {
+   "team": "South Carolina",
+   "conference": "SEC",
+   "talent": 862.9,
+   "rank": 15
+  },
+  {
+   "team": "Oklahoma",
+   "conference": "SEC",
+   "talent": 851.1,
+   "rank": 16
+  },
+  {
+   "team": "Auburn",
+   "conference": "SEC",
+   "talent": 828.2,
+   "rank": 17
+  },
+  {
+   "team": "Missouri",
+   "conference": "SEC",
+   "talent": 808.4,
+   "rank": 18
+  },
+  {
+   "team": "Mississippi State",
+   "conference": "SEC",
+   "talent": 804.5,
+   "rank": 19
+  },
+  {
+   "team": "Florida State",
+   "conference": "ACC",
+   "talent": 800.2,
+   "rank": 20
+  },
+  {
+   "team": "Nebraska",
+   "conference": "Big Ten",
+   "talent": 787.5,
+   "rank": 21
+  },
+  {
+   "team": "Kentucky",
+   "conference": "SEC",
+   "talent": 786.6,
+   "rank": 22
+  },
+  {
+   "team": "Washington",
+   "conference": "Big Ten",
+   "talent": 777.6,
+   "rank": 23
+  },
+  {
+   "team": "UCLA",
+   "conference": "Big Ten",
+   "talent": 774.5,
+   "rank": 24
+  },
+  {
+   "team": "Penn State",
+   "conference": "Big Ten",
+   "talent": 774.0,
+   "rank": 25
+  },
+  {
+   "team": "Virginia Tech",
+   "conference": "ACC",
+   "talent": 769.1,
+   "rank": 26
+  },
+  {
+   "team": "North Carolina",
+   "conference": "ACC",
+   "talent": 767.9,
+   "rank": 27
+  },
+  {
+   "team": "Texas Tech",
+   "conference": "Big 12",
+   "talent": 767.9,
+   "rank": 28
+  },
+  {
+   "team": "Wisconsin",
+   "conference": "Big Ten",
+   "talent": 767.7,
+   "rank": 29
+  },
+  {
+   "team": "SMU",
+   "conference": "ACC",
+   "talent": 764.5,
+   "rank": 30
+  },
+  {
+   "team": "NC State",
+   "conference": "ACC",
+   "talent": 757.1,
+   "rank": 31
+  },
+  {
+   "team": "California",
+   "conference": "ACC",
+   "talent": 751.9,
+   "rank": 32
+  },
+  {
+   "team": "Georgia Tech",
+   "conference": "ACC",
+   "talent": 751.6,
+   "rank": 33
+  },
+  {
+   "team": "Syracuse",
+   "conference": "ACC",
+   "talent": 745.6,
+   "rank": 34
+  },
+  {
+   "team": "Arkansas",
+   "conference": "SEC",
+   "talent": 745.5,
+   "rank": 35
+  },
+  {
+   "team": "Louisville",
+   "conference": "ACC",
+   "talent": 740.0,
+   "rank": 36
+  },
+  {
+   "team": "Indiana",
+   "conference": "Big Ten",
+   "talent": 735.3,
+   "rank": 37
+  },
+  {
+   "team": "Colorado",
+   "conference": "Big 12",
+   "talent": 731.6,
+   "rank": 38
+  },
+  {
+   "team": "TCU",
+   "conference": "Big 12",
+   "talent": 730.8,
+   "rank": 39
+  },
+  {
+   "team": "Minnesota",
+   "conference": "Big Ten",
+   "talent": 728.8,
+   "rank": 40
+  },
+  {
+   "team": "Vanderbilt",
+   "conference": "SEC",
+   "talent": 727.4,
+   "rank": 41
+  },
+  {
+   "team": "Baylor",
+   "conference": "Big 12",
+   "talent": 723.3,
+   "rank": 42
+  },
+  {
+   "team": "Iowa",
+   "conference": "Big Ten",
+   "talent": 722.7,
+   "rank": 43
+  },
+  {
+   "team": "Arizona State",
+   "conference": "Big 12",
+   "talent": 722.0,
+   "rank": 44
+  },
+  {
+   "team": "Maryland",
+   "conference": "Big Ten",
+   "talent": 719.6,
+   "rank": 45
+  },
+  {
+   "team": "Kansas State",
+   "conference": "Big 12",
+   "talent": 718.7,
+   "rank": 46
+  },
+  {
+   "team": "Rutgers",
+   "conference": "Big Ten",
+   "talent": 709.0,
+   "rank": 47
+  },
+  {
+   "team": "West Virginia",
+   "conference": "Big 12",
+   "talent": 707.6,
+   "rank": 48
+  },
+  {
+   "team": "Stanford",
+   "conference": "ACC",
+   "talent": 705.8,
+   "rank": 49
+  },
+  {
+   "team": "Illinois",
+   "conference": "Big Ten",
+   "talent": 704.0,
+   "rank": 50
+  },
+  {
+   "team": "Virginia",
+   "conference": "ACC",
+   "talent": 700.2,
+   "rank": 51
+  },
+  {
+   "team": "Arizona",
+   "conference": "Big 12",
+   "talent": 699.6,
+   "rank": 52
+  },
+  {
+   "team": "Purdue",
+   "conference": "Big Ten",
+   "talent": 698.3,
+   "rank": 53
+  },
+  {
+   "team": "Houston",
+   "conference": "Big 12",
+   "talent": 695.9,
+   "rank": 54
+  },
+  {
+   "team": "Utah",
+   "conference": "Big 12",
+   "talent": 695.7,
+   "rank": 55
+  },
+  {
+   "team": "BYU",
+   "conference": "Big 12",
+   "talent": 689.4,
+   "rank": 56
+  },
+  {
+   "team": "Northwestern",
+   "conference": "Big Ten",
+   "talent": 688.3,
+   "rank": 57
+  },
+  {
+   "team": "Michigan State",
+   "conference": "Big Ten",
+   "talent": 685.0,
+   "rank": 58
+  },
+  {
+   "team": "Kansas",
+   "conference": "Big 12",
+   "talent": 684.5,
+   "rank": 59
+  },
+  {
+   "team": "Wake Forest",
+   "conference": "ACC",
+   "talent": 680.9,
+   "rank": 60
+  },
+  {
+   "team": "Pittsburgh",
+   "conference": "ACC",
+   "talent": 675.0,
+   "rank": 61
+  },
+  {
+   "team": "Oklahoma State",
+   "conference": "Big 12",
+   "talent": 672.7,
+   "rank": 62
+  },
+  {
+   "team": "UCF",
+   "conference": "Big 12",
+   "talent": 672.1,
+   "rank": 63
+  },
+  {
+   "team": "Iowa State",
+   "conference": "Big 12",
+   "talent": 669.5,
+   "rank": 64
+  },
+  {
+   "team": "Duke",
+   "conference": "ACC",
+   "talent": 668.5,
+   "rank": 65
+  },
+  {
+   "team": "Boston College",
+   "conference": "ACC",
+   "talent": 660.0,
+   "rank": 66
+  },
+  {
+   "team": "Cincinnati",
+   "conference": "Big 12",
+   "talent": 634.3,
+   "rank": 67
+  }
+ ],
+ "accRecent": [
+  {
+   "year": 2024,
+   "calRankInAcc": 10,
+   "accTeams": 17
+  },
+  {
+   "year": 2025,
+   "calRankInAcc": 13,
+   "accTeams": 17
   }
  ]
 }

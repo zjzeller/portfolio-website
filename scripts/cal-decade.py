@@ -62,6 +62,15 @@ def roster_talent(team: str, year: int):
     return round(float(np.mean(vals)), 1) if len(vals) >= 3 else None
 
 
+def talent_rank(team: str, year: int):
+    """Cal's roster-talent rank among FBS teams that season (1 = most talented)."""
+    scores = {t: roster_talent(t, year) for t in fbs[year]}
+    scores = {t: v for t, v in scores.items() if v is not None}
+    if team not in scores:
+        return None, len(scores)
+    return 1 + sum(v > scores[team] for v in scores.values()), len(scores)
+
+
 # ---- Team strength (SRS) percentile for every FBS team, every completed season --
 strength: dict[int, dict[str, tuple[int, float, float]]] = {}
 for y in range(FIRST, LAST):  # 2026 is in progress, no final rating yet
@@ -105,6 +114,11 @@ for y in range(FIRST, LAST + 1):
                 ap = next((r["rank"] for r in poll["ranks"] if r["school"] == CAL), None)
     s = strength.get(y, {}).get(CAL)
     talent = roster_talent(CAL, y)
+    t_rank, t_teams = talent_rank(CAL, y)
+    expected = round(intercept + slope * talent, 1) if talent is not None else None
+    n_rated = len(strength.get(y, {})) or len(fbs[y])
+    # The predicted finish, as a national rank (percentile converted back to rank)
+    expected_rank = round(1 + (1 - expected / 100) * (n_rated - 1)) if expected is not None else None
     seasons.append({
         "year": y,
         "coach": coaches.get(y, ("", 0))[0],
@@ -119,7 +133,10 @@ for y in range(FIRST, LAST + 1):
         "classRank": recruit_rank.get(y, {}).get(CAL),
         "classTeams": len(recruit_rank.get(y, {})) or None,
         "talent": talent,
-        "expected": round(intercept + slope * talent, 1) if talent is not None else None,
+        "talentRank": t_rank,
+        "talentTeams": t_teams if t_rank else None,
+        "expected": expected,
+        "expectedRank": expected_rank,
     })
 
 eras = []
@@ -128,6 +145,93 @@ for s in seasons:
         eras.append({"coach": s["coach"], "from": s["year"], "to": s["year"]})
     else:
         eras[-1]["to"] = s["year"]
+
+# ---- Chapter 4: home attendance ---------------------------------------------------
+# The API is missing attendance for some seasons. For those, every home game comes from
+# the season's Wikipedia page (schedule table). 2011 home games were at AT&T Park in
+# San Francisco while Memorial Stadium was renovated; 2020 had no fans.
+WIKI_ATTENDANCE = {
+    2000: [44500, 30500, 53000, 36000, 67500],
+    2002: [27185, 24692, 31816, 29297, 46697, 28808, 71224],
+    2004: [58949, 69898, 52652, 65615, 72981],
+    2005: [65938, 57657, 55944, 57174, 52569, 72981],
+    2009: [62367, 58083, 71799, 54738, 56496, 53347],
+    2010: [58040, 55440, 61664, 51599, 65963, 67793, 44613],
+    2011: [33952, 44043, 35182, 35506, 39602],
+    2014: [48145, 39821, 44449, 49257, 55575, 56483, 47856],
+}
+attendance = []
+for s in seasons:
+    y = s["year"]
+    if y == LAST or y == 2020:
+        attendance.append({"year": y, "average": None, "games": 0, "source": None, "venue": None})
+        continue
+    if y in WIKI_ATTENDANCE:
+        crowd, source = WIKI_ATTENDANCE[y], "Wikipedia season page"
+    else:
+        games = load(f"games_year-{y}_team-California")
+        crowd = [g["attendance"] for g in games if g["homeTeam"] == CAL and not g.get("neutralSite") and g.get("attendance")]
+        source = "College Football Data API"
+    attendance.append({"year": y, "average": round(sum(crowd) / len(crowd)), "games": len(crowd), "source": source,
+                       "venue": "AT&T Park" if y == 2011 else "Memorial Stadium",
+                       "winning": s["wins"] > s["losses"]})
+
+# ---- Chapter 5: the transfer portal -------------------------------------------------
+POWER4 = {"SEC", "Big Ten", "Big 12", "ACC"}
+
+
+def conference_of(team, year):
+    for t in load(f"teams_fbs_year-{year}"):
+        if t["school"] == team:
+            return t["conference"]
+    return None
+
+
+def destination_group(team, year):
+    if not team:
+        return "No destination listed"
+    conf = conference_of(team, year)
+    if conf in POWER4:
+        return "Power 4"
+    if conf == "Pac-12" and year <= 2024:
+        return "Power 4"  # the Pac-12 was a power conference through the 2024 season
+    if conf:
+        return "Group of 5"
+    return "FCS or lower"
+
+
+portal_years, departures = [], []
+for y in range(2021, LAST + 1):
+    rows = load(f"player_portal_year-{y}")
+    out_ = [r for r in rows if r["origin"] == CAL]
+    in_ = [r for r in rows if r["destination"] == CAL]
+    groups = {}
+    for r in out_:
+        g = destination_group(r.get("destination"), y)
+        groups[g] = groups.get(g, 0) + 1
+    portal_years.append({"year": y, "out": len(out_), "in": len(in_), "outGroups": groups,
+                         "outStars": round(float(np.mean([r["stars"] for r in out_ if r.get("stars")])), 2) if out_ else None,
+                         "inStars": round(float(np.mean([r["stars"] for r in in_ if r.get("stars")])), 2) if in_ else None})
+    for r in out_:
+        departures.append({"year": y, "player": f"{r['firstName']} {r['lastName']}", "position": r["position"],
+                           "destination": r.get("destination"), "group": destination_group(r.get("destination"), y),
+                           "stars": r.get("stars"), "rating": r.get("rating")})
+departures.sort(key=lambda d: (-(d["rating"] or 0), -(d["stars"] or 0)))
+
+# ---- Chapter 6: Cal against every Power 4 school (2026 roster talent) ---------------
+talent_2026 = {t["team"]: float(t["talent"]) for t in load(f"talent_year-{LAST}")}
+peers = []
+for t in load(f"teams_fbs_year-{LAST}"):
+    if t["conference"] in POWER4 and t["school"] in talent_2026:
+        peers.append({"team": t["school"], "conference": t["conference"], "talent": round(talent_2026[t["school"]], 1)})
+peers.sort(key=lambda p: -p["talent"])
+for i, p in enumerate(peers):
+    p["rank"] = i + 1
+acc_recent = []
+for y in (LAST - 2, LAST - 1):  # the two completed ACC seasons
+    acc = [r for r in strength.get(y, {}) if conference_of(r, y) == "ACC"]
+    ranked = sorted(acc, key=lambda t: strength[y][t][0])
+    acc_recent.append({"year": y, "calRankInAcc": ranked.index(CAL) + 1 if CAL in ranked else None, "accTeams": len(ranked)})
 
 out = {
     "metadata": {
@@ -139,6 +243,12 @@ out = {
     },
     "eras": eras,
     "seasons": seasons,
+    "attendance": attendance,
+    "stadiumCapacity": 62467,  # Memorial Stadium after the 2012 renovation (CFBD venues)
+    "portal": portal_years,
+    "topDepartures": departures[:8],
+    "peers": peers,
+    "accRecent": acc_recent,
 }
 dest = Path(__file__).resolve().parents[1] / "src" / "data" / "cal-decade.json"
 dest.write_text(json.dumps(out, indent=1))
