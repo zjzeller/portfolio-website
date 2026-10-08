@@ -516,7 +516,21 @@ export function PeerStrip({ peers, highlight = 'California' }: { peers: Peer[]; 
           style={{ transition: 'r 120ms ease-out, fill-opacity 120ms' }}
         />
         {isCal && (
-          <text x={p.cx} y={p.cy - r - 6} textAnchor="middle" fontSize={11} fill={CHART.text}>
+          // Label below the dot (open space under the bottom row), in Cal gold with a dark
+          // outline (paintOrder="stroke" draws the outline behind the fill) so it stays
+          // readable over the median line or nearby dots. pointerEvents none keeps hover on the dot.
+          <text
+            x={p.cx}
+            y={p.cy + r + 15}
+            textAnchor="middle"
+            fontSize={13}
+            fontWeight={600}
+            fill={gold}
+            stroke={CHART.bg}
+            strokeWidth={4}
+            paintOrder="stroke"
+            pointerEvents="none"
+          >
             Cal
           </text>
         )}

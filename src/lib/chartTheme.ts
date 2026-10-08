@@ -9,6 +9,7 @@ export const CHART = {
   muted: '#7f8a99', // tick labels
   text: '#e6e9ee', // tooltip text
   surface: '#161c24', // tooltip background and dot outlines
+  bg: '#0f1419', // page background, for text halos that should blend in
   cursorFill: 'rgba(143, 179, 224, 0.08)', // hover band behind bars
 }
 
