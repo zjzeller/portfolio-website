@@ -23,7 +23,7 @@
     "eraCoach": "Jeff Tedford",
     "eraSchools": 41,
     "minEra": 25,
-    "generatedAt": "2026-10-05T08:38:29.418437+00:00"
+    "generatedAt": "2026-10-08T05:22:24.305989+00:00"
   },
   "cal": {
     "twoSportRank": 4,
@@ -3116,11 +3116,40 @@
     "noQbSchools": 38,
     "withoutBestRank": 1,
     "withoutBestMean": 6.9,
+    "sizeAdjRank": 1,
+    "sizeCorr": -0.17,
+    "perDoubling": -1.4,
     "luck": {
       "cal": 0.001,
       "anySchool": 0.09
     }
   },
+  "eraRounds": [
+    {
+      "round": "Round 1",
+      "calPicks": 8,
+      "calMean": 29.9,
+      "fieldMean": -0.3,
+      "calBeat": 0.62,
+      "fieldBeat": 0.45
+    },
+    {
+      "round": "Rounds 2-3",
+      "calPicks": 11,
+      "calMean": 16.1,
+      "fieldMean": -0.0,
+      "calBeat": 0.73,
+      "fieldBeat": 0.4
+    },
+    {
+      "round": "Rounds 4-7",
+      "calPicks": 25,
+      "calMean": 0.3,
+      "fieldMean": 0.2,
+      "calBeat": 0.28,
+      "fieldBeat": 0.3
+    }
+  ],
   "timeline": [
     {
       "year": 1982,
@@ -14943,6 +14972,9 @@
     "noQbSchools": 60,
     "withoutBestRank": 5,
     "withoutBestMean": 2.2,
+    "sizeAdjRank": 4,
+    "sizeCorr": -0.17,
+    "perDoubling": -0.7,
     "luck": {
       "cal": 0.021,
       "anySchool": 0.82

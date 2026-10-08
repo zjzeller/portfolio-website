@@ -213,7 +213,17 @@ def robustness(nfl: pd.DataFrame, min_picks: int, thresholds: tuple, rng: np.ran
     out["withoutBestRank"] = rank_of(without_best, CAL)
     out["withoutBestMean"] = round(float(without_best[CAL]), 1)
 
-    # 6. Luck: shuffle players between schools and see how often a school scores this high
+    # 6. Program size: bigger programs get a small "brand premium" in the draft (their picks
+    #    slightly underperform their slot as a group). Take out the part of each school's average
+    #    that its size predicts (a straight line on log of picks) and re-rank on what's left.
+    n_picks = np.log(sizes.astype(float))
+    slope, intercept = np.polyfit(n_picks, base, 1)
+    size_adjusted = base - (intercept + slope * n_picks)
+    out["sizeAdjRank"] = rank_of(size_adjusted, CAL)
+    out["sizeCorr"] = round(float(np.corrcoef(n_picks, base)[0, 1]), 2)
+    out["perDoubling"] = round(float(slope * np.log(2)), 1)  # change in score per doubling of picks
+
+    # 7. Luck: shuffle players between schools and see how often a school scores this high
     this_school, any_school = luck_test(nfl, base.sort_values(ascending=False).index, CAL, rng)
     out["luck"] = {"cal": round(this_school, 3), "anySchool": round(any_school, 2)}
     return out
@@ -311,6 +321,20 @@ def main() -> None:
     cal_era = era_table.loc[CAL]
     era_stress = robustness(era, MIN_ERA, (20, 25, 30, 35, 40), rng)
 
+    # Where Cal's era edge came from, by draft round: if only "sure things" got drafted from
+    # Cal and slid late, the edge would show up in the late rounds. Compare with every pick.
+    def round_group(pick: int) -> str:
+        return "Round 1" if pick <= 32 else ("Rounds 2-3" if pick <= 96 else "Rounds 4-7")
+    era_rounds = []
+    for label in ["Round 1", "Rounds 2-3", "Rounds 4-7"]:
+        field = era[era.pick.map(round_group) == label]
+        cal_g = field[field.school == CAL]
+        era_rounds.append({"round": label, "calPicks": int(len(cal_g)),
+                           "calMean": round(float(cal_g.surplus.mean()), 1),
+                           "fieldMean": round(float(field.surplus.mean()), 1),
+                           "calBeat": round(float((cal_g.surplus > 0).mean()), 2),
+                           "fieldBeat": round(float((field.surplus > 0).mean()), 2)})
+
     # How rare is a stretch this good? Compare with every window of the same
     # length at every school since 1980.
     rivals = set()
@@ -386,6 +410,7 @@ def main() -> None:
         "eraPlayers": players(era, 10),
         "eraOthers": others,
         "eraStress": era_stress,
+        "eraRounds": era_rounds,
         "timeline": timeline,
         "timelines": timelines,
         "stress": stress,

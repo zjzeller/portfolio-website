@@ -84,8 +84,9 @@ export default function CalProPipelinePage() {
   const es = data.eraStress
   const eth = es.thresholds
   // Range of Cal's 40-year rank across the six re-ranking tests (the luck test has no rank)
-  const ranks40 = [...th.map((t) => t.rank), stress.shrunkRank, stress.cappedRank, stress.positionRank, stress.noQbRank, stress.withoutBestRank]
+  const ranks40 = [...th.map((t) => t.rank), stress.shrunkRank, stress.cappedRank, stress.positionRank, stress.noQbRank, stress.withoutBestRank, stress.sizeAdjRank]
   const lo40 = Math.min(...ranks40)
+  const r1 = data.eraRounds[0]
   const hi40 = Math.max(...ranks40)
   // Hero card: era picks who beat their draft slot by 40+ career AV (roughly four extra seasons as a starter)
   const bigHits = data.eraPlayers.filter((p) => p.surplus >= 40)
@@ -120,7 +121,7 @@ export default function CalProPipelinePage() {
           how far their players beat it. Three things came out of it. Cal&apos;s 40-year ranking looks strong but
           can&apos;t be separated from luck. School rankings don&apos;t persist from one decade to the next, so
           a 40-year average hides more than it shows. And Cal&apos;s {eraFirst} to {eraLast} classes rank first
-          of {m.eraSchools}, survive seven stress tests, and line up with one coaching staff.
+          of {m.eraSchools}, survive eight stress tests, and line up with one coaching staff.
         </p>
 
         <div className="grid sm:grid-cols-3 gap-px bg-[var(--border-subtle)] border border-[var(--border-subtle)] mt-10">
@@ -337,8 +338,7 @@ export default function CalProPipelinePage() {
           Start with the obvious name. Aaron Rodgers produced <Metric>{rodgers.value}</Metric> career AV against{' '}
           <Metric>{rodgers.expected}</Metric> for a typical #{rodgers.pick} pick, the biggest gap of anyone. But
           take every school&apos;s best player out and Cal still ranks{' '}
-          <Metric>{ordinal(era.withoutBestRank)}</Metric>, at +{era.withoutBestMean} per pick. Much of the list
-          comes from the middle rounds, where teams pay the least for talent.
+          <Metric>{ordinal(era.withoutBestRank)}</Metric>, at +{era.withoutBestMean} per pick.
         </p>
         {lynch && (
           <p className="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
@@ -346,6 +346,47 @@ export default function CalProPipelinePage() {
           and still beat his slot by <Metric>+{lynch.surplus}</Metric>.
         </p>
         )}
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+          The edge came from the players NFL teams paid the most for. Cal&apos;s first-round picks beat their slot
+          by <Metric>+{r1.calMean}</Metric> each, while first-rounders as a whole came in at {r1.fieldMean}. Its
+          picks from rounds 4 to 7 were ordinary. That rules out one tempting explanation: that only Cal&apos;s
+          surest prospects got drafted and then slid to rounds where it was easy to beat expectations.
+        </p>
+        <div className="overflow-x-auto mb-10 max-w-2xl">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs tracking-wider uppercase text-[var(--text-muted)]">
+                <th className="font-normal pb-3 pr-4">Round</th>
+                <th className="font-normal pb-3 pr-4">Cal picks</th>
+                <th className="font-normal pb-3 pr-4">Cal vs. slot</th>
+                <th className="font-normal pb-3 pr-4">All picks vs. slot</th>
+                <th className="font-normal pb-3">Beat their slot (Cal / all)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.eraRounds.map((r) => (
+                <tr key={r.round} className="border-t border-[var(--border-subtle)]">
+                  <td className="py-3 pr-4 text-[var(--text-primary)]">{r.round}</td>
+                  <td className="py-3 pr-4 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--text-secondary)]">{r.calPicks}</td>
+                  <td className="py-3 pr-4 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--accent)]">
+                    {r.calMean > 0 ? '+' : ''}
+                    {r.calMean}
+                  </td>
+                  <td className="py-3 pr-4 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--text-secondary)]">
+                    {r.fieldMean > 0 ? '+' : ''}
+                    {r.fieldMean}
+                  </td>
+                  <td className="py-3 font-[family-name:var(--font-dm-mono)] text-xs text-[var(--text-secondary)]">
+                    {pct(r.calBeat)} / {pct(r.fieldBeat)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="text-xs text-[var(--text-muted)] mt-3">
+            Career Approximate Value above or below the draft-slot bar, average per pick, {eraFirst} to {eraLast} draft classes.
+          </p>
+        </div>
         <h3 className="text-sm text-[var(--text-primary)] mb-4">
           Cal&apos;s biggest outperformers, {eraFirst} to {eraLast} (career AV)
         </h3>
@@ -360,7 +401,7 @@ export default function CalProPipelinePage() {
       <section className="mb-20 animate-reveal">
         <SectionHeader label="Stress Tests" />
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-6 tracking-tight">
-          Seven ways the result could be wrong
+          Eight ways the result could be wrong
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
           A first-place finish deserves suspicion. A ranking like this can come from small samples, one
@@ -413,6 +454,12 @@ export default function CalProPipelinePage() {
               ordinal(stress.withoutBestRank),
             ],
             [
+              'Adjust for program size',
+              'Big-name programs whose picks get over-drafted, which flatters smaller schools',
+              ordinal(es.sizeAdjRank),
+              ordinal(stress.sizeAdjRank),
+            ],
+            [
               'Shuffle players between schools at random, 5,000 times',
               'Luck: a lead that random assignment would produce anyway',
               `Some school leads by this much ${pct(es.luck.anySchool)} of the time`,
@@ -428,7 +475,10 @@ export default function CalProPipelinePage() {
         <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-2xl">
           The {eraFirst} to {eraLast} result passes every test. Cal stays first no matter how high the minimum
           is set, with small samples shrunk toward average, with the biggest scores capped, with position
-          accounted for, without any quarterback, and without its best player. The luck test matters most: deal
+          accounted for, without any quarterback, without its best player, and after adjusting for program size.
+          That last check matters because there is a real size effect: every doubling in a school&apos;s number of
+          picks lowers its average by about {Math.abs(es.perDoubling)} AV per pick, a sign that NFL teams pay a
+          small premium for big-name programs. Cal stays first with that taken out. The luck test matters most: deal
           players to schools at random and some school ends up this far ahead only {pct(es.luck.anySchool)} of
           the time, and Cal itself does {Math.round(es.luck.cal * 1000) / 10}% of the time. Across every{' '}
           {eraLast - eraFirst + 1}-year stretch at every school since {m.classes[0]}, only{' '}
@@ -440,7 +490,7 @@ export default function CalProPipelinePage() {
           across the tests, but the lead itself is small: random assignment produces a leader as strong as Cal{' '}
           {pct(stress.luckAllTime.anySchool)} of the time. So the claim this page makes is the narrow one.
           Cal&apos;s {eraFirst} to {eraLast} classes beat their draft slots by more than any other program&apos;s,
-          and that is not an artifact of sample size, one star, position mix or chance. The broader claim, that
+          and that is not an artifact of sample size, one star, position mix, program size or chance. The broader claim, that
           Cal as an institution has been good at this for 40 years, does not survive.
         </p>
       </section>
@@ -502,8 +552,9 @@ export default function CalProPipelinePage() {
             A college star who goes undrafted and thrives elsewhere never appears in this data.
           </li>
           <li>
-            <strong className="text-[var(--text-primary)] font-medium">It doesn&apos;t prove the coach caused it.</strong>{' '}
-            Recruiting, the system, assistants and the conference are tangled together.
+            <strong className="text-[var(--text-primary)] font-medium">It can&apos;t say why.</strong>{' '}
+            At the same draft slot, a player who was better developed and a player who was better scouted look
+            identical in the data. Recruiting, the system, assistants and the conference are tangled together too.
           </li>
           <li>
             <strong className="text-[var(--text-primary)] font-medium">A {pct(era.luckAnySchool)} chance of luck is not zero.</strong>{' '}
