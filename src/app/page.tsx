@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import { ArrowRight, FileText, Mail } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
@@ -25,33 +26,6 @@ const delayClasses = [
   'animate-reveal-delay-4',
 ]
 
-const cards = [
-  {
-    href: '/about',
-    label: '01',
-    title: 'About',
-    desc: 'Background, skills, and approach to data analytics',
-  },
-  {
-    href: '/projects',
-    label: '02',
-    title: 'Projects',
-    desc: 'Data analysis and visualization case studies',
-  },
-  {
-    href: '/resume',
-    label: '03',
-    title: 'Resume',
-    desc: 'Full professional experience and qualifications',
-  },
-  {
-    href: '/contact',
-    label: '04',
-    title: 'Contact',
-    desc: 'Get in touch for opportunities and collaborations',
-  },
-]
-
 export default function HomePage() {
   return (
     <>
@@ -69,7 +43,7 @@ export default function HomePage() {
 
         <div className="relative container mx-auto px-6 md:px-8">
           <div className="max-w-3xl">
-            <p className="section-label animate-reveal mb-6">Senior Data Analyst &middot; <span className="whitespace-nowrap">Strategy &amp; FP&amp;A</span>
+            <p className="section-label animate-reveal mb-6">Senior Data Analyst &middot; <span className="whitespace-nowrap">Analytics &amp; Strategy</span>
               {/* Location drops on phones so the label fits on one line */}
               <span className="hidden sm:inline"> &middot; Berkeley, CA</span></p>
 
@@ -131,7 +105,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-3 gap-px bg-[var(--border)] animate-reveal-delay-1">
           <Link
             href={featured.href}
-            className="group md:col-span-2 md:row-span-2 bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[260px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
+            className="group md:col-span-2 md:row-span-2 bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col min-h-[260px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
           >
             <div>
               <span className="metric text-xs text-[var(--accent)]">Case study</span>
@@ -158,7 +132,26 @@ export default function HomePage() {
                 reorder within 90 days. Each row is a quarterly cohort; brighter means more came back.
               </p>
             </div>
-            <div className="flex items-center gap-2 mt-8 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
+            {/* Headline findings from the case study, pulled from the same data file */}
+            <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-[var(--border-subtle)]">
+              <div>
+                <p className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--text-primary)]">
+                  {(retention.metadata.customers / 1000).toFixed(0)}K
+                </p>
+                <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">customers modeled across {retention.metadata.cohorts} monthly cohorts</p>
+              </div>
+              <div>
+                <p className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--text-primary)]">
+                  {Math.round(retention.metadata.firstOrderShareOf12MoRevenue)}%
+                </p>
+                <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">of first-year revenue comes from the first order</p>
+              </div>
+              <div>
+                <p className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--text-primary)]">0</p>
+                <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">acquisition channels that predict repeat buying</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 mt-auto pt-8 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
               <span className="text-xs tracking-wider uppercase">Read the case study</span>
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
             </div>
@@ -171,11 +164,30 @@ export default function HomePage() {
               className="group bg-[var(--bg-surface)] p-8 flex flex-col justify-between min-h-[200px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
             >
               <div>
-                <span className="metric text-xs text-[var(--text-muted)]">{project.tags.slice(0, 2).join(' · ')}</span>
-                <h3 className="font-[family-name:var(--font-playfair)] text-xl mt-3 mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
+                <div className="overflow-hidden border border-[var(--border-subtle)] mb-5 transition-colors duration-300 group-hover:border-[var(--accent)]/40">
+                  <Image
+                    src={project.thumbnail}
+                    alt={project.thumbnailAlt}
+                    width={1200}
+                    height={630}
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="w-full h-28 object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <h3 className="font-[family-name:var(--font-playfair)] text-xl mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
                   {project.title}
                 </h3>
                 <p className="text-sm text-[var(--text-muted)] leading-relaxed">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {project.tags.slice(0, 2).map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs px-3 py-1 rounded-full border border-[var(--border)] text-[var(--text-muted)] group-hover:border-[var(--accent)]/30 group-hover:text-[var(--accent)] transition-colors duration-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
               <div className="flex items-center gap-2 mt-6 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
                 <span className="text-xs tracking-wider uppercase">View</span>
@@ -186,37 +198,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Navigation cards */}
+      {/* Open to: replaces the old nav cards, which repeated the header links */}
       <section className="container mx-auto px-6 md:px-8 py-20 md:py-28">
         <div className="flex items-center gap-4 mb-12 animate-reveal">
-          <span className="section-label">Explore</span>
+          <span className="section-label">Open To</span>
           <div className="flex-1 h-px bg-[var(--border-subtle)]" />
         </div>
 
-        <div className="grid md:grid-cols-4 gap-px bg-[var(--border)]">
-          {cards.map((card, i) => (
-            <Link
-              key={card.href}
-              href={card.href}
-              className={`group bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[220px] transition-colors duration-300 hover:bg-[var(--bg-elevated)] ${delayClasses[i]}`}
-            >
-              <div>
-                <span className="metric text-xs text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors duration-300">
-                  {card.label}
-                </span>
-                <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mt-3 mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                  {card.desc}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 mt-6 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
-                <span className="text-xs tracking-wider uppercase">View</span>
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </div>
+        <div className="bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-8 md:p-12 grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-center animate-reveal-delay-1">
+          <div>
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-4">
+              Remote roles in analytics, BI and strategy
+            </h2>
+            <p className="text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+              Senior data analyst, business intelligence, sales and revenue analytics, and analytics
+              engineering roles, where the work ends in a decision for business leaders. Based in the
+              Bay Area and open to fully remote teams across the US.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            <Link href="/resume">
+              <Button size="lg" className="gap-2">
+                Resume <FileText size={16} />
+              </Button>
             </Link>
-          ))}
+            <Link href="/contact">
+              <Button variant="outline" size="lg" className="gap-2">
+                Contact <Mail size={16} />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </>

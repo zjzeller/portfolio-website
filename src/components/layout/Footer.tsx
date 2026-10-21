@@ -16,12 +16,12 @@ export default function Footer() {
             </span>
           </div>
 
-          <div className="flex gap-5">
+          <div className="flex gap-1">
             <a
               href={SITE_CONFIG.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
+              className="inline-flex h-10 w-10 items-center justify-center text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
               aria-label="GitHub"
             >
               <Github size={16} />
@@ -30,14 +30,14 @@ export default function Footer() {
               href={SITE_CONFIG.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
+              className="inline-flex h-10 w-10 items-center justify-center text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
               aria-label="LinkedIn"
             >
               <Linkedin size={16} />
             </a>
             <a
               href={`mailto:${SITE_CONFIG.links.email}`}
-              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
+              className="inline-flex h-10 w-10 items-center justify-center text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-300"
               aria-label="Email"
             >
               <Mail size={16} />
