@@ -10,6 +10,8 @@ export const PROJECTS: Project[] = [
     tags: ['dbt', 'BigQuery', 'Analytics Engineering'],
     tools: ['dbt', 'BigQuery', 'SQL', 'Python', 'Recharts', 'Next.js'],
     githubUrl: 'https://github.com/zjzeller/thelook-analytics-dbt',
+    thumbnail: '/assets/projects/customer-retention.webp',
+    thumbnailAlt: 'Cohort retention heatmap: each row is a quarterly cohort, brighter cells mean more customers came back',
   },
   {
     href: '/projects/cal-football',
@@ -19,6 +21,8 @@ export const PROJECTS: Project[] = [
     tags: ['Data Storytelling', 'Python', 'Sports Analytics'],
     tools: ['Python', 'Pandas', 'scikit-learn', 'Recharts', 'Next.js'],
     githubUrl: 'https://github.com/zjzeller/portfolio-website/blob/main/scripts/cal-decade.py',
+    thumbnail: '/assets/projects/cal-football.webp',
+    thumbnailAlt: 'Cal football team strength by season since 2000, with gold dots for AP-ranked finishes',
   },
   {
     href: '/projects/baby-names',
@@ -28,6 +32,8 @@ export const PROJECTS: Project[] = [
     tags: ['Python', 'Data Analysis', 'Interactive'],
     tools: ['Python', 'Pandas', 'Recharts', 'Next.js'],
     githubUrl: 'https://github.com/zjzeller/portfolio-website',
+    thumbnail: '/assets/projects/baby-names.webp',
+    thumbnailAlt: 'Popularity curves for baby names that faded and came back, with Grace highlighted',
   },
 ]
 

@@ -1,4 +1,5 @@
 import { pageMetadata } from '@/lib/metadata'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import { ExternalLink } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
@@ -41,14 +42,26 @@ export default function ResumePage() {
 
       <div className="editorial-rule w-16 mb-12 animate-reveal-delay-1" />
 
-      {/* PDF Viewer */}
-      <div className="border border-[var(--border)] overflow-hidden bg-[var(--bg-surface)] animate-reveal-delay-1">
-        <iframe
-          src="/api/resume"
-          className="w-full h-[800px] md:h-[1000px]"
-          title="Resume PDF"
+      {/* Resume preview: an image of page 1 that opens the PDF. Embedded PDFs
+          (iframes) are blank or cut off on most phones, an image works everywhere. */}
+      <a
+        href="/assets/resume/zachary-zeller-resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block border border-[var(--border)] overflow-hidden bg-white animate-reveal-delay-1 transition-colors duration-300 hover:border-[var(--accent)]/60"
+        aria-label="Open the resume PDF"
+      >
+        <Image
+          src="/assets/resume/resume-preview.webp"
+          alt="Zachary Zeller resume, page 1"
+          width={1400}
+          height={1812}
+          sizes="(min-width: 1024px) 960px, 100vw"
+          className="w-full h-auto"
+          priority
         />
-      </div>
+      </a>
+      <p className="text-xs text-[var(--text-muted)] mt-3">Click the preview to open the full PDF.</p>
 
       {/* Text version for SEO */}
       <div className="mt-20 animate-reveal-delay-2">
@@ -68,8 +81,8 @@ export default function ResumePage() {
             <div>
               <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Summary</h3>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                Senior Data Analyst on a Strategy and FP&amp;A team with 4+ years turning messy, multi-system
-                data into decisions for the CEO, CFO, and business leaders. Built the reporting and data
+                Senior Data Analyst with 4+ years, most recently on a Strategy and FP&amp;A team, turning messy,
+                multi-system data into decisions for the CEO, CFO, and business leaders. Built the reporting and data
                 foundation for a relaunched travel business, launched a cross-functional data quality project,
                 and helped redesign sales compensation. Strongest where analytics meets strategy, operations,
                 and product, with AI tools built into daily work.
@@ -77,10 +90,10 @@ export default function ResumePage() {
             </div>
 
             <div>
-              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Current Role</h3>
+              <h3 className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] mb-4">Most Recent Role</h3>
               <p className="text-sm text-[var(--text-primary)]">Senior Data Analyst: Strategy</p>
               <p className="text-sm text-[var(--text-muted)]">AAA - Mountain West Group</p>
-              <p className="metric text-xs text-[var(--text-muted)] mt-1">May 2025 &ndash; Present</p>
+              <p className="metric text-xs text-[var(--text-muted)] mt-1">May 2025 &ndash; Oct 2026</p>
             </div>
           </div>
 
@@ -125,7 +138,7 @@ export default function ResumePage() {
         </div>
 
         <p className="text-xs text-[var(--text-muted)] mt-12">
-          For complete details including full work history and achievements, view the PDF above.
+          For the full work history and results, open the PDF above.
         </p>
       </div>
     </div>

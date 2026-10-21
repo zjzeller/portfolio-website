@@ -1,5 +1,6 @@
 import { pageMetadata } from '@/lib/metadata'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
 import { PROJECTS } from '@/data/projects'
@@ -46,8 +47,20 @@ export default function ProjectsPage() {
             <Link
               key={project.href}
               href={project.href}
-              className="group bg-[var(--bg-surface)] p-8 md:p-10 flex flex-col justify-between min-h-[220px] transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
+              className="group bg-[var(--bg-surface)] p-8 md:p-10 grid md:grid-cols-[1fr_15rem] gap-6 md:gap-8 items-center transition-colors duration-300 hover:bg-[var(--bg-elevated)]"
             >
+              {/* Chart preview: first on phones, right column on desktop */}
+              <div className="md:order-2 overflow-hidden border border-[var(--border-subtle)] transition-colors duration-300 group-hover:border-[var(--accent)]/40">
+                <Image
+                  src={project.thumbnail}
+                  alt={project.thumbnailAlt}
+                  width={1200}
+                  height={630}
+                  sizes="(min-width: 768px) 240px, 100vw"
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="md:order-1 flex flex-col justify-between h-full">
               <div>
                 <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
                   {project.title}
@@ -69,6 +82,7 @@ export default function ProjectsPage() {
               <div className="flex items-center gap-2 mt-6 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-all duration-300">
                 <span className="text-xs tracking-wider uppercase">View Project</span>
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+              </div>
               </div>
             </Link>
           ))}

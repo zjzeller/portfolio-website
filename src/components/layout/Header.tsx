@@ -36,7 +36,7 @@ export default function Header() {
               <Link
                 href={link.href}
                 className={cn(
-                  'relative px-2 sm:px-3 py-1.5 text-xs tracking-[0.08em] sm:tracking-[0.15em] uppercase transition-colors duration-300',
+                  'relative inline-flex h-11 items-center px-2 sm:px-3 text-xs tracking-[0.08em] sm:tracking-[0.15em] uppercase transition-colors duration-300',
                   pathname === link.href
                     ? 'text-[var(--accent)] font-medium'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
@@ -44,7 +44,7 @@ export default function Header() {
               >
                 {link.label}
                 {pathname === link.href && (
-                  <span className="absolute bottom-0 left-2 right-2 sm:left-3 sm:right-3 h-px bg-[var(--accent)]" />
+                  <span className="absolute bottom-2 left-2 right-2 sm:left-3 sm:right-3 h-px bg-[var(--accent)]" />
                 )}
               </Link>
             </li>

@@ -30,7 +30,7 @@ const approach = [
   'Build the data foundation once, as governed and tested tables, instead of rebuilding it in every report',
   'Automate recurring work so the time goes to analysis',
   'Explain results in plain language, with the caveats included',
-  'Train and mentor analysts: I have onboarded 4 new analysts and mentor 8 more',
+  'Train and mentor analysts: I onboarded 4 new analysts and mentored 8 more',
 ]
 
 export default function AboutPage() {
@@ -51,12 +51,12 @@ export default function AboutPage() {
       {/* Bio */}
       <div className="space-y-6 mb-20 animate-reveal-delay-1">
         <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-          I&apos;m a Senior Data Analyst on a Strategy and FP&amp;A team with 4+ years of turning messy,
-          multi-system data into decisions. I own the reporting behind the monthly business review for
-          the CEO, CFO and Chief Strategy Officer.
+          I&apos;m a Senior Data Analyst with 4+ years of turning messy, multi-system data into decisions,
+          most recently on a Strategy and FP&amp;A team, where I owned the reporting behind the monthly
+          business review for the CEO, CFO and Chief Strategy Officer.
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed">
-          Most of my work sits between the warehouse and the decision. I&apos;ve built about ten governed
+          Most of my work sits between the warehouse and the decision. I built about ten governed
           BigQuery data sources that serve as the source of truth for travel, credit card and headcount
           reporting, traced data quality problems to their root causes, and automated 8 key reports to
           save <span className="metric text-[var(--accent)]">$120K</span> a year. I&apos;m now modeling

@@ -1,7 +1,5 @@
 import { pageMetadata } from '@/lib/metadata'
-import Link from 'next/link'
 import PageViewTracker from '@/components/analytics/PageViewTracker'
-import Button from '@/components/ui/Button'
 import { SITE_CONFIG } from '@/lib/constants'
 import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react'
 
@@ -80,22 +78,6 @@ export default function ContactPage() {
         ))}
       </div>
 
-      {/* Quick links */}
-      <div className="animate-reveal-delay-3">
-        <div className="flex items-center gap-4 mb-8">
-          <span className="section-label">Quick Links</span>
-          <div className="flex-1 h-px bg-[var(--border-subtle)]" />
-        </div>
-
-        <div className="flex gap-3 flex-wrap">
-          <a href="/assets/resume/zachary-zeller-resume.pdf" download>
-            <Button variant="outline" size="sm">Download Resume</Button>
-          </a>
-          <Link href="/about">
-            <Button variant="ghost" size="sm">About Me</Button>
-          </Link>
-        </div>
-      </div>
     </div>
   )
 }
