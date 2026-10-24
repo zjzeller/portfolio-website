@@ -94,8 +94,8 @@ export default function HomePage() {
             </div>
             <dl className="divide-y divide-[var(--border-subtle)]">
               {trackRecord.map((item) => (
-                <div key={item.label} className="px-6 py-5 grid grid-cols-[5.5rem_1fr] gap-4 items-baseline">
-                  <dt className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--accent)] leading-none whitespace-nowrap">
+                <div key={item.label} className="px-6 py-5 grid grid-cols-[5.5rem_1fr] gap-4 items-center">
+                  <dt className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--accent)] leading-none whitespace-nowrap [font-variant-numeric:lining-nums]">
                     {item.value}
                   </dt>
                   <dd className="text-sm text-[var(--text-secondary)] leading-snug">{item.label}</dd>
