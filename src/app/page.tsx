@@ -19,6 +19,15 @@ const focusAreas = [
   { title: 'Strategy & FP&A', desc: 'Forecasting, plan vs. actual, and sales compensation analysis' },
 ]
 
+// Hero proof panel: headline numbers from the resume, so the first screen shows evidence
+// next to the name. Desktop only; phones keep the single-column hero.
+const trackRecord = [
+  { value: '8', label: 'Tableau workbooks behind the CEO and CFO monthly business review' },
+  { value: '~10', label: 'governed BigQuery sources of truth for travel, credit card and finance' },
+  { value: '40 hrs', label: 'of manual reporting automated every week' },
+  { value: '18', label: 'vendor commission feeds consolidated into one Python ETL' },
+]
+
 const delayClasses = [
   'animate-reveal-delay-1',
   'animate-reveal-delay-2',
@@ -41,7 +50,7 @@ export default function HomePage() {
         <div className="absolute top-1/4 -right-32 w-96 h-96 bg-[var(--highlight)]/8 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 -left-32 w-72 h-72 bg-[var(--accent)]/5 rounded-full blur-[100px]" />
 
-        <div className="relative container mx-auto px-6 md:px-8">
+        <div className="relative container mx-auto px-6 md:px-8 grid lg:grid-cols-[minmax(0,1fr)_22rem] gap-16 items-center">
           <div className="max-w-3xl">
             <p className="section-label animate-reveal mb-6">Senior Data Analyst &middot; <span className="whitespace-nowrap">Analytics &amp; Strategy</span>
               {/* Location drops on phones so the label fits on one line */}
@@ -73,6 +82,27 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+
+          {/* Track record panel (lg and up) */}
+          <aside
+            aria-label="Track record"
+            className="hidden lg:block bg-[var(--bg-surface)]/80 backdrop-blur-sm border border-[var(--border)] animate-reveal-delay-3"
+          >
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)]">
+              <span className="section-label">Track Record</span>
+              <span className="metric text-[10px] text-[var(--text-muted)]">2022 &ndash; 2026</span>
+            </div>
+            <dl className="divide-y divide-[var(--border-subtle)]">
+              {trackRecord.map((item) => (
+                <div key={item.label} className="px-6 py-5 grid grid-cols-[5.5rem_1fr] gap-4 items-center">
+                  <dt className="font-[family-name:var(--font-playfair)] text-3xl text-[var(--accent)] leading-none whitespace-nowrap [font-variant-numeric:lining-nums]">
+                    {item.value}
+                  </dt>
+                  <dd className="text-sm text-[var(--text-secondary)] leading-snug">{item.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
         </div>
       </section>
 

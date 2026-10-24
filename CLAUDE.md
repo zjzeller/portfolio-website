@@ -29,7 +29,7 @@ src/
     resume/
   components/
     analytics/    # PageViewTracker, ResumeTracker
-    charts/       # Recharts wrappers (RetentionCharts incl. CohortHeatmap, CohortHeatmapMini for the homepage, CalDecadeCharts and CalPipelineCharts for the Cal football story)
+    charts/       # Recharts wrappers (RetentionCharts incl. CohortHeatmap, CohortHeatmapMini for the homepage, CalDecadeCharts plus CalPipelineCharts' RankingList and OutperformersChart for the Cal football story)
     baby-names/   # NameTimeMachine, ComebackCurves, GuessTheDecade
     layout/       # Header, Footer
     ui/           # Button (only reusable UI component so far)
